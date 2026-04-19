@@ -789,16 +789,36 @@ Oggi è ${today}. Rispondi in italiano, in modo conciso e pratico (max 3-4 frasi
 aiSend.addEventListener("click",()=>{const t=aiInput.value.trim();if(t)sendToAI(t);});
 aiInput.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();const t=aiInput.value.trim();if(t)sendToAI(t);}});
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+/* ... TUTTO IL TUO CODICE INVARIATO ... */
+
 /* ── AVVIO ── */
-const savedConfig=getConfig();
+const savedConfig = getConfig();
+
 if(!savedConfig){
-  try{const loc=localStorage.getItem("routine_local_v4b");if(loc){const p=JSON.parse(loc);if(p&&p.days)appData=p;}}catch(e){}
+  try{
+    const loc = localStorage.getItem("routine_local_v4b");
+    if(loc){
+      const p = JSON.parse(loc);
+      if(p && p.days) appData = p;
+    }
+  }catch(e){}
   setSaveStatus("offline","Non connesso a Firebase · usa il banner per collegarlo");
 }
-applyAppData();
-if(savedConfig)connectFirebase(savedConfig.apiKey,savedConfig.dbUrl);
 
-function getConfig(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY));}catch(e){return null;}}
+applyAppData();
+
+if(savedConfig){
+  connectFirebase(savedConfig.apiKey, savedConfig.dbUrl);
+}
+
+/* ❌ QUESTA FUNZIONE ERA DUPLICATA → ELIMINATA
+function getConfig(){
+  try{return JSON.parse(localStorage.getItem(LOCAL_KEY));}
+  catch(e){return null;}
+}
+*/
 </script>
-</body>
-</html>
