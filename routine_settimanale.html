@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La mia routine</title>
+  <style>
+    :root{
+      --bg:#f9f9f8;--surface:#fff;--border:#e5e5e3;
+      --text:#1a1a1a;--muted:#6b6b6b;--hint:#9b9b9b;
+      --accent:#5DCAA5;--radius:10px;--font:system-ui,-apple-system,sans-serif;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#1a1a1a;--surface:#242424;--border:#333;--text:#f0f0f0;--muted:#aaa;--hint:#666;}
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);padding:1.5rem 1rem;max-width:680px;margin:0 auto;}
+    h1{font-size:20px;font-weight:500;margin-bottom:4px;}
+    .subtitle{font-size:13px;color:var(--muted);margin-bottom:.5rem;}
+
+    /* Setup Firebase banner */
+    #setup-banner{
+      background:var(--surface);border:1px solid #EF9F27;border-radius:var(--radius);
+      padding:1rem 1.25rem;margin-bottom:1.5rem;
+    }
+    #setup-banner h2{font-size:14px;font-weight:500;margin-bottom:.5rem;color:#BA7517;}
+    #setup-banner p{font-size:13px;color:var(--muted);margin-bottom:.75rem;line-height:1.6;}
+    #setup-banner code{font-size:12px;background:var(--bg);padding:2px 6px;border-radius:4px;font-family:monospace;}
+    .setup-fields{display:flex;flex-direction:column;gap:8px;margin-bottom:.75rem;}
+    .setup-fields input{
+      font-size:13px;font-family:var(--font);background:var(--bg);
+      border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);
+    }
+    .btn-connect{
+      padding:8px 18px;border-radius:var(--radius);border:none;
+      background:var(--accent);color:#fff;cursor:pointer;font-size:13px;
+      font-family:var(--font);font-weight:500;
+    }
+    #setup-banner.hidden{display:none;}
+
+    .save-bar{
+      display:flex;align-items:center;justify-content:space-between;
+      font-size:12px;color:var(--hint);margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;
+    }
+    .save-status{display:flex;align-items:center;gap:5px;}
+    .save-dot{width:7px;height:7px;border-radius:50%;background:var(--hint);flex-shrink:0;transition:background .3s;}
+    .save-dot.saved{background:#5DCAA5;}
+    .save-dot.saving{background:#EF9F27;}
+    .save-dot.offline{background:#E24B4A;}
+    .btn-reset{
+      font-size:11px;color:var(--hint);background:none;border:0.5px solid var(--border);
+      border-radius:6px;padding:3px 8px;cursor:pointer;font-family:var(--font);
+    }
+    .btn-reset:hover{color:#E24B4A;border-color:#E24B4A;}
+
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem;}
+    .leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
+    .dot-leg{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
+    .tab{
+      padding:6px 12px;border-radius:var(--radius);border:0.5px solid var(--border);
+      background:transparent;cursor:pointer;font-size:13px;color:var(--muted);
+      font-family:var(--font);transition:all .15s;
+    }
+    .tab.active{background:var(--surface);color:var(--text);border-color:#aaa;font-weight:500;}
+
+    .day{display:none;}.day.active{display:block;}
+    .day-title{font-size:16px;font-weight:500;margin-bottom:3px;}
+    .day-sub{font-size:13px;color:var(--muted);margin-bottom:1rem;}
+
+    .counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1.25rem;}
+    .counter{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 10px;transition:border-color .2s;}
+    .counter.updated{border-color:var(--accent);}
+    .counter-val{font-size:18px;font-weight:500;line-height:1.1;}
+    .counter-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
+    .counter-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-top:7px;overflow:hidden;}
+    .counter-bar{height:3px;border-radius:2px;opacity:.7;transition:width .4s ease;}
+
+    .blocks-list{list-style:none;}
+    .block{
+      display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;
+      padding:9px 12px;border-radius:var(--radius);border:0.5px solid var(--border);
+      background:var(--surface);cursor:grab;user-select:none;position:relative;
+    }
+    .block.dragging{opacity:.4;}
+    .block.drag-over{border-color:var(--accent);border-style:dashed;}
+    .drag-handle{display:flex;flex-direction:column;gap:3px;padding-top:5px;opacity:.2;flex-shrink:0;cursor:grab;}
+    .drag-handle span{display:block;width:13px;height:1.5px;background:var(--text);border-radius:1px;}
+    .block:hover .drag-handle,.block:focus-within .drag-handle{opacity:.45;}
+
+    .type-btn{width:11px;height:11px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;margin-top:4px;padding:0;transition:transform .15s;}
+    .type-btn:hover{transform:scale(1.5);}
+    .type-picker{
+      display:none;position:absolute;left:34px;top:30px;
+      background:var(--surface);border:0.5px solid var(--border);
+      border-radius:var(--radius);padding:8px;gap:6px;
+      flex-wrap:wrap;width:130px;z-index:20;box-shadow:0 4px 16px rgba(0,0,0,.12);
+    }
+    .type-picker.open{display:flex;}
+    .type-opt{width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;}
+    .type-opt:hover{transform:scale(1.15);}
+
+    .block-time{font-size:12px;color:var(--hint);min-width:86px;padding-top:2px;flex-shrink:0;}
+    .block-content{flex:1;min-width:0;}
+    .editable{outline:none;border-radius:4px;padding:1px 4px;margin:-1px -4px;transition:background .15s;cursor:text;}
+    .editable:hover{background:var(--bg);}
+    .editable:focus{background:var(--bg);box-shadow:0 0 0 2px var(--accent);}
+    .block-label{font-size:14px;font-weight:500;display:block;}
+    .block-note{font-size:12px;color:var(--muted);margin-top:2px;display:block;}
+
+    .block-actions{display:flex;gap:2px;flex-shrink:0;opacity:0;transition:opacity .15s;}
+    .block:hover .block-actions,.block:focus-within .block-actions{opacity:1;}
+    .act-btn{border:none;background:none;cursor:pointer;padding:3px 5px;font-size:12px;color:var(--hint);border-radius:4px;line-height:1;transition:color .15s,background .15s;}
+    .act-btn:hover{color:var(--text);background:var(--bg);}
+    .act-btn.del:hover{color:#E24B4A;}
+
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100;align-items:center;justify-content:center;padding:1rem;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--surface);border-radius:var(--radius);padding:1.25rem;max-width:340px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.18);}
+    .modal h3{font-size:15px;font-weight:500;margin-bottom:4px;}
+    .modal p{font-size:13px;color:var(--muted);margin-bottom:1rem;}
+    .day-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+    .day-btn{padding:6px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;color:var(--muted);font-family:var(--font);}
+    .day-btn.selected{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+    .btn-cancel{padding:7px 14px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;font-family:var(--font);color:var(--muted);}
+    .btn-copy{padding:7px 14px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
+    .btn-copy:disabled{opacity:.4;cursor:default;}
+
+    .add-block{width:100%;padding:8px;border:0.5px dashed var(--border);border-radius:var(--radius);background:transparent;color:var(--muted);font-size:13px;font-family:var(--font);cursor:pointer;margin-top:4px;}
+    .add-block:hover{background:var(--surface);color:var(--text);}
+    .tip{background:var(--bg);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:9px 13px;font-size:13px;color:var(--muted);margin-top:1rem;}
+    .hint-bar{font-size:11px;color:var(--hint);margin-bottom:.9rem;display:flex;gap:12px;flex-wrap:wrap;}
+    .hint-bar span::before{content:"· ";}
+    footer{margin-top:2rem;font-size:12px;color:var(--hint);text-align:center;line-height:1.8;}
+
+    @media(max-width:480px){
+      .counters{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .block-time{min-width:74px;}
+      .tabs{gap:4px;}
+      .tab{padding:5px 9px;font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+
+<h1>La mia routine</h1>
+<p class="subtitle">Studio esami + coaching + allenamento</p>
+
+<!-- Banner setup Firebase — scompare dopo la configurazione -->
+<div id="setup-banner">
+  <h2>⚡ Collega Firebase per la sincronizzazione</h2>
+  <p>
+    Segui questi passi <strong>una volta sola</strong> per avere la routine sincronizzata su tutti i dispositivi:<br><br>
+    1. Vai su <strong>console.firebase.google.com</strong> → crea un progetto (gratuito)<br>
+    2. Vai su <strong>Realtime Database</strong> → crea database → scegli "test mode"<br>
+    3. Vai su <strong>Impostazioni progetto → Le tue app → Web</strong> → registra app<br>
+    4. Copia i valori <code>databaseURL</code> e <code>apiKey</code> e incollali qui sotto<br>
+  </p>
+  <div class="setup-fields">
+    <input id="fb-apikey" placeholder="apiKey (es: AIzaSy...)" />
+    <input id="fb-dburl" placeholder="databaseURL (es: https://mio-progetto-default-rtdb.firebaseio.com)" />
+  </div>
+  <button class="btn-connect" id="btn-connect">Connetti e sincronizza</button>
+  <p style="margin-top:.75rem;font-size:11px;color:var(--hint);">
+    I dati vengono salvati nel tuo database Firebase personale — nessuno può accedervi oltre a te.
+    Se preferisci usare solo salvataggio locale (senza sync), chiudi questo banner.
+    <button style="background:none;border:none;color:var(--hint);font-size:11px;cursor:pointer;text-decoration:underline;" id="skip-setup">Usa solo locale →</button>
+  </p>
+</div>
+
+<div class="save-bar">
+  <div class="save-status">
+    <div class="save-dot" id="save-dot"></div>
+    <span id="save-label">Caricamento...</span>
+  </div>
+  <button class="btn-reset" id="btn-reset">↺ Ripristina dati originali</button>
+</div>
+
+<div class="legend" id="legend"></div>
+<div class="tabs" id="tabs"></div>
+<div id="days"></div>
+
+<div class="modal-overlay" id="copy-modal">
+  <div class="modal">
+    <h3>Copia in altri giorni</h3>
+    <p id="copy-modal-desc">Seleziona uno o più giorni</p>
+    <div class="day-btns" id="copy-day-btns"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="copy-cancel">Annulla</button>
+      <button class="btn-copy" id="copy-confirm" disabled>Copia</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Sincronizzato via Firebase · modifiche salvate in tempo reale su tutti i dispositivi<br>
+  Trascina · clicca per modificare · pallino = categoria · ⧉ copia · × elimina
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+/* ══════════════════════════════════════════════
+   TIPI E COLORI
+══════════════════════════════════════════════ */
+const TYPES={
+  sonno:   {label:"Sonno",          color:"#378ADD"},
+  studio:  {label:"Studio",         color:"#5DCAA5"},
+  coaching:{label:"Coaching",       color:"#7F77DD"},
+  univ:    {label:"Università",     color:"#378ADD"},
+  sport:   {label:"Allenamento",    color:"#D4537E"},
+  cardio:  {label:"Cardio",         color:"#E2847A"},
+  nsdr:    {label:"NSDR / Riposo",  color:"#9B8EC4"},
+  fest:    {label:"Feste/Org.",     color:"#D85A30"},
+  routine: {label:"Routine",        color:"#EF9F27"},
+  libero:  {label:"Tempo libero",   color:"#888780"},
+  buffer:  {label:"Buffer/Recupero",color:"#B0A8D0"}
+};
+
+const C_CATS={studio:["studio","univ"],coaching:["coaching"],libero:["libero","fest"],sonno:["sonno"]};
+const C_COLORS={studio:"#5DCAA5",coaching:"#7F77DD",libero:"#888780",sonno:"#378ADD"};
+const C_LABELS={studio:"Studio",coaching:"Coaching",libero:"Tempo libero",sonno:"Sonno"};
+
+/* ══════════════════════════════════════════════
+   DATI DEFAULT
+══════════════════════════════════════════════ */
+const DEFAULT_DAYS=[
+  {
+    name:"Lun",title:"Lunedì — giornata piena",
+    sub:"5h30 studio · coaching batch · NSDR post-pranzo · gym 19:30",
+    tip:"Mattina = studio puro. NSDR 20 min dopo pranzo se sei stanco — recupera concentrazione senza dormire. Coaching in batch: guarda tutti → analizza → registra.",
+    blocks:[
+      {time:"00:30 – 8:15", label:"Sonno",                     note:"7h45",                                                                      type:"sonno"},
+      {time:"8:15 – 8:45",  label:"Sveglia + routine",         note:"Colazione, luce naturale, niente telefono per i primi 20 min",              type:"routine"},
+      {time:"8:45 – 12:00", label:"Studio esame — mattina",    note:"3h15 filate · sessione profonda, niente interruzioni",                      type:"studio"},
+      {time:"12:00 – 12:30",label:"Cucino + pranzo",           note:"Pranzo leggero alle 12 — nei giorni senza uni puoi anticipare",             type:"routine"},
+      {time:"12:30 – 12:50",label:"NSDR (opzionale)",          note:"20 min di riposo non-sonno post pranzo · yoga nidra o respirazione · ripristina dopamina e concentrazione", type:"nsdr"},
+      {time:"12:50 – 15:15",label:"Studio esame — pomeriggio", note:"2h25 · cambia materia rispetto alla mattina · porta il totale a 5h40",      type:"studio"},
+      {time:"15:15 – 17:30",label:"Coaching — batch check",    note:"Fase 1: guarda tutti i video · Fase 2: analisi correzioni · Fase 3: registra tutto in fila", type:"coaching"},
+      {time:"17:30 – 18:00",label:"Schede clienti",            note:"Schede programmate (ciclo 8-12 sett.)",                                     type:"coaching"},
+      {time:"18:00 – 18:30",label:"Buffer recupero",           note:"Task saltati oggi · se tutto ok: tempo libero bonus",                       type:"buffer"},
+      {time:"18:30 – 19:30",label:"Cena + preparazione gym",   note:"Mangia leggero prima dell'allenamento",                                     type:"routine"},
+      {time:"19:30 – 21:00",label:"Allenamento",               note:"1h30 in palestra",                                                          type:"sport"},
+      {time:"21:00+",       label:"Tempo libero",              note:"Ragazza, film, nutrizione/software · niente coaching dopo le 21",            type:"libero"}
+    ]
+  },
+  {
+    name:"Mar",title:"Martedì — università 9-11 o 11-13",
+    sub:"Sveglia 7:45 · lezione + studio in uni · NSDR opzionale · coaching batch · gym 19:30",
+    tip:"Letto entro le 23:30 per dormire ~8h. Studio in uni subito dopo la lezione. NSDR post-pranzo se sei stanco dal viaggio.",
+    blocks:[
+      {time:"23:30 – 7:45", label:"Sonno",                     note:"~8h15 · letto la sera prima entro le 23:30",                               type:"sonno"},
+      {time:"7:45 – 8:30",  label:"Sveglia + partenza",        note:"Colazione veloce · 40 min viaggio: podcast o ripasso audio",               type:"routine"},
+      {time:"9:00 – 11:00", label:"Università",                note:"Lezione mattina (slot 9-11)",                                               type:"univ"},
+      {time:"11:00 – 13:00",label:"Studio in università",      note:"2h in aula — consolida la lezione subito",                                  type:"studio"},
+      {time:"13:00 – 13:30",label:"Viaggio + pranzo",          note:"Pranzo al rientro · circa 13:00-13:30",                                    type:"routine"},
+      {time:"13:30 – 13:50",label:"NSDR (opzionale)",          note:"20 min · utile dopo il viaggio e la lezione mattutina",                    type:"nsdr"},
+      {time:"13:50 – 17:00",label:"Studio esame — pomeriggio", note:"3h10 · cambia materia · porta il totale a 5h10",                           type:"studio"},
+      {time:"17:00 – 18:30",label:"Coaching — batch check",    note:"Fase 1: guarda video · Fase 2: analisi · Fase 3: registra",                type:"coaching"},
+      {time:"18:30 – 19:00",label:"Buffer recupero + cena",    note:"Task saltati o cena prima del gym",                                        type:"buffer"},
+      {time:"19:30 – 21:00",label:"Allenamento",               note:"1h30 in palestra",                                                          type:"sport"},
+      {time:"21:00+",       label:"Tempo libero",              note:"Serata leggera · letto entro le 23:30",                                    type:"libero"}
+    ]
+  },
+  {
+    name:"Mer",title:"Mercoledì — università + cardio opzionale",
+    sub:"Sveglia 7:45 · studio in uni · coaching · cardio 30' · riunioni feste",
+    tip:"Giorno senza gym pesante. Cardio 30 min opzionale nel pomeriggio. Riunioni feste qui o domenica. NSDR post-pranzo se utile.",
+    blocks:[
+      {time:"23:30 – 7:45", label:"Sonno",                     note:"~8h15 · letto la sera prima entro le 23:30",                               type:"sonno"},
+      {time:"7:45 – 8:30",  label:"Sveglia + partenza",        note:"Colazione veloce · viaggio: ripasso audio",                                type:"routine"},
+      {time:"9:00 – 11:00", label:"Università",                note:"Lezione mattina",                                                           type:"univ"},
+      {time:"11:00 – 13:00",label:"Studio in università",      note:"2h in aula — consolida le lezioni",                                         type:"studio"},
+      {time:"13:00 – 13:30",label:"Viaggio + pranzo",          note:"",                                                                          type:"routine"},
+      {time:"13:30 – 13:50",label:"NSDR (opzionale)",          note:"20 min post-pranzo o se sei stanco",                                       type:"nsdr"},
+      {time:"13:50 – 17:00",label:"Studio esame — pomeriggio", note:"3h10 · seconda materia · totale ~5h10",                                    type:"studio"},
+      {time:"17:00 – 18:00",label:"Coaching — batch check",    note:"1h batch · meno clienti rispetto agli altri giorni",                       type:"coaching"},
+      {time:"18:00 – 18:30",label:"Cardio 30 min (opzionale)", note:"Corsa, bici o corda · salta se c'è riunione feste",                        type:"cardio"},
+      {time:"18:30 – 19:30",label:"Riunioni feste (se ci sono)",note:"Slot dedicato — non interferisce con studio e coaching",                  type:"fest"},
+      {time:"19:30 – 20:00",label:"Cena",                      note:"",                                                                          type:"routine"},
+      {time:"20:00+",       label:"Tempo libero",              note:"Nutrizione, software, serie, ragazza · letto entro le 23:30",               type:"libero"}
+    ]
+  },
+  {
+    name:"Gio",title:"Giovedì — giornata piena",
+    sub:"5h30 studio · NSDR post-pranzo · coaching batch · gym 19:30",
+    tip:"Specchio del lunedì. Schede programmate in coda al coaching — sei già in modalità operativa. NSDR dopo pranzo se hai bisogno.",
+    blocks:[
+      {time:"00:30 – 8:15", label:"Sonno",                     note:"7h45",                                                                      type:"sonno"},
+      {time:"8:15 – 8:45",  label:"Sveglia + routine",         note:"Stesso rituale ogni giorno = meno fatica decisionale",                     type:"routine"},
+      {time:"8:45 – 12:00", label:"Studio esame — mattina",    note:"3h15 filate — sessione profonda",                                           type:"studio"},
+      {time:"12:00 – 12:30",label:"Cucino + pranzo",           note:"Pranzo alle 12 nei giorni senza uni",                                      type:"routine"},
+      {time:"12:30 – 12:50",label:"NSDR (opzionale)",          note:"20 min · recupera concentrazione · yoga nidra o respirazione",             type:"nsdr"},
+      {time:"12:50 – 15:15",label:"Studio esame — pomeriggio", note:"2h25 · seconda materia o ripasso · totale 5h40",                           type:"studio"},
+      {time:"15:15 – 17:30",label:"Coaching — batch check",    note:"Fase 1: guarda video · Fase 2: analisi · Fase 3: registra",                type:"coaching"},
+      {time:"17:30 – 18:00",label:"Schede clienti",            note:"2-3 schede programmate (ciclo 8-12 sett.)",                                type:"coaching"},
+      {time:"18:00 – 18:30",label:"Buffer recupero",           note:"Task saltati o tempo libero bonus",                                        type:"buffer"},
+      {time:"18:30 – 19:30",label:"Cena + preparazione gym",   note:"",                                                                          type:"routine"},
+      {time:"19:30 – 21:00",label:"Allenamento",               note:"1h30 in palestra",                                                          type:"sport"},
+      {time:"21:00+",       label:"Tempo libero",              note:"Ragazza, film, nutrizione/software",                                        type:"libero"}
+    ]
+  },
+  {
+    name:"Ven",title:"Venerdì — università + uscita notturna",
+    sub:"Sveglia 7:45 · studio in uni · coaching · gym 19:30 · uscita 1:30-3:00",
+    tip:"Esci tra 1:30 e 3:00 — sabato recupera sonno. Coaching batch al pomeriggio. Venerdì puoi fare ~4h30 di studio invece di 5h.",
+    blocks:[
+      {time:"23:30 – 7:45", label:"Sonno",                     note:"~8h15 · letto giovedì sera entro le 23:30",                               type:"sonno"},
+      {time:"7:45 – 8:30",  label:"Sveglia + partenza",        note:"Colazione veloce · viaggio: ripasso audio",                                type:"routine"},
+      {time:"9:00 – 11:00", label:"Università",                note:"Ultima lezione della settimana",                                            type:"univ"},
+      {time:"11:00 – 13:00",label:"Studio in università",      note:"2h in aula — chiudi la settimana forte",                                    type:"studio"},
+      {time:"13:00 – 13:30",label:"Viaggio + pranzo",          note:"",                                                                          type:"routine"},
+      {time:"13:30 – 16:30",label:"Studio esame — pomeriggio", note:"3h · porta il totale a ~5h · cambia materia",                              type:"studio"},
+      {time:"16:30 – 18:00",label:"Coaching — batch check",    note:"Chiudi il giro settimanale coaching",                                      type:"coaching"},
+      {time:"18:00 – 18:30",label:"Buffer recupero settimana", note:"Chiudi arretrati · poi stacca",                                            type:"buffer"},
+      {time:"18:30 – 19:30",label:"Cena + preparazione gym",   note:"Mangia leggero",                                                            type:"routine"},
+      {time:"19:30 – 21:00",label:"Allenamento",               note:"1h30 in palestra",                                                          type:"sport"},
+      {time:"21:00 – 2:00", label:"Uscita / feste",            note:"Rientro variabile 1:30-3:00",                                              type:"fest"}
+    ]
+  },
+  {
+    name:"Sab",title:"Sabato — recupero + flessibile",
+    sub:"Sveglia libera · ripasso leggero · niente gym pesante · feste notte",
+    tip:"Recupera sonno — non forzare. Studio leggero solo se ti senti ok. Gym solo se venerdì l'hai saltato.",
+    blocks:[
+      {time:"03:00 – 10:30",label:"Sonno",                     note:"~7h30 · aggiusta in base a quando sei rientrato",                          type:"sonno"},
+      {time:"10:30 – 11:00",label:"Alzata lenta + routine",    note:"Niente sensi di colpa — hai lavorato tutta la settimana",                  type:"routine"},
+      {time:"11:00 – 13:00",label:"Studio leggero",            note:"Ripasso, lettura, flashcard — niente materiale nuovo pesante",             type:"studio"},
+      {time:"13:00 – 14:00",label:"Cucino + pranzo",           note:"Pranzo alle 13 — sabato orario normale",                                   type:"routine"},
+      {time:"14:00 – 14:20",label:"NSDR (opzionale)",          note:"Se sei stanco dalla notte — recupera energia",                             type:"nsdr"},
+      {time:"14:20 – 16:00",label:"Coaching arretrati",        note:"Solo se hai check da completare — altrimenti giornata libera",             type:"coaching"},
+      {time:"16:00 – 19:30",label:"Tempo libero",              note:"Ragazza, uscita, interessi personali",                                     type:"libero"},
+      {time:"19:30 – 21:00",label:"Allenamento (se saltato ven)",note:"Solo se venerdì non hai fatto gym",                                    type:"sport"},
+      {time:"21:00+",       label:"Cena + feste",              note:"Sabato notte = feste o relax totale",                                      type:"fest"}
+    ]
+  },
+  {
+    name:"Dom",title:"Domenica — recupero e reset",
+    sub:"Alzata con calma · pianificazione · studio leggero · riunioni feste se ci sono",
+    tip:"Niente gym. Riunioni feste qui se non hai fatto mercoledì. Pianifica la settimana in 15 minuti.",
+    blocks:[
+      {time:"04:00 – 11:00",label:"Sonno",                     note:"~7h · nessuna sveglia forzata — dormi quanto ti serve",                   type:"sonno"},
+      {time:"11:00 – 11:30",label:"Alzata + routine",          note:"Con calma — è domenica",                                                   type:"routine"},
+      {time:"11:30 – 12:00",label:"Pianificazione settimana",  note:"15-20 min: obiettivi studio, check da fare, note feste",                  type:"routine"},
+      {time:"12:00 – 13:00",label:"Studio leggero o interessi",note:"Nutrizione, software, lettura — in base all'energia",                     type:"studio"},
+      {time:"13:00 – 14:00",label:"Cucino + pranzo",           note:"Pranzo tranquillo",                                                        type:"routine"},
+      {time:"14:00 – 14:20",label:"NSDR (opzionale)",          note:"20 min se hai bisogno di recuperare",                                     type:"nsdr"},
+      {time:"14:20 – 16:00",label:"Riunioni feste (se ci sono)",note:"Slot alternativo al mercoledì",                                          type:"fest"},
+      {time:"16:00+",       label:"Tempo libero",              note:"Ragazza, uscita, serie · niente gym pesante",                              type:"libero"}
+    ]
+  }
+];
+
+/* ══════════════════════════════════════════════
+   FIREBASE SETUP
+══════════════════════════════════════════════ */
+const LOCAL_KEY = "routine_fb_config";
+let db = null;
+let dbRef = null;
+let _ignoreRemote = false;
+
+function getConfig(){
+  try{ return JSON.parse(localStorage.getItem(LOCAL_KEY)); }catch(e){ return null; }
+}
+function saveConfig(apiKey, dbUrl){
+  localStorage.setItem(LOCAL_KEY, JSON.stringify({apiKey, dbUrl}));
+}
+
+function connectFirebase(apiKey, dbUrl){
+  try{
+    const app = initializeApp({
+      apiKey,
+      databaseURL: dbUrl,
+      projectId: dbUrl.replace("https://","").split(".")[0].replace("-default-rtdb","")
+    }, "routine-app-"+Date.now());
+    db = getDatabase(app);
+    dbRef = ref(db, "routine/days");
+
+    setSaveStatus("saving","Connessione...");
+
+    // Ascolta cambiamenti remoti
+    onValue(dbRef, (snapshot) => {
+      if(_ignoreRemote) return;
+      const data = snapshot.val();
+      if(data && Array.isArray(data) && data.length === DEFAULT_DAYS.length){
+        days = data;
+        rebuildUI();
+        setSaveStatus("saved","Sincronizzato · " + new Date().toLocaleTimeString("it",{hour:"2-digit",minute:"2-digit"}));
+      } else {
+        // Prima volta: carica i default su Firebase
+        pushToFirebase();
+      }
+    }, (error) => {
+      setSaveStatus("offline","Errore connessione Firebase");
+      console.error(error);
+    });
+
+    document.getElementById("setup-banner").classList.add("hidden");
+    saveConfig(apiKey, dbUrl);
+    return true;
+  } catch(e){
+    alert("Errore connessione: controlla apiKey e databaseURL");
+    console.error(e);
+    return false;
+  }
+}
+
+function pushToFirebase(){
+  if(!dbRef) return;
+  _ignoreRemote = true;
+  set(dbRef, days).then(() => {
+    setSaveStatus("saved","Salvato · " + new Date().toLocaleTimeString("it",{hour:"2-digit",minute:"2-digit"}));
+    setTimeout(() => { _ignoreRemote = false; }, 1000);
+  }).catch((e) => {
+    setSaveStatus("offline","Errore salvataggio");
+    _ignoreRemote = false;
+  });
+}
+
+let _saveTimer = null;
+function scheduleSave(){
+  setSaveStatus("saving","Salvataggio...");
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    if(db){
+      pushToFirebase();
+    } else {
+      // Fallback localStorage
+      try{
+        localStorage.setItem("routine_local_v2", JSON.stringify(days));
+        setSaveStatus("saved","Salvato in locale · " + new Date().toLocaleTimeString("it",{hour:"2-digit",minute:"2-digit"}));
+      }catch(e){ setSaveStatus("offline","Errore salvataggio locale"); }
+    }
+  }, 800);
+}
+
+function setSaveStatus(type, text){
+  const dot = document.getElementById("save-dot");
+  const lbl = document.getElementById("save-label");
+  if(dot) dot.className = "save-dot " + type;
+  if(lbl) lbl.textContent = text;
+}
+
+// Pulsante connetti
+document.getElementById("btn-connect").addEventListener("click", () => {
+  const apiKey = document.getElementById("fb-apikey").value.trim();
+  const dbUrl = document.getElementById("fb-dburl").value.trim();
+  if(!apiKey || !dbUrl){ alert("Inserisci entrambi i valori"); return; }
+  connectFirebase(apiKey, dbUrl);
+});
+
+document.getElementById("skip-setup").addEventListener("click", () => {
+  document.getElementById("setup-banner").classList.add("hidden");
+  setSaveStatus("saved","Salvataggio locale attivo");
+});
+
+// Auto-connetti se già configurato
+const savedConfig = getConfig();
+if(savedConfig){ connectFirebase(savedConfig.apiKey, savedConfig.dbUrl); }
+else { setSaveStatus("offline","Non connesso — configura Firebase o usa locale"); }
+
+// Reset
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if(!confirm("Vuoi ripristinare tutti i dati originali? Le modifiche andranno perse.")) return;
+  days = JSON.parse(JSON.stringify(DEFAULT_DAYS));
+  scheduleSave();
+  rebuildUI();
+});
+
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function parseDur(str){
+  str=(str||"").trim();
+  if(/\+$/.test(str)) return .5;
+  const p=str.split(/\s*[–\-—]\s*/);
+  if(p.length!==2) return null;
+  const toH=s=>{const q=s.trim().split(":");if(q.length!==2)return null;const h=parseInt(q[0]),m=parseInt(q[1]);return(isNaN(h)||isNaN(m))?null:h+m/60;};
+  const s=toH(p[0]),e=toH(p[1]);
+  if(s===null||e===null) return null;
+  let d=e-s; if(d<0)d+=24; return d>16?null:d;
+}
+function formatH(h){
+  if(!h||h<=0) return "0h";
+  const hh=Math.floor(h),mm=Math.round((h-hh)*60);
+  return mm===0?hh+"h":hh+"h "+mm+"m";
+}
+function calcCounters(blocks){
+  const t={studio:0,coaching:0,libero:0,sonno:0};
+  blocks.forEach(b=>{
+    const d=parseDur(b.time); if(!d||d<=0) return;
+    Object.keys(C_CATS).forEach(k=>{ if(C_CATS[k].includes(b.type)) t[k]+=d; });
+  });
+  return t;
+}
+function updateCounters(dayIdx){
+  const c=document.getElementById("counters-"+dayIdx); if(!c) return;
+  const t=calcCounters(days[dayIdx].blocks);
+  ["studio","coaching","libero","sonno"].forEach(k=>{
+    const ve=c.querySelector(".cv-"+k),be=c.querySelector(".cb-"+k),ce=c.querySelector(".cc-"+k);
+    if(!ve) return;
+    const nv=formatH(t[k]);
+    if(ve.textContent!==nv){ve.textContent=nv;if(ce){ce.classList.add("updated");setTimeout(()=>ce.classList.remove("updated"),500);}}
+    if(be) be.style.width=Math.min(100,Math.round((t[k]||0)/9*100))+"%";
+  });
+}
+function buildCounters(dayIdx){
+  const w=document.createElement("div");w.className="counters";w.id="counters-"+dayIdx;
+  const t=calcCounters(days[dayIdx].blocks);
+  ["studio","coaching","libero","sonno"].forEach(k=>{
+    const pct=Math.min(100,Math.round((t[k]||0)/9*100));
+    const card=document.createElement("div");card.className="counter cc-"+k;
+    card.innerHTML=`<div class="counter-val cv-${k}" style="color:${C_COLORS[k]}">${formatH(t[k])}</div>
+      <div class="counter-lbl">${C_LABELS[k]}</div>
+      <div class="counter-bar-wrap"><div class="counter-bar cb-${k}" style="background:${C_COLORS[k]};width:${pct}%"></div></div>`;
+    w.appendChild(card);
+  });
+  return w;
+}
+
+function closePickers(){ document.querySelectorAll(".type-picker.open").forEach(p=>p.classList.remove("open")); }
+document.addEventListener("click", closePickers);
+
+/* ══════════════════════════════════════════════
+   MODALE COPIA
+══════════════════════════════════════════════ */
+let _copyBlock=null,_copyFromDay=-1,_selectedDays=[];
+const modal=document.getElementById("copy-modal");
+document.getElementById("copy-cancel").addEventListener("click",()=>modal.classList.remove("open"));
+modal.addEventListener("click",e=>{ if(e.target===modal) modal.classList.remove("open"); });
+document.getElementById("copy-confirm").addEventListener("click",()=>{
+  if(!_copyBlock) return;
+  _selectedDays.forEach(dayIdx=>{
+    const nb=JSON.parse(JSON.stringify(_copyBlock));
+    days[dayIdx].blocks.push(nb);
+    const tl=document.querySelector(`#day-${dayIdx} .blocks-list`);
+    if(tl) tl.appendChild(renderBlock(nb,dayIdx,tl));
+    updateCounters(dayIdx);
+  });
+  scheduleSave();
+  modal.classList.remove("open");
+});
+function openCopyModal(b,fromDay){
+  _copyBlock=b;_copyFromDay=fromDay;_selectedDays=[];
+  document.getElementById("copy-modal-desc").textContent=`Copia "${b.label}" in:`;
+  const cb=document.getElementById("copy-day-btns");cb.innerHTML="";
+  const cf=document.getElementById("copy-confirm");cf.disabled=true;
+  days.forEach((d,i)=>{
+    if(i===fromDay) return;
+    const btn=document.createElement("button");btn.className="day-btn";btn.textContent=d.name;
+    btn.addEventListener("click",()=>{
+      const idx=_selectedDays.indexOf(i);
+      if(idx===-1){_selectedDays.push(i);btn.classList.add("selected");}
+      else{_selectedDays.splice(idx,1);btn.classList.remove("selected");}
+      cf.disabled=_selectedDays.length===0;
+    });
+    cb.appendChild(btn);
+  });
+  modal.classList.add("open");
+}
+
+/* ══════════════════════════════════════════════
+   RENDER BLOCCO
+══════════════════════════════════════════════ */
+function renderBlock(b,dayIdx,list){
+  const li=document.createElement("li");li.className="block";li.draggable=true;li._bRef=b;
+
+  const hd=document.createElement("div");hd.className="drag-handle";
+  hd.innerHTML="<span></span><span></span><span></span>";li.appendChild(hd);
+
+  const tb=document.createElement("button");tb.className="type-btn";
+  tb.style.background=TYPES[b.type]?.color||"#888";tb.title="Cambia categoria";
+  const pk=document.createElement("div");pk.className="type-picker";
+  Object.keys(TYPES).forEach(k=>{
+    const o=document.createElement("button");o.className="type-opt";
+    o.style.background=TYPES[k].color;o.title=TYPES[k].label;
+    o.addEventListener("click",e=>{
+      e.stopPropagation();b.type=k;tb.style.background=TYPES[k].color;
+      pk.classList.remove("open");updateCounters(dayIdx);scheduleSave();
+    });pk.appendChild(o);
+  });
+  tb.addEventListener("click",e=>{e.stopPropagation();closePickers();pk.classList.toggle("open");});
+  li.appendChild(tb);li.appendChild(pk);
+
+  const te=document.createElement("div");te.className="block-time";
+  const ts=document.createElement("span");ts.className="editable";ts.contentEditable="true";ts.textContent=b.time;
+  ts.addEventListener("input",()=>{b.time=ts.textContent;updateCounters(dayIdx);scheduleSave();});
+  ts.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ts.blur();}});
+  te.appendChild(ts);li.appendChild(te);
+
+  const ct=document.createElement("div");ct.className="block-content";
+  const le=document.createElement("span");le.className="block-label editable";le.contentEditable="true";le.textContent=b.label;
+  le.addEventListener("input",()=>{b.label=le.textContent;scheduleSave();});
+  le.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();le.blur();}});
+  const ne=document.createElement("span");ne.className="block-note editable";ne.contentEditable="true";
+  ne.textContent=b.note||"Aggiungi nota...";ne.style.color=b.note?"":"var(--hint)";
+  ne.addEventListener("focus",()=>{if(!b.note){ne.textContent="";ne.style.color="";}});
+  ne.addEventListener("blur",()=>{
+    if(!ne.textContent.trim()){ne.textContent="Aggiungi nota...";ne.style.color="var(--hint)";b.note="";}
+    else b.note=ne.textContent;scheduleSave();
+  });
+  ne.addEventListener("input",()=>{b.note=ne.textContent;});
+  ne.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ne.blur();}});
+  ct.appendChild(le);ct.appendChild(ne);li.appendChild(ct);
+
+  const ac=document.createElement("div");ac.className="block-actions";
+  const cpBtn=document.createElement("button");cpBtn.className="act-btn";cpBtn.textContent="⧉";cpBtn.title="Copia in altri giorni";
+  cpBtn.addEventListener("click",e=>{e.stopPropagation();openCopyModal(b,dayIdx);});
+  const db2=document.createElement("button");db2.className="act-btn del";db2.textContent="×";db2.title="Elimina";
+  db2.addEventListener("click",e=>{
+    e.stopPropagation();
+    const idx=Array.from(list.children).indexOf(li);
+    days[dayIdx].blocks.splice(idx,1);li.remove();
+    updateCounters(dayIdx);scheduleSave();
+  });
+  ac.appendChild(cpBtn);ac.appendChild(db2);li.appendChild(ac);
+
+  li.addEventListener("dragstart",e=>{
+    li.classList.add("dragging");e.dataTransfer.effectAllowed="move";
+    window._dragSrc=li;window._dragDay=dayIdx;
+  });
+  li.addEventListener("dragend",()=>{
+    li.classList.remove("dragging");
+    document.querySelectorAll(".block.drag-over").forEach(el=>el.classList.remove("drag-over"));
+    if(!li.parentNode) return;
+    const no=[];
+    Array.from(li.parentNode.querySelectorAll(".block")).forEach(el=>{if(el._bRef)no.push(el._bRef);});
+    days[dayIdx].blocks=no;updateCounters(dayIdx);scheduleSave();
+  });
+  li.addEventListener("dragover",e=>{
+    e.preventDefault();
+    if(window._dragSrc&&window._dragSrc!==li&&window._dragDay===dayIdx){
+      document.querySelectorAll(".block.drag-over").forEach(el=>el.classList.remove("drag-over"));
+      li.classList.add("drag-over");
+    }
+  });
+  li.addEventListener("drop",e=>{
+    e.preventDefault();li.classList.remove("drag-over");
+    if(window._dragSrc&&window._dragSrc!==li&&window._dragDay===dayIdx){
+      const si=Array.from(list.children).indexOf(window._dragSrc);
+      const di=Array.from(list.children).indexOf(li);
+      if(si<di)list.insertBefore(window._dragSrc,li.nextSibling);
+      else list.insertBefore(window._dragSrc,li);
+    }
+  });
+  return li;
+}
+
+/* ══════════════════════════════════════════════
+   BUILD UI
+══════════════════════════════════════════════ */
+let days = JSON.parse(JSON.stringify(DEFAULT_DAYS));
+
+// Prova a caricare da localStorage se non c'è Firebase
+if(!savedConfig){
+  try{
+    const loc=localStorage.getItem("routine_local_v2");
+    if(loc){const p=JSON.parse(loc);if(Array.isArray(p)&&p.length===DEFAULT_DAYS.length)days=p;}
+  }catch(e){}
+}
+
+// Legenda
+const legendEl=document.getElementById("legend");
+["sonno","studio","coaching","univ","sport","cardio","nsdr","fest","routine","libero","buffer"].forEach(k=>{
+  const i=document.createElement("div");i.className="leg-item";
+  i.innerHTML=`<div class="dot-leg" style="background:${TYPES[k].color}"></div>${TYPES[k].label}`;
+  legendEl.appendChild(i);
+});
+
+function rebuildUI(){
+  document.getElementById("tabs").innerHTML="";
+  document.getElementById("days").innerHTML="";
+  buildAllDays();
+}
+
+function buildAllDays(){
+  const tabsEl=document.getElementById("tabs");
+  const daysEl=document.getElementById("days");
+  days.forEach((d,i)=>{
+    const tab=document.createElement("button");tab.className="tab"+(i===0?" active":"");tab.textContent=d.name;
+    tab.onclick=(idx=>()=>{
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      document.querySelectorAll(".day").forEach(t=>t.classList.remove("active"));
+      document.querySelectorAll(".tab")[idx].classList.add("active");
+      document.getElementById("day-"+idx).classList.add("active");
+    })(i);
+    tabsEl.appendChild(tab);
+
+    const div=document.createElement("div");div.className="day"+(i===0?" active":"");div.id="day-"+i;
+    const tit=document.createElement("div");tit.className="day-title";tit.textContent=d.title;div.appendChild(tit);
+    const sub=document.createElement("div");sub.className="day-sub";sub.textContent=d.sub;div.appendChild(sub);
+    div.appendChild(buildCounters(i));
+
+    const hint=document.createElement("div");hint.className="hint-bar";
+    hint.innerHTML="<span>Trascina per riordinare</span><span>Clicca per modificare</span><span>Pallino = categoria</span><span>⧉ copia in altri giorni</span><span>× elimina</span>";
+    div.appendChild(hint);
+
+    const list=document.createElement("ul");list.className="blocks-list";
+    d.blocks.forEach(b=>list.appendChild(renderBlock(b,i,list)));
+    div.appendChild(list);
+
+    const addBtn=document.createElement("button");addBtn.className="add-block";addBtn.textContent="+ Aggiungi blocco";
+    addBtn.addEventListener("click",()=>{
+      const nb={time:"00:00 – 00:00",label:"Nuovo blocco",note:"",type:"routine"};
+      d.blocks.push(nb);const li=renderBlock(nb,i,list);list.appendChild(li);
+      updateCounters(i);scheduleSave();
+      setTimeout(()=>li.querySelector(".block-label").focus(),50);
+    });
+    div.appendChild(addBtn);
+
+    const tip=document.createElement("div");tip.className="tip";tip.textContent=d.tip;div.appendChild(tip);
+    daysEl.appendChild(div);
+  });
+}
+
+buildAllDays();
+</script>
+</body>
+</html>
