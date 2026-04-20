@@ -39,9 +39,13 @@
     .btn-sm{font-size:11px;color:var(--hint);background:none;border:0.5px solid var(--border);border-radius:6px;padding:3px 8px;cursor:pointer;font-family:var(--font);}
     .btn-sm:hover{color:#E24B4A;border-color:#E24B4A;}
 
+    /* ─── LEGENDA con label editabili ─── */
     .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem;}
     .leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
     .dot-leg{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+    .leg-label{outline:none;border-radius:4px;padding:1px 4px;margin:-1px -4px;cursor:text;transition:background .15s;}
+    .leg-label:hover{background:var(--surface);}
+    .leg-label:focus{background:var(--surface);box-shadow:0 0 0 2px var(--accent);}
 
     .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
     .tab{padding:6px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;color:var(--muted);font-family:var(--font);transition:all .15s;}
@@ -59,13 +63,16 @@
     .day-sub:hover,.day-sub:focus{background:var(--surface);}
     .day-sub:focus{box-shadow:0 0 0 2px var(--accent);}
 
-    .counters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:1.25rem;}
+    /* ─── CONTATORI ─── */
+    .counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1.25rem;}
     .counter{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px;transition:border-color .2s;}
     .counter.updated{border-color:var(--accent);}
     .counter-val{font-size:18px;font-weight:500;line-height:1.1;}
     .counter-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
-    .counter-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-top:7px;overflow:hidden;}
+    .counter-bar-wrap{position:relative;height:3px;background:var(--border);border-radius:2px;margin-top:7px;overflow:visible;}
     .counter-bar{height:3px;border-radius:2px;opacity:.7;transition:width .4s ease;}
+    /* il "/24h" appare solo nella card totale */
+    .counter-slash{position:absolute;right:0;top:-14px;font-size:9px;color:var(--hint);white-space:nowrap;}
 
     .blocks-list{list-style:none;}
     .block{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;padding:9px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--surface);cursor:grab;user-select:none;position:relative;}
@@ -142,7 +149,7 @@
     .ai-send:disabled{opacity:.4;cursor:default;}
 
     footer{margin-top:2rem;font-size:12px;color:var(--hint);text-align:center;line-height:1.8;}
-    @media(max-width:480px){
+    @media(max-width:540px){
       .counters{grid-template-columns:repeat(2,minmax(0,1fr));}
       .block-time{min-width:74px;}
       .tabs{gap:4px;}.tab{padding:5px 9px;font-size:12px;}
@@ -225,9 +232,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 /* ════════════════════════════════
-   CATEGORIE
+   CATEGORIE  (label editabile in appData.catLabels)
 ════════════════════════════════ */
-const CATS = {
+const CATS_DEFAULT = {
   sonno:   { label:"Sonno",           color:"#378ADD" },
   studio:  { label:"Studio",          color:"#5DCAA5" },
   coaching:{ label:"Coaching",        color:"#7F77DD" },
@@ -241,16 +248,27 @@ const CATS = {
   buffer:  { label:"Buffer/Recupero", color:"#B0A8D0" }
 };
 
+// Ritorna le categorie con eventuali label personalizzate
+function getCats() {
+  const custom = appData.catLabels || {};
+  const result = {};
+  Object.entries(CATS_DEFAULT).forEach(([k, v]) => {
+    result[k] = { ...v, label: custom[k] || v.label };
+  });
+  return result;
+}
+
 /* ════════════════════════════════
-   CONTATORI (6 card)
+   CONTATORI — 7 card + slash /24h
 ════════════════════════════════ */
 const COUNTERS = [
-  { key:"studio",  label:"Studio",        color:"#5DCAA5", cats:["studio","univ"] },
-  { key:"coaching",label:"Coaching",      color:"#7F77DD", cats:["coaching"] },
-  { key:"lavoro",  label:"Lavoro totale", color:"#378ADD", cats:["studio","univ","coaching"] },
-  { key:"fest",    label:"Feste / Org.",  color:"#D85A30", cats:["fest"] },
-  { key:"routine", label:"Routine",       color:"#EF9F27", cats:["routine"] },
-  { key:"sonno",   label:"Sonno",         color:"#378ADD", cats:["sonno"] }
+  { key:"studio",    label:"Studio",       color:"#5DCAA5", cats:["studio","univ"] },
+  { key:"coaching",  label:"Coaching",     color:"#7F77DD", cats:["coaching"] },
+  { key:"feste",     label:"Feste",        color:"#D85A30", cats:["fest"] },
+  { key:"sport",     label:"Allenamento",  color:"#D4537E", cats:["sport","cardio"] },
+  { key:"sonno",     label:"Sonno",        color:"#378ADD", cats:["sonno"] },
+  { key:"routine",   label:"Routine",      color:"#EF9F27", cats:["routine"] },
+  { key:"libero",    label:"Tempo libero", color:"#888780", cats:["libero","buffer","nsdr"] }
 ];
 
 /* ════════════════════════════════
@@ -382,6 +400,7 @@ const DEFAULT_DAYS = [
 let appData = {
   pageTitle: "La mia routine",
   pageSubtitle: "Studio esami + coaching + allenamento",
+  catLabels: {},   // label personalizzate per categoria
   days: JSON.parse(JSON.stringify(DEFAULT_DAYS))
 };
 
@@ -444,6 +463,7 @@ function connectFirebase(apiKey, dbUrl) {
       const data = snap.val();
       if (data && data.days) {
         appData = data;
+        if (!appData.catLabels) appData.catLabels = {};
         applyAppData();
         setSaveStatus("saved", "Sincronizzato · " + hhMM());
       } else {
@@ -477,6 +497,7 @@ document.getElementById("btn-reset").addEventListener("click", () => {
   appData = {
     pageTitle: "La mia routine",
     pageSubtitle: "Studio esami + coaching + allenamento",
+    catLabels: {},
     days: JSON.parse(JSON.stringify(DEFAULT_DAYS))
   };
   scheduleSave();
@@ -523,10 +544,16 @@ function buildCounters(dayIdx) {
   w.className = "counters"; w.id = "counters-" + dayIdx;
   const t = calcCounters(appData.days[dayIdx].blocks);
   COUNTERS.forEach(c => {
-    const pct = Math.min(100, Math.round((t[c.key] || 0) / 9 * 100));
+    const pct = Math.min(100, Math.round((t[c.key] || 0) / 24 * 100));
     const card = document.createElement("div");
     card.className = "counter cc-" + c.key;
-    card.innerHTML = `<div class="counter-val cv-${c.key}" style="color:${c.color}">${formatH(t[c.key])}</div><div class="counter-lbl">${c.label}</div><div class="counter-bar-wrap"><div class="counter-bar cb-${c.key}" style="background:${c.color};width:${pct}%"></div></div>`;
+    card.innerHTML = `
+      <div class="counter-val cv-${c.key}" style="color:${c.color}">${formatH(t[c.key])}</div>
+      <div class="counter-lbl">${c.label}</div>
+      <div class="counter-bar-wrap">
+        <div class="counter-bar cb-${c.key}" style="background:${c.color};width:${pct}%"></div>
+        <span class="counter-slash">/24h</span>
+      </div>`;
     w.appendChild(card);
   });
   return w;
@@ -545,21 +572,35 @@ function updateCounters(dayIdx) {
       ve.textContent = nv;
       if (ce) { ce.classList.add("updated"); setTimeout(() => ce.classList.remove("updated"), 500); }
     }
-    if (be) be.style.width = Math.min(100, Math.round((t[c.key] || 0) / 9 * 100)) + "%";
+    if (be) be.style.width = Math.min(100, Math.round((t[c.key] || 0) / 24 * 100)) + "%";
   });
 }
 
 /* ════════════════════════════════
-   LEGENDA
+   LEGENDA (con label editabili)
 ════════════════════════════════ */
 function buildLegend() {
   const el = document.getElementById("legend");
   el.innerHTML = "";
+  const CATS = getCats();
   Object.entries(CATS).forEach(([k, c]) => {
     const item = document.createElement("div");
     item.className = "leg-item";
-    item.innerHTML = `<div class="dot-leg" style="background:${c.color}"></div><span>${c.label}</span>`;
-    el.appendChild(item);
+    const dot = document.createElement("div");
+    dot.className = "dot-leg"; dot.style.background = c.color;
+    const lbl = document.createElement("span");
+    lbl.className = "leg-label"; lbl.contentEditable = "true";
+    lbl.textContent = c.label;
+    lbl.title = "Clicca per rinominare";
+    lbl.addEventListener("input", () => {
+      if (!appData.catLabels) appData.catLabels = {};
+      appData.catLabels[k] = lbl.textContent;
+      // aggiorna anche i menu aperti e i contatori
+      document.querySelectorAll(`.cat-opt-key-${k}`).forEach(el => el.textContent = lbl.textContent);
+      scheduleSave();
+    });
+    lbl.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); lbl.blur(); } });
+    item.appendChild(dot); item.appendChild(lbl); el.appendChild(item);
   });
 }
 
@@ -572,13 +613,18 @@ function closeCatMenus() {
 document.addEventListener("click", closeCatMenus);
 
 function buildCatMenu(b, catBtn, dayIdx) {
+  const CATS = getCats();
   const menu = document.createElement("div");
   menu.className = "cat-menu";
   Object.entries(CATS).forEach(([k, c]) => {
     const opt = document.createElement("div");
     opt.className = "cat-opt";
     if (k === b.cat) opt.style.fontWeight = "500";
-    opt.innerHTML = `<div class="cat-opt-dot" style="background:${c.color}"></div>${c.label}`;
+    const optDot = document.createElement("div");
+    optDot.className = "cat-opt-dot"; optDot.style.background = c.color;
+    const optLbl = document.createElement("span");
+    optLbl.className = `cat-opt-key-${k}`; optLbl.textContent = c.label;
+    opt.appendChild(optDot); opt.appendChild(optLbl);
     opt.addEventListener("click", e => {
       e.stopPropagation();
       b.cat = k;
@@ -675,6 +721,7 @@ function openCopyDayModal(fromDay) {
 ════════════════════════════════ */
 function renderBlock(b, dayIdx, list) {
   if (!b.cat) b.cat = "routine";
+  const CATS = getCats();
   const li = document.createElement("li");
   li.className = "block"; li.draggable = true; li._bRef = b;
 
@@ -756,6 +803,7 @@ function renderBlock(b, dayIdx, list) {
    BUILD UI
 ════════════════════════════════ */
 function applyAppData() {
+  if (!appData.catLabels) appData.catLabels = {};
   document.getElementById("page-title").textContent = appData.pageTitle || "La mia routine";
   document.getElementById("page-subtitle").textContent = appData.pageSubtitle || "";
   buildLegend();
@@ -834,7 +882,7 @@ psEl.addEventListener("input", () => { appData.pageSubtitle = psEl.textContent; 
 psEl.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); psEl.blur(); } });
 
 /* ════════════════════════════════
-   AI BOX
+   AI BOX  ─ FIX: header CORS corretto
 ════════════════════════════════ */
 const AI_KEY_STORE = "routine_ai_key_v2";
 const aiSetupEl = document.getElementById("ai-setup");
@@ -900,12 +948,20 @@ Oggi è ${today}. Rispondi in italiano, conciso e pratico (max 3-4 frasi). Dai c
         messages: aiHistory
       })
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${res.status}`);
+    }
+
     const data = await res.json();
-    const reply = data.content?.[0]?.text || "Errore nella risposta AI.";
+    const reply = data?.content?.[0]?.text;
+    if (!reply) throw new Error("Risposta vuota dall'API");
     aiHistory.push({ role: "assistant", content: reply });
-    loading.textContent = reply; loading.classList.remove("loading");
+    loading.textContent = reply;
+    loading.classList.remove("loading");
   } catch(e) {
-    loading.textContent = "Errore di connessione. Controlla la tua API key Anthropic.";
+    loading.textContent = "Errore: " + (e.message || "controlla la tua API key Anthropic.");
     loading.classList.remove("loading");
   }
   aiSendEl.disabled = false;
@@ -922,10 +978,9 @@ aiInputEl.addEventListener("keydown", e => {
 const fbConfig = loadFbConfig();
 
 if (!fbConfig) {
-  // Prova localStorage
   try {
     const loc = localStorage.getItem("routine_local_v5");
-    if (loc) { const p = JSON.parse(loc); if (p && p.days) appData = p; }
+    if (loc) { const p = JSON.parse(loc); if (p && p.days) { appData = p; if (!appData.catLabels) appData.catLabels = {}; } }
   } catch(e) {}
   setSaveStatus("offline", "Non connesso a Firebase · usa il banner per collegarlo");
 }
@@ -934,7 +989,6 @@ applyAppData();
 
 if (fbConfig) connectFirebase(fbConfig.apiKey, fbConfig.dbUrl);
 
-// AI key salvata
 const savedAiKey = localStorage.getItem(AI_KEY_STORE);
 if (savedAiKey) initAI(savedAiKey);
 </script>
