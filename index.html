@@ -275,6 +275,30 @@
     .ai-send{padding:7px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;flex-shrink:0;}
     .ai-send:disabled{opacity:.4;cursor:default;}
 
+    /* ── AGENTE AI ── */
+    .agent-panel{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-top:.75rem;overflow:hidden;}
+    .agent-panel.hidden{display:none;}
+    .agent-panel-header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500;background:linear-gradient(135deg,#f0fdf9,#e8f4ff);}
+    @media(prefers-color-scheme:dark){.agent-panel-header{background:linear-gradient(135deg,#0a2e24,#0d1f35);}}
+    .agent-panel-title{flex:1;}
+    .agent-panel-sub{font-size:11px;color:var(--hint);font-weight:400;}
+    .agent-changes{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+    .agent-change{border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-size:13px;}
+    .agent-change.add{border-left:3px solid #5DCAA5;}
+    .agent-change.edit{border-left:3px solid #EF9F27;}
+    .agent-change.remove{border-left:3px solid #E24B4A;}
+    .agent-change.move{border-left:3px solid #7F77DD;}
+    .agent-change-type{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+    .agent-change-type.add{color:#0F6E56;}.agent-change-type.edit{color:#854F0B;}.agent-change-type.remove{color:#A32D2D;}.agent-change-type.move{color:#4C3D9E;}
+    .agent-change-desc{color:var(--text);line-height:1.5;margin-bottom:6px;}
+    .agent-change-detail{font-size:12px;color:var(--hint);font-family:monospace;background:var(--bg);border-radius:4px;padding:4px 8px;}
+    .agent-actions{display:flex;gap:8px;padding:10px 14px;border-top:0.5px solid var(--border);flex-wrap:wrap;}
+    .agent-btn-apply{padding:7px 16px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
+    .agent-btn-apply:hover{opacity:.9;}
+    .agent-btn-discard{padding:7px 16px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-family:var(--font);}
+    .agent-btn-discard:hover{border-color:#E24B4A;color:#E24B4A;}
+    .agent-thinking{padding:12px 14px;font-size:13px;color:var(--muted);font-style:italic;}
+
     footer{margin-top:2rem;font-size:12px;color:var(--hint);text-align:center;line-height:1.8;}
     @media(max-width:540px){
       .counters{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -513,8 +537,22 @@
     <button class="btn-green" id="ai-connect-btn">Connetti AI</button>
   </div>
   <div class="ai-messages hidden" id="ai-messages"></div>
+  <div class="ai-messages hidden" id="ai-messages"></div>
+  <!-- Pannello anteprima modifiche agente -->
+  <div class="agent-panel hidden" id="agent-panel">
+    <div class="agent-panel-header">
+      <span style="font-size:16px;">🤖</span>
+      <div class="agent-panel-title">Piano di modifica proposto</div>
+      <span class="agent-panel-sub">Rivedi e approva</span>
+    </div>
+    <div id="agent-changes-list"></div>
+    <div class="agent-actions">
+      <button class="agent-btn-apply" id="agent-apply">✓ Applica tutte le modifiche</button>
+      <button class="agent-btn-discard" id="agent-discard">✕ Scarta</button>
+    </div>
+  </div>
   <div class="ai-input-row hidden" id="ai-input-row">
-    <input class="ai-input" id="ai-input" placeholder="Es: come recupero se salto lo studio oggi?" />
+    <input class="ai-input" id="ai-input" placeholder="Es: oggi alle 16 ho una riunione imprevista, riorganizza la giornata" />
     <button class="ai-send" id="ai-send">Invia</button>
   </div>
 </div>
@@ -924,26 +962,241 @@ const ptEl=document.getElementById("page-title"),psEl=document.getElementById("p
 ptEl.addEventListener("input",()=>{appData.pageTitle=ptEl.textContent;scheduleSave();});ptEl.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ptEl.blur();}});
 psEl.addEventListener("input",()=>{appData.pageSubtitle=psEl.textContent;scheduleSave();});psEl.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();psEl.blur();}});
 
-/* ══ AI ══ */
+/* ══ AI + AGENTE ══ */
 const AI_KEY_STORE="routine_ai_key_v2";
 const aiSetupEl=document.getElementById("ai-setup"),aiMessagesEl=document.getElementById("ai-messages"),aiInputRowEl=document.getElementById("ai-input-row"),aiInputEl=document.getElementById("ai-input"),aiSendEl=document.getElementById("ai-send");
-function initAI(key){aiKey=key;localStorage.setItem(AI_KEY_STORE,key);aiSetupEl.classList.add("hidden");aiMessagesEl.classList.remove("hidden");aiInputRowEl.classList.remove("hidden");addAiMsg("assistant","Ciao! Sono qui per aiutarti con la tua routine. Chiedimi come recuperare task saltati, come distribuire lo studio, o qualsiasi cosa sulla tua giornata.");}
-document.getElementById("ai-connect-btn").addEventListener("click",()=>{const k=document.getElementById("ai-apikey-input").value.trim();if(!k.startsWith("sk-ant-")){alert("Inserisci una chiave Anthropic valida (deve iniziare con sk-ant-)");return;}initAI(k);});
-function addAiMsg(role,text){const msg=document.createElement("div");msg.className="ai-msg "+role;msg.textContent=text;aiMessagesEl.appendChild(msg);aiMessagesEl.scrollTop=aiMessagesEl.scrollHeight;return msg;}
+const agentPanel=document.getElementById("agent-panel"),agentChangesList=document.getElementById("agent-changes-list");
+
+function initAI(key){
+  aiKey=key;localStorage.setItem(AI_KEY_STORE,key);
+  aiSetupEl.classList.add("hidden");aiMessagesEl.classList.remove("hidden");aiInputRowEl.classList.remove("hidden");
+  addAiMsg("assistant","Ciao! Sono il tuo assistente intelligente.\n\n💬 Chiedimi consigli sulla routine, recupero task, studio.\n\n🤖 Oppure chiedi modifiche dirette: \"oggi alle 16 ho una riunione, riorganizza la giornata\" e ti propongo un piano che puoi approvare o scartare.");
+}
+document.getElementById("ai-connect-btn").addEventListener("click",()=>{
+  const k=document.getElementById("ai-apikey-input").value.trim();
+  if(!k.startsWith("sk-ant-")){alert("Inserisci una chiave Anthropic valida (deve iniziare con sk-ant-)");return;}
+  initAI(k);
+});
+
+function addAiMsg(role,text){
+  const msg=document.createElement("div");msg.className="ai-msg "+role;msg.textContent=text;
+  aiMessagesEl.classList.remove("hidden");aiMessagesEl.appendChild(msg);aiMessagesEl.scrollTop=aiMessagesEl.scrollHeight;return msg;
+}
+
+/* Costruisce il contesto della giornata attiva */
+function buildDayCtx(dayIdx){
+  const d=appData.days[dayIdx];
+  return d.blocks.map((b,i)=>`[${i}] ${b.time} — ${b.label}${b.note?" ("+b.note+")":""} [cat:${b.cat}]`).join("\n");
+}
+
+/* Capisce quale giorno è attivo nella tab routine */
+function getActiveDayIdx(){
+  const active=document.querySelector(".tab.active");
+  if(!active)return 0;
+  const tabs=Array.from(document.querySelectorAll(".tab"));
+  return tabs.indexOf(active);
+}
+
+/* Pending changes da applicare */
+let pendingChanges=[];
+
+/* Mostra pannello anteprima */
+function showAgentPanel(changes,summary){
+  pendingChanges=changes;
+  agentChangesList.innerHTML="";
+
+  // Messaggio riassuntivo
+  const sumDiv=document.createElement("div");
+  sumDiv.style.cssText="padding:10px 14px 0;font-size:13px;color:var(--muted);line-height:1.6;";
+  sumDiv.textContent=summary;
+  agentChangesList.appendChild(sumDiv);
+
+  // Lista modifiche
+  const listDiv=document.createElement("div");listDiv.className="agent-changes";
+  changes.forEach((c,i)=>{
+    const card=document.createElement("div");
+    card.className="agent-change "+(c.op==="add"?"add":c.op==="remove"?"remove":c.op==="move"?"move":"edit");
+    const typeLabel={add:"➕ Aggiunta",edit:"✏️ Modifica",remove:"🗑 Rimozione",move:"↕ Spostamento"};
+    const typeClass={add:"add",edit:"edit",remove:"remove",move:"move"};
+    card.innerHTML=`<div class="agent-change-type ${typeClass[c.op]||"edit"}">${typeLabel[c.op]||c.op}</div><div class="agent-change-desc">${c.desc}</div>${c.detail?`<div class="agent-change-detail">${c.detail}</div>`:""}`;
+    listDiv.appendChild(card);
+  });
+  agentChangesList.appendChild(listDiv);
+  agentPanel.classList.remove("hidden");
+  agentPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+/* Applica le modifiche al giorno */
+function applyAgentChanges(dayIdx){
+  const d=appData.days[dayIdx];
+  // Applica in ordine inverso per non sballare gli indici
+  const removals=pendingChanges.filter(c=>c.op==="remove").map(c=>c.blockIdx).sort((a,b)=>b-a);
+  removals.forEach(idx=>{if(idx>=0&&idx<d.blocks.length)d.blocks.splice(idx,1);});
+
+  pendingChanges.filter(c=>c.op==="edit").forEach(c=>{
+    if(c.blockIdx>=0&&c.blockIdx<d.blocks.length){
+      if(c.newTime!==undefined)d.blocks[c.blockIdx].time=c.newTime;
+      if(c.newLabel!==undefined)d.blocks[c.blockIdx].label=c.newLabel;
+      if(c.newNote!==undefined)d.blocks[c.blockIdx].note=c.newNote;
+      if(c.newCat!==undefined)d.blocks[c.blockIdx].cat=c.newCat;
+    }
+  });
+
+  pendingChanges.filter(c=>c.op==="add").forEach(c=>{
+    const nb={time:c.time||"00:00 – 00:00",label:c.label||"Nuovo blocco",note:c.note||"",cat:c.cat||"routine"};
+    const insertAt=c.insertAfter!==undefined?c.insertAfter+1:d.blocks.length;
+    d.blocks.splice(Math.min(insertAt,d.blocks.length),0,nb);
+  });
+
+  // Move: sposta un blocco di posizione
+  pendingChanges.filter(c=>c.op==="move").forEach(c=>{
+    if(c.fromIdx>=0&&c.fromIdx<d.blocks.length&&c.toIdx>=0){
+      const b=d.blocks.splice(c.fromIdx,1)[0];
+      d.blocks.splice(Math.min(c.toIdx,d.blocks.length),0,b);
+    }
+  });
+
+  // Ricostruisce la UI del giorno
+  const list=document.querySelector(`#day-${dayIdx} .blocks-list`);
+  if(list){list.innerHTML="";d.blocks.forEach(b=>list.appendChild(renderBlock(b,dayIdx,list)));}
+  updateCounters(dayIdx);
+  scheduleSave();
+  agentPanel.classList.add("hidden");
+  pendingChanges=[];
+  addAiMsg("assistant","✅ Modifiche applicate! Controlla la tab Routine per vedere il risultato.");
+}
+
+document.getElementById("agent-apply").addEventListener("click",()=>{
+  const dayIdx=getActiveDayIdx();
+  applyAgentChanges(dayIdx);
+});
+document.getElementById("agent-discard").addEventListener("click",()=>{
+  agentPanel.classList.add("hidden");pendingChanges=[];
+  addAiMsg("assistant","Modifiche scartate. Dimmi pure se vuoi un piano diverso.");
+});
+
+/* Rileva se il messaggio è una richiesta di modifica */
+function isModificationRequest(text){
+  const keywords=["sposta","aggiungi","rimuovi","elimina","cancella","riorganizza","rischedula","cambia","modifica","sistema","aggiusta","metti","toglie","togli","anticipa","posticipa","liberami","ho una riunione","imprevisto","saltare","salta","non riesco","impossibile"];
+  const t=text.toLowerCase();
+  return keywords.some(k=>t.includes(k));
+}
+
 async function sendToAI(userText){
-  aiSendEl.disabled=true;aiInputEl.value="";addAiMsg("user",userText);const loading=addAiMsg("assistant","...");loading.classList.add("loading");
-  const days_abbr=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];const today=days_abbr[new Date().getDay()];const wk=currentWeekKey();
-  const routineCtx=appData.days.map((d,i)=>{const s=dayScore(wk,i);const sc=s?` [${s.pct}%: ${s.done}✓ ${s.mod}~ ${s.skip}✕]`:"";return d.name+sc+": "+d.blocks.map(b=>b.time+" "+b.label).join(", ");}).join("\n");
-  const todayJ=getJournal(todayStr());const jCtx=todayJ.intention?`Intenzione di oggi: ${todayJ.intention}.`:""+(todayJ.moodM?` Umore mattina: ${todayJ.moodM}/10.`:"");
-  aiHistory.push({role:"user",content:userText});if(aiHistory.length>10)aiHistory=aiHistory.slice(-10);
+  aiSendEl.disabled=true;aiInputEl.value="";
+  addAiMsg("user",userText);
+  agentPanel.classList.add("hidden");
+
+  const days_abbr=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
+  const today=days_abbr[new Date().getDay()];
+  const wk=currentWeekKey();
+  const activeDayIdx=getActiveDayIdx();
+  const activeDay=appData.days[activeDayIdx];
+  const dayCtx=buildDayCtx(activeDayIdx);
+  const routineCtx=appData.days.map((d,i)=>{const s=dayScore(wk,i);const sc=s?` [${s.pct}%]`:"";return d.name+sc+": "+d.blocks.map(b=>b.time+" "+b.label).join(", ");}).join("\n");
+  const todayJ=getJournal(todayStr());
+  const jCtx=[todayJ.intention?`Intenzione oggi: ${todayJ.intention}`:"",todayJ.moodM?`Umore mattina: ${todayJ.moodM}/10`:""].filter(Boolean).join(". ");
+
+  const isModReq=isModificationRequest(userText);
+
+  aiHistory.push({role:"user",content:userText});
+  if(aiHistory.length>10)aiHistory=aiHistory.slice(-10);
+
+  const loadingMsg=addAiMsg("assistant","...");loadingMsg.classList.add("loading");
+
+  const systemPrompt=isModReq?
+    // MODALITÀ AGENTE — risponde con JSON
+    `Sei un agente intelligente che gestisce la routine di Andrea, studente universitario con coaching online e feste.
+GIORNO ATTIVO: ${activeDay.name} (${activeDay.title})
+BLOCCHI ATTUALI (con indice [N]):
+${dayCtx}
+ROUTINE SETTIMANA:
+${routineCtx}
+${jCtx?jCtx+"\n":""}Oggi è ${today}.
+
+L'utente vuole modificare la giornata. Rispondi SOLO con un oggetto JSON valido, nessun testo prima o dopo.
+Formato JSON:
+{
+  "summary": "Spiegazione breve di cosa hai fatto e perché (1-2 frasi, italiano)",
+  "changes": [
+    {
+      "op": "edit",
+      "blockIdx": 3,
+      "newTime": "15:00 – 16:00",
+      "newLabel": "Studio — mattina",
+      "newNote": "nota opzionale",
+      "newCat": "studio",
+      "desc": "Descrizione leggibile del cambiamento",
+      "detail": "Da: 14:30-17:00 → A: 15:00-16:00"
+    },
+    {
+      "op": "add",
+      "time": "16:00 – 17:00",
+      "label": "Riunione feste",
+      "note": "Imprevisto",
+      "cat": "fest",
+      "insertAfter": 5,
+      "desc": "Aggiungo la riunione alle 16:00",
+      "detail": "Nuovo blocco"
+    },
+    {
+      "op": "remove",
+      "blockIdx": 7,
+      "desc": "Rimuovo il buffer ridondante",
+      "detail": "17:00-17:30 Buffer"
+    },
+    {
+      "op": "move",
+      "fromIdx": 8,
+      "toIdx": 6,
+      "desc": "Sposto l'allenamento prima del coaching",
+      "detail": "Allenamento: posizione 8 → 6"
+    }
+  ]
+}
+Usa SOLO gli op: edit, add, remove, move. Includi solo i campi necessari. Il JSON deve essere valido.`
+    :
+    // MODALITÀ CONSIGLIO — risponde in testo
+    `Sei un assistente per la routine di Andrea, studente universitario con coaching online e feste.
+Routine attuale:\n${routineCtx}\n${jCtx}
+Oggi è ${today}. Rispondi in italiano, conciso e pratico (max 3-4 frasi).`;
+
   try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":aiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:`Sei un assistente per la gestione della routine settimanale di Andrea, studente universitario che fa coaching online e organizza feste.\nRoutine e tracker:\n${routineCtx}\n${jCtx}\nOggi è ${today}. Rispondi in italiano, conciso e pratico (max 3-4 frasi).`,messages:aiHistory})});
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":aiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:systemPrompt,messages:aiHistory})
+    });
     if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err?.error?.message||`HTTP ${res.status}`);}
-    const data=await res.json();const reply=data?.content?.[0]?.text;if(!reply)throw new Error("Risposta vuota");
-    aiHistory.push({role:"assistant",content:reply});loading.textContent=reply;loading.classList.remove("loading");
-  }catch(e){loading.textContent="Errore: "+(e.message||"controlla la tua API key.");loading.classList.remove("loading");}
+    const data=await res.json();
+    const reply=data?.content?.[0]?.text;
+    if(!reply)throw new Error("Risposta vuota");
+
+    if(isModReq){
+      // Tenta di parsare il JSON
+      try{
+        const clean=reply.replace(/```json|```/g,"").trim();
+        const parsed=JSON.parse(clean);
+        loadingMsg.remove();
+        aiHistory.push({role:"assistant",content:`[Piano di modifica proposto: ${parsed.changes?.length||0} modifiche]`});
+        addAiMsg("assistant",`🤖 Ho analizzato la tua giornata. Ecco il piano (${parsed.changes?.length||0} modifiche):`);
+        showAgentPanel(parsed.changes||[],parsed.summary||"");
+      }catch(jsonErr){
+        // Fallback: risponde come testo normale
+        loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");
+        aiHistory.push({role:"assistant",content:reply});
+      }
+    }else{
+      loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");
+      aiHistory.push({role:"assistant",content:reply});
+    }
+  }catch(e){
+    loadingMsg.textContent="Errore: "+(e.message||"controlla la tua API key.");
+    loadingMsg.classList.remove("loading");
+  }
   aiSendEl.disabled=false;
 }
+
 aiSendEl.addEventListener("click",()=>{const t=aiInputEl.value.trim();if(t)sendToAI(t);});
 aiInputEl.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();const t=aiInputEl.value.trim();if(t)sendToAI(t);}});
 
