@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Opzionale (GitHub Pages / sottocartelle): incolla l’URL completo della routine, es. https://utente.github.io/nome-repo/routine.html -->
+  <meta name="routine-href" content="" />
   <title>Task Manager</title>
   <style>
     :root{
@@ -153,6 +155,15 @@
   </style>
 </head>
 <body>
+<script>
+(function(){
+  try{
+    var m=document.querySelector('meta[name="routine-href"]');
+    var h=m&&m.getAttribute("content")?String(m.getAttribute("content")).trim():"";
+    if(h) document.querySelectorAll('a[href="routine.html"]').forEach(function(a){ a.setAttribute("href",h); });
+  }catch(e){}
+})();
+</script>
 
 <div class="app-header">
   <div class="app-title">📋 Task</div>
