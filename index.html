@@ -538,7 +538,6 @@
     <button class="btn-green" id="ai-connect-btn">Connetti AI</button>
   </div>
   <div class="ai-messages hidden" id="ai-messages"></div>
-  <div class="ai-messages hidden" id="ai-messages"></div>
   <!-- Pannello anteprima modifiche agente -->
   <div class="agent-panel hidden" id="agent-panel">
     <div class="agent-panel-header">
@@ -725,7 +724,7 @@ function loadFbConfig(){try{return JSON.parse(localStorage.getItem(FB_CONFIG_KEY
 function saveFbConfig(k,u){localStorage.setItem(FB_CONFIG_KEY,JSON.stringify({apiKey:k,dbUrl:u}));}
 function hhMM(){const n=new Date();return n.getHours()+":"+String(n.getMinutes()).padStart(2,"0");}
 function setSaveStatus(t,x){const d=document.getElementById("save-dot"),l=document.getElementById("save-label");if(d)d.className="save-dot "+t;if(l)l.textContent=x;}
-function pushToFirebase(){if(!dbRef)return;_ignoreRemote=true;set(dbRef,appData).then(()=>{setSaveStatus("saved","Salvato · "+hhMM());setTimeout(()=>{_ignoreRemote=false;},1000);}).catch(()=>{setSaveStatus("offline","Errore salvataggio");_ignoreRemote=false;});}
+function pushToFirebase(){if(!dbRef)return;_ignoreRemote=true;set(dbRef,appData).then(()=>{setSaveStatus("saved","Salvato · "+hhMM());setTimeout(()=>{_ignoreRemote=false;},2500);}).catch(()=>{setSaveStatus("offline","Errore salvataggio");_ignoreRemote=false;});}
 function scheduleSave(){
   setSaveStatus("saving","Salvataggio...");clearTimeout(_saveTimer);
   _saveTimer=setTimeout(()=>{if(db)pushToFirebase();else{try{localStorage.setItem("routine_local_v6",JSON.stringify(appData));setSaveStatus("saved","Salvato locale · "+hhMM());}catch(e){setSaveStatus("offline","Errore");}}},800);
@@ -818,16 +817,26 @@ function applyAppData(){
   if(!appData.catLabels)appData.catLabels={};if(!appData.tracker)appData.tracker={};if(!appData.journal)appData.journal={};
   document.getElementById("page-title").textContent=appData.pageTitle||"La mia routine";
   document.getElementById("page-subtitle").textContent=appData.pageSubtitle||"";
-  buildLegend();document.getElementById("tabs").innerHTML="";document.getElementById("days").innerHTML="";buildAllDays();
+  let prevIdx=0;
+  const prevTab=document.querySelector("#tabs .tab.active");
+  if(prevTab){
+    const tabs=Array.from(document.querySelectorAll("#tabs .tab"));
+    const ix=tabs.indexOf(prevTab);
+    if(ix>=0)prevIdx=ix;
+  }
+  buildLegend();document.getElementById("tabs").innerHTML="";document.getElementById("days").innerHTML="";
+  const maxI=Math.max(0,appData.days.length-1);
+  buildAllDays(Math.min(prevIdx,maxI));
   if(document.getElementById("view-week").classList.contains("active"))renderWeekView();
   if(document.getElementById("view-journal").classList.contains("active"))renderJournalView();
 }
 
-function buildAllDays(){
+function buildAllDays(activeDayIdx){
   const tabsEl=document.getElementById("tabs"),daysEl=document.getElementById("days");
+  const start=typeof activeDayIdx==="number"&&!isNaN(activeDayIdx)?Math.max(0,Math.min(activeDayIdx,appData.days.length-1)):0;
   appData.days.forEach((d,i)=>{
-    const tab=document.createElement("button");tab.className="tab"+(i===0?" active":"");tab.textContent=d.name;tab.onclick=(idx=>()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".day").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".tab")[idx].classList.add("active");document.getElementById("day-"+idx).classList.add("active");})(i);tabsEl.appendChild(tab);
-    const div=document.createElement("div");div.className="day"+(i===0?" active":"");div.id="day-"+i;
+    const tab=document.createElement("button");tab.className="tab"+(i===start?" active":"");tab.textContent=d.name;tab.onclick=(idx=>()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".day").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".tab")[idx].classList.add("active");document.getElementById("day-"+idx).classList.add("active");})(i);tabsEl.appendChild(tab);
+    const div=document.createElement("div");div.className="day"+(i===start?" active":"");div.id="day-"+i;
     const tit=document.createElement("div");tit.className="day-title";tit.contentEditable="true";tit.textContent=d.title;tit.addEventListener("input",()=>{d.title=tit.textContent;scheduleSave();});tit.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();tit.blur();}});div.appendChild(tit);
     const sub=document.createElement("div");sub.className="day-sub";sub.contentEditable="true";sub.textContent=d.sub;sub.addEventListener("input",()=>{d.sub=sub.textContent;scheduleSave();});sub.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sub.blur();}});div.appendChild(sub);
     div.appendChild(buildCounters(i));
@@ -858,7 +867,7 @@ function renderWeekView(){
   renderInsights(wk);
 }
 function renderDayDetail(wk,dayIdx){const detEl=document.getElementById("week-day-detail");detEl.style.display="block";const d=appData.days[dayIdx];detEl.innerHTML=`<h3>${d.name} — ${d.title}</h3>`;const CATS=getCats();d.blocks.forEach((b,bi)=>{const s=getTracker(wk,dayIdx,bi);const row=document.createElement("div");row.className="detail-block";const dot=document.createElement("div");dot.className="detail-dot";dot.style.background=CATS[b.cat]?.color||"#888";const time=document.createElement("div");time.className="detail-time";time.textContent=b.time;const lbl=document.createElement("div");lbl.className="detail-label";lbl.textContent=b.label;const st=document.createElement("div");st.className="detail-status "+(s==="done"?"ds-done":s==="skip"?"ds-skip":s==="mod"?"ds-mod":"ds-none");st.textContent=s==="done"?"✓ Fatto":s==="skip"?"✕ Saltato":s==="mod"?"~ Modificato":"–";row.appendChild(dot);row.appendChild(time);row.appendChild(lbl);row.appendChild(st);detEl.appendChild(row);});}
-function renderInsights(wk){const insEl=document.getElementById("week-insights");insEl.innerHTML="<h3>Pattern rilevati</h3>";const insights=[];const skipCount={};appData.days.forEach((d,i)=>{d.blocks.forEach((b,bi)=>{if(getTracker(wk,i,bi)==="skip"){const k=b.label;skipCount[k]=(skipCount[k]||0)+1;}});});Object.entries(skipCount).forEach(([label,count])=>{if(count>=2)insights.push({icon:"⚠",text:`Hai saltato "${label}" ${count} volte questa settimana.`});});let daysAbove80=0;appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(s&&s.pct>=80)daysAbove80++;});if(daysAbove80>=5)insights.push({icon:"🏆",text:"Ottima settimana! Hai rispettato la routine per almeno 5 giorni su 7."});else if(daysAbove80>=3)insights.push({icon:"👍",text:`${daysAbove80} giorni con aderenza sopra 80%.`});let studyTotal=0;appData.days.forEach(d=>d.blocks.forEach(b=>{if(["studio","univ"].includes(b.cat)){const dur=parseDur(b.time);if(dur)studyTotal+=dur;}}));if(studyTotal>0)insights.push({icon:"📚",text:`Studio pianificato: ${formatH(studyTotal)} totali (${formatH(studyTotal/7)} media/giorno).`});if(!insights.length)insights.push({icon:"💡",text:"Inizia a spuntare i blocchi nella tab Routine per vedere i pattern."});insights.forEach(ins=>{const div=document.createElement("div");div.className="insight";div.innerHTML=`<span class="insight-icon">${ins.icon}</span><span class="insight-text">${ins.text}</span>`;insEl.appendChild(div);});}
+function renderInsights(wk){const insEl=document.getElementById("week-insights");insEl.innerHTML="<h3>Pattern rilevati</h3>";const insights=[];const skipCount={};appData.days.forEach((d,i)=>{d.blocks.forEach((b,bi)=>{if(getTracker(wk,i,bi)==="skip"){const k=b.label;skipCount[k]=(skipCount[k]||0)+1;}});});Object.entries(skipCount).forEach(([label,count])=>{if(count>=2)insights.push({icon:"⚠",text:`Hai saltato "${label}" ${count} volte questa settimana.`});});let daysAbove80=0;appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(s&&s.pct>=80)daysAbove80++;});if(daysAbove80>=5)insights.push({icon:"🏆",text:"Ottima settimana! Hai rispettato la routine per almeno 5 giorni su 7."});else if(daysAbove80>=3)insights.push({icon:"👍",text:`${daysAbove80} giorni con aderenza sopra 80%.`});let studyTotal=0;appData.days.forEach(d=>d.blocks.forEach(b=>{if(["studio","univ"].includes(b.cat)){const dur=parseDur(b.time);if(dur)studyTotal+=dur;}}));if(studyTotal>0)insights.push({icon:"📚",text:`Studio pianificato: ${formatH(studyTotal)} totali (${formatH(studyTotal/7)} media/giorno).`});if(!insights.length)insights.push({icon:"💡",text:"Inizia a spuntare i blocchi nella tab Routine per vedere i pattern."});insights.forEach(ins=>{const div=document.createElement("div");div.className="insight";const ic=document.createElement("span");ic.className="insight-icon";ic.textContent=ins.icon||"";const tx=document.createElement("span");tx.className="insight-text";tx.textContent=ins.text||"";div.appendChild(ic);div.appendChild(tx);insEl.appendChild(div);});}
 
 /* ══ JOURNAL ══ */
 const MOOD_EMOJIS=["","😫","😟","😕","😔","😐","🙂","😊","😁","😄","🤩"];
@@ -1006,20 +1015,31 @@ function showAgentPanel(changes,summary){
   pendingChanges=changes;
   agentChangesList.innerHTML="";
 
-  // Messaggio riassuntivo
   const sumDiv=document.createElement("div");
   sumDiv.style.cssText="padding:10px 14px 0;font-size:13px;color:var(--muted);line-height:1.6;";
-  sumDiv.textContent=summary;
+  sumDiv.textContent=summary||"";
   agentChangesList.appendChild(sumDiv);
 
-  // Lista modifiche
   const listDiv=document.createElement("div");listDiv.className="agent-changes";
-  changes.forEach((c,i)=>{
+  const typeLabel={add:"➕ Aggiunta",edit:"✏️ Modifica",remove:"🗑 Rimozione",move:"↕ Spostamento"};
+  const typeClass={add:"add",edit:"edit",remove:"remove",move:"move"};
+  changes.forEach((c)=>{
     const card=document.createElement("div");
     card.className="agent-change "+(c.op==="add"?"add":c.op==="remove"?"remove":c.op==="move"?"move":"edit");
-    const typeLabel={add:"➕ Aggiunta",edit:"✏️ Modifica",remove:"🗑 Rimozione",move:"↕ Spostamento"};
-    const typeClass={add:"add",edit:"edit",remove:"remove",move:"move"};
-    card.innerHTML=`<div class="agent-change-type ${typeClass[c.op]||"edit"}">${typeLabel[c.op]||c.op}</div><div class="agent-change-desc">${c.desc}</div>${c.detail?`<div class="agent-change-detail">${c.detail}</div>`:""}`;
+    const typeDiv=document.createElement("div");
+    typeDiv.className="agent-change-type "+(typeClass[c.op]||"edit");
+    typeDiv.textContent=typeLabel[c.op]||String(c.op||"");
+    const descDiv=document.createElement("div");
+    descDiv.className="agent-change-desc";
+    descDiv.textContent=c.desc||"";
+    card.appendChild(typeDiv);
+    card.appendChild(descDiv);
+    if(c.detail){
+      const det=document.createElement("div");
+      det.className="agent-change-detail";
+      det.textContent=c.detail;
+      card.appendChild(det);
+    }
     listDiv.appendChild(card);
   });
   agentChangesList.appendChild(listDiv);
@@ -1030,34 +1050,39 @@ function showAgentPanel(changes,summary){
 /* Applica le modifiche al giorno */
 function applyAgentChanges(dayIdx){
   const d=appData.days[dayIdx];
-  // Applica in ordine inverso per non sballare gli indici
-  const removals=pendingChanges.filter(c=>c.op==="remove").map(c=>c.blockIdx).sort((a,b)=>b-a);
-  removals.forEach(idx=>{if(idx>=0&&idx<d.blocks.length)d.blocks.splice(idx,1);});
-
-  pendingChanges.filter(c=>c.op==="edit").forEach(c=>{
-    if(c.blockIdx>=0&&c.blockIdx<d.blocks.length){
-      if(c.newTime!==undefined)d.blocks[c.blockIdx].time=c.newTime;
-      if(c.newLabel!==undefined)d.blocks[c.blockIdx].label=c.newLabel;
-      if(c.newNote!==undefined)d.blocks[c.blockIdx].note=c.newNote;
-      if(c.newCat!==undefined)d.blocks[c.blockIdx].cat=c.newCat;
+  const ops=Array.isArray(pendingChanges)?pendingChanges:[];
+  for(const c of ops){
+    if(!c||!c.op)continue;
+    if(c.op==="remove"){
+      const idx=typeof c.blockIdx==="number"?c.blockIdx:-1;
+      if(idx>=0&&idx<d.blocks.length)d.blocks.splice(idx,1);
+    }else if(c.op==="edit"){
+      const idx=typeof c.blockIdx==="number"?c.blockIdx:-1;
+      if(idx>=0&&idx<d.blocks.length){
+        if(c.newTime!==undefined)d.blocks[idx].time=c.newTime;
+        if(c.newLabel!==undefined)d.blocks[idx].label=c.newLabel;
+        if(c.newNote!==undefined)d.blocks[idx].note=c.newNote;
+        if(c.newCat!==undefined)d.blocks[idx].cat=c.newCat;
+      }
+    }else if(c.op==="add"){
+      const nb={time:c.time||"00:00 – 00:00",label:c.label||"Nuovo blocco",note:c.note||"",cat:c.cat||"routine"};
+      let insertAt=d.blocks.length;
+      if(c.insertAfter!==undefined&&typeof c.insertAfter==="number"){
+        insertAt=Math.min(c.insertAfter+1,d.blocks.length);
+        if(insertAt<0)insertAt=0;
+      }
+      d.blocks.splice(insertAt,0,nb);
+    }else if(c.op==="move"){
+      const from=typeof c.fromIdx==="number"?c.fromIdx:-1,to=typeof c.toIdx==="number"?c.toIdx:-1;
+      if(from<0||from>=d.blocks.length||to<0)continue;
+      if(from===to)continue;
+      const [blk]=d.blocks.splice(from,1);
+      let ins=to;
+      if(from<ins)ins-=1;
+      ins=Math.max(0,Math.min(ins,d.blocks.length));
+      d.blocks.splice(ins,0,blk);
     }
-  });
-
-  pendingChanges.filter(c=>c.op==="add").forEach(c=>{
-    const nb={time:c.time||"00:00 – 00:00",label:c.label||"Nuovo blocco",note:c.note||"",cat:c.cat||"routine"};
-    const insertAt=c.insertAfter!==undefined?c.insertAfter+1:d.blocks.length;
-    d.blocks.splice(Math.min(insertAt,d.blocks.length),0,nb);
-  });
-
-  // Move: sposta un blocco di posizione
-  pendingChanges.filter(c=>c.op==="move").forEach(c=>{
-    if(c.fromIdx>=0&&c.fromIdx<d.blocks.length&&c.toIdx>=0){
-      const b=d.blocks.splice(c.fromIdx,1)[0];
-      d.blocks.splice(Math.min(c.toIdx,d.blocks.length),0,b);
-    }
-  });
-
-  // Ricostruisce la UI del giorno
+  }
   const list=document.querySelector(`#day-${dayIdx} .blocks-list`);
   if(list){list.innerHTML="";d.blocks.forEach(b=>list.appendChild(renderBlock(b,dayIdx,list)));}
   updateCounters(dayIdx);
@@ -1155,7 +1180,7 @@ Formato JSON:
     }
   ]
 }
-Usa SOLO gli op: edit, add, remove, move. Includi solo i campi necessari. Il JSON deve essere valido.`
+Usa SOLO gli op: edit, add, remove, move. Includi solo i campi necessari. Il JSON deve essere valido.\nIMPORTANTE: nell'array changes elenca le operazioni nell'ordine in cui vanno eseguite. Ogni blockIdx, insertAfter, fromIdx e toIdx si riferisce allo stato dell'array blocchi DOPO tutte le operazioni precedenti nella lista (non agli indici iniziali).`
     :
     // MODALITÀ CONSIGLIO — risponde in testo
     `Sei un assistente per la routine di Andrea, studente universitario con coaching online e feste.
@@ -1210,3 +1235,4 @@ const savedAiKey=localStorage.getItem(AI_KEY_STORE);if(savedAiKey)initAI(savedAi
 </script>
 </body>
 </html>
+</user_query>
