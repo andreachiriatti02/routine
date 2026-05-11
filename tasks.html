@@ -16,14 +16,12 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:var(--font);background:var(--bg);color:var(--text);padding:1.5rem 1rem;max-width:680px;margin:0 auto;}
 
-    /* ── HEADER ── */
     .app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
     .app-title{font-size:22px;font-weight:500;}
     .header-actions{display:flex;gap:8px;}
-    .btn-icon{background:none;border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;font-family:var(--font);color:var(--muted);transition:all .15s;}
+    .btn-icon{background:none;border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;font-family:var(--font);color:var(--muted);transition:all .15s;text-decoration:none;display:inline-block;}
     .btn-icon:hover{background:var(--surface);color:var(--text);}
 
-    /* ── SETUP BANNER ── */
     #setup-banner{background:var(--surface);border:1px solid #EF9F27;border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem;}
     #setup-banner h2{font-size:14px;font-weight:500;margin-bottom:.5rem;color:#BA7517;}
     #setup-banner p{font-size:13px;color:var(--muted);margin-bottom:.75rem;line-height:1.6;}
@@ -33,31 +31,26 @@
     .btn-green{padding:8px 18px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
     #setup-banner.hidden{display:none;}
 
-    /* ── SAVE BAR ── */
     .save-bar{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--hint);margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;}
     .save-status{display:flex;align-items:center;gap:5px;}
     .save-dot{width:7px;height:7px;border-radius:50%;background:var(--hint);flex-shrink:0;transition:background .3s;}
     .save-dot.saved{background:#5DCAA5;}.save-dot.saving{background:#EF9F27;}.save-dot.offline{background:#E24B4A;}
 
-    /* ── STATS ── */
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem;}
     .stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 10px;text-align:center;cursor:pointer;transition:border-color .15s;}
     .stat-card:hover,.stat-card.active{border-color:var(--accent);}
     .stat-num{font-size:22px;font-weight:500;line-height:1;}
     .stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
 
-    /* ── TOOLBAR ── */
     .toolbar{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
     .search-input{flex:1;min-width:120px;font-size:13px;font-family:var(--font);background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:7px 14px;color:var(--text);outline:none;}
     .search-input:focus{box-shadow:0 0 0 2px var(--accent);}
     .btn-new{padding:7px 16px;border-radius:20px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;white-space:nowrap;}
 
-    /* ── FILTRI ── */
     .filter-row{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
     .filter-btn{padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:12px;color:var(--muted);font-family:var(--font);transition:all .15s;}
     .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
-    /* ── LISTE CHIPS ── */
     .lists-row{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;}
     .list-chip{padding:4px 12px;border-radius:20px;border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:12px;color:var(--muted);font-family:var(--font);display:flex;align-items:center;gap:5px;transition:all .15s;}
     .list-chip.active{color:var(--text);border-color:#aaa;font-weight:500;}
@@ -66,7 +59,6 @@
     .btn-new-list{padding:4px 10px;border-radius:20px;border:0.5px dashed var(--border);background:transparent;cursor:pointer;font-size:12px;color:var(--hint);font-family:var(--font);}
     .btn-new-list:hover{color:var(--accent);border-color:var(--accent);}
 
-    /* ── FORM AGGIUNGI ── */
     .add-form{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1.25rem;animation:slideDown .2s ease;}
     @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
     .add-form.hidden{display:none;}
@@ -82,7 +74,6 @@
     .btn-submit{padding:7px 18px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
     .btn-cancel{padding:7px 14px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;font-family:var(--font);color:var(--muted);}
 
-    /* ── TASK ITEM ── */
     .tasks-container{display:flex;flex-direction:column;gap:0;}
     .group-header{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--hint);padding:10px 2px 6px;display:flex;align-items:center;justify-content:space-between;}
     .group-header-count{font-size:10px;font-weight:400;color:var(--hint);}
@@ -91,7 +82,6 @@
     .task-item:hover{border-color:var(--accent);}
     .task-item.done{opacity:.5;}
 
-    /* Checkbox circolare con priorità */
     .task-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;}
     .task-check:hover{border-color:var(--accent);}
     .task-check.done{background:var(--accent);border-color:var(--accent);}
@@ -130,16 +120,13 @@
     .task-item:hover .task-del-btn{opacity:.5;}
     .task-del-btn:hover{opacity:1;color:#E24B4A;}
 
-    /* ── SORT BAR ── */
     .sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:.75rem;font-size:12px;color:var(--muted);}
     .sort-select{font-size:12px;font-family:var(--font);background:transparent;border:none;color:var(--muted);cursor:pointer;outline:none;}
 
-    /* ── EMPTY STATE ── */
     .empty-state{text-align:center;padding:3rem 1rem;color:var(--hint);}
     .empty-state-icon{font-size:48px;margin-bottom:1rem;}
     .empty-state-text{font-size:14px;}
 
-    /* ── OVERLAY MODIFICA ── */
     .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:1rem;}
     .overlay.open{display:flex;}
     .overlay-card{background:var(--surface);border-radius:var(--radius);padding:1.25rem;max-width:440px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
@@ -149,13 +136,11 @@
     .btn-danger{padding:7px 14px;border-radius:var(--radius);border:none;background:#E24B4A;color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
     .btn-confirm{padding:7px 18px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
 
-    /* ── COLOR PICKER LISTA ── */
     .color-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
     .color-opt{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s;}
     .color-opt:hover{transform:scale(1.15);}
     .color-opt.selected{border-color:var(--text);}
 
-    /* ── LINK ROUTINE ── */
     .routine-link{display:flex;align-items:center;gap:8px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:1.25rem;font-size:13px;color:var(--muted);text-decoration:none;}
     .routine-link:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -169,16 +154,14 @@
 </head>
 <body>
 
-<!-- Header -->
 <div class="app-header">
   <div class="app-title">📋 Task</div>
   <div class="header-actions">
-    <a class="btn-icon" href="." title="Torna alla routine">← Routine</a>
+    <a class="btn-icon" href="routine.html" title="Torna alla routine">← Routine</a>
     <button class="btn-icon" id="btn-new-list-top">+ Lista</button>
   </div>
 </div>
 
-<!-- Firebase setup -->
 <div id="setup-banner">
   <h2>⚡ Collega Firebase per la sincronizzazione</h2>
   <p>Stessa <code>apiKey</code> e <code>databaseURL</code> usate nella Routine.<br>Li trovi su: Impostazioni progetto Firebase → Le tue app → firebaseConfig.</p>
@@ -192,24 +175,19 @@
   </p>
 </div>
 
-<!-- Save bar -->
 <div class="save-bar">
-  <div class="save-status"><div class="save-dot" id="save-dot"></div><span id="save-label">Caricamento...</span></div>
+  <div class="save-status"><div class="save-dot" id="save-dot"></div><span id="save-label-text">Caricamento...</span></div>
 </div>
 
-<!-- Link alla routine -->
-<a class="routine-link" href=".">📅 Vai alla Routine settimanale →</a>
+<a class="routine-link" href="routine.html">📅 Vai alla Routine settimanale →</a>
 
-<!-- Stats -->
 <div class="stats-grid" id="stats-grid"></div>
 
-<!-- Toolbar -->
 <div class="toolbar">
   <input class="search-input" id="search-input" placeholder="🔍 Cerca task..." />
   <button class="btn-new" id="btn-new-task">+ Nuovo task</button>
 </div>
 
-<!-- Filtri -->
 <div class="filter-row" id="filter-row">
   <button class="filter-btn active" data-f="all">Tutti</button>
   <button class="filter-btn" data-f="today">📅 Oggi</button>
@@ -218,10 +196,8 @@
   <button class="filter-btn" data-f="done">✓ Completati</button>
 </div>
 
-<!-- Liste -->
 <div class="lists-row" id="lists-row"></div>
 
-<!-- Sort bar -->
 <div class="sort-bar">
   Ordina per:
   <select class="sort-select" id="sort-select">
@@ -233,7 +209,6 @@
   </select>
 </div>
 
-<!-- Form nuovo task -->
 <div class="add-form hidden" id="add-form">
   <div class="add-form-title">Nuovo task</div>
   <div class="form-row">
@@ -243,7 +218,7 @@
     <input class="form-input full" id="af-note" placeholder="Note (opzionale)" />
   </div>
   <div class="form-row">
-    <input class="form-input half" id="af-date" type="date" placeholder="Data scadenza" />
+    <input class="form-input half" id="af-date" type="date" />
     <input class="form-input half" id="af-time" type="time" />
   </div>
   <div class="form-row" style="align-items:center;gap:10px;flex-wrap:wrap;">
@@ -264,12 +239,10 @@
   </div>
 </div>
 
-<!-- Lista task -->
 <div id="tasks-container"></div>
 
-<!-- OVERLAY MODIFICA TASK -->
 <div class="overlay" id="edit-overlay">
-  <div class="overlay-card">
+  <div class="overlay-card" id="edit-overlay-card">
     <h3>Modifica task</h3>
     <span class="ov-label">Titolo</span>
     <input class="form-input full" id="oe-title" />
@@ -302,9 +275,8 @@
   </div>
 </div>
 
-<!-- OVERLAY NUOVA LISTA -->
 <div class="overlay" id="list-overlay">
-  <div class="overlay-card">
+  <div class="overlay-card" id="list-overlay-card">
     <h3 id="list-overlay-title">Nuova lista</h3>
     <span class="ov-label">Nome</span>
     <input class="form-input full" id="ol-name" placeholder="Es: Studio, Coaching, Feste..." />
@@ -324,23 +296,22 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-/* ══ STATO ══ */
-let appData = {
-  tasks: [],   // array di task objects
-  lists: [     // liste predefinite
-    { id:"promemoria", name:"Promemoria", color:"#EF9F27" },
-    { id:"studio",     name:"Studio",     color:"#5DCAA5" },
-    { id:"coaching",   name:"Coaching",   color:"#7F77DD" },
-    { id:"feste",      name:"Feste",      color:"#D85A30" }
-  ]
-};
+const DEFAULT_LISTS=[
+  { id:"promemoria", name:"Promemoria", color:"#EF9F27" },
+  { id:"studio",     name:"Studio",     color:"#5DCAA5" },
+  { id:"coaching",   name:"Coaching",   color:"#7F77DD" },
+  { id:"feste",      name:"Feste",      color:"#D85A30" }
+];
+
+function cloneLists(){ return DEFAULT_LISTS.map(l=>({...l})); }
+
+let appData={ tasks:[], lists:cloneLists() };
 
 let db=null, dbRef=null, _ignoreRemote=false, _saveTimer=null;
 let activeFilter="all", activeList="all", searchQ="", sortBy="priority";
 let editingTaskId=null, editingListId=null;
 let selectedListColor="#5DCAA5";
 
-/* ══ UTILS ══ */
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
 function todayStr(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function hhMM(){ const n=new Date(); return n.getHours()+":"+String(n.getMinutes()).padStart(2,"0"); }
@@ -357,23 +328,92 @@ function dateLabel(s){
 }
 function isOverdue(t){ return t.date && t.date<todayStr() && !t.done; }
 function isToday(t){ return t.date && t.date===todayStr(); }
-function getList(id){ return appData.lists.find(l=>l.id===id)||{name:"Promemoria",color:"#888780"}; }
-const PRI_ORDER = {high:0,medium:1,low:2,none:3};
-const PRI_LABEL = {high:"Alta",medium:"Media",low:"Bassa",none:""};
+function getList(id){ return appData.lists.find(l=>l.id===id)||appData.lists[0]||{name:"Lista",color:"#888780"}; }
+const PRI_ORDER={high:0,medium:1,low:2,none:3};
+const PRI_LABEL={high:"Alta",medium:"Media",low:"Bassa",none:""};
 
-/* ══ FIREBASE ══ */
+function normalizeAppData(){
+  if(!Array.isArray(appData.tasks)) appData.tasks=[];
+  if(!Array.isArray(appData.lists)||!appData.lists.length) appData.lists=cloneLists();
+  const valid=new Set(appData.lists.map(l=>l.id));
+  const fb=appData.lists[0]?.id||"promemoria";
+  appData.tasks.forEach(t=>{
+    if(!t||typeof t!=="object") return;
+    if(!t.id) t.id=uid();
+    if(typeof t.done!=="boolean") t.done=!!t.done;
+    if(typeof t.flagged!=="boolean") t.flagged=!!t.flagged;
+    if(!t.listId||!valid.has(t.listId)) t.listId=fb;
+  });
+}
+
 const FB_KEY="tasks_fb_v1";
-function loadFbConfig(){ try{ return JSON.parse(localStorage.getItem(FB_KEY)); }catch(e){ return null; } }
-function setSaveStatus(t,x){ const d=document.getElementById("save-dot"),l=document.getElementById("save-label"); if(d)d.className="save-dot "+t; if(l)l.textContent=x; }
-function pushToFirebase(){ if(!dbRef)return; _ignoreRemote=true; set(dbRef,appData).then(()=>{ setSaveStatus("saved","Salvato · "+hhMM()); setTimeout(()=>{ _ignoreRemote=false; },1000); }).catch(()=>{ setSaveStatus("offline","Errore salvataggio"); _ignoreRemote=false; }); }
+const FB_ROUTINE_KEY="routine_fb_v5";
+
+function loadFbConfig(){
+  try{
+    const raw=localStorage.getItem(FB_KEY);
+    if(raw){
+      const o=JSON.parse(raw);
+      if(o&&o.apiKey&&o.dbUrl) return o;
+    }
+  }catch(e){}
+  try{
+    const raw=localStorage.getItem(FB_ROUTINE_KEY);
+    if(raw){
+      const o=JSON.parse(raw);
+      if(o&&o.apiKey&&o.dbUrl) return {apiKey:o.apiKey,dbUrl:o.dbUrl};
+    }
+  }catch(e){}
+  return null;
+}
+
+function prefillFbInputs(){
+  const c=loadFbConfig();
+  if(!c) return;
+  const k=document.getElementById("fb-apikey"), u=document.getElementById("fb-dburl");
+  if(k&&!k.value) k.value=c.apiKey||"";
+  if(u&&!u.value) u.value=c.dbUrl||"";
+}
+
+function setSaveStatus(t,x){
+  const d=document.getElementById("save-dot"), l=document.getElementById("save-label-text");
+  if(d) d.className="save-dot "+t;
+  if(l) l.textContent=x;
+}
+
+function pushToFirebase(){
+  if(!dbRef) return;
+  _ignoreRemote=true;
+  set(dbRef,appData).then(()=>{
+    setSaveStatus("saved","Salvato · "+hhMM());
+    setTimeout(()=>{ _ignoreRemote=false; },2500);
+  }).catch(()=>{
+    setSaveStatus("offline","Errore salvataggio");
+    _ignoreRemote=false;
+  });
+}
+
 function scheduleSave(){
   setSaveStatus("saving","Salvataggio...");
   clearTimeout(_saveTimer);
   _saveTimer=setTimeout(()=>{
     if(db) pushToFirebase();
-    else{ try{ localStorage.setItem("tasks_local_v1",JSON.stringify(appData)); setSaveStatus("saved","Salvato locale · "+hhMM()); }catch(e){ setSaveStatus("offline","Errore"); } }
+    else{
+      try{
+        localStorage.setItem("tasks_local_v1",JSON.stringify(appData));
+        setSaveStatus("saved","Salvato locale · "+hhMM());
+      }catch(e){ setSaveStatus("offline","Errore"); }
+    }
   },600);
 }
+
+function mergeRemoteData(data){
+  const lists=(Array.isArray(data.lists)&&data.lists.length)?data.lists.map(l=>({...l})):cloneLists();
+  const tasks=Array.isArray(data.tasks)?data.tasks.map(t=>(t&&typeof t==="object"?{...t}:null)).filter(Boolean):[];
+  appData={ tasks, lists };
+  normalizeAppData();
+}
+
 function connectFirebase(apiKey,dbUrl){
   try{
     const app=initializeApp({apiKey,databaseURL:dbUrl},"tasks-app-"+Date.now());
@@ -382,9 +422,12 @@ function connectFirebase(apiKey,dbUrl){
     onValue(dbRef,(snap)=>{
       if(_ignoreRemote) return;
       const data=snap.val();
-      if(data&&data.lists){ appData=data; render(); setSaveStatus("saved","Sincronizzato · "+hhMM()); }
-      else pushToFirebase();
-    },e=>{ setSaveStatus("offline","Errore Firebase"); });
+      if(data!==null&&data!==undefined){
+        mergeRemoteData(typeof data==="object"&&!Array.isArray(data)?data:{});
+        render();
+        setSaveStatus("saved","Sincronizzato · "+hhMM());
+      }else pushToFirebase();
+    },e=>{ setSaveStatus("offline","Errore Firebase: "+(e&&e.message?e.message:"sconosciuto")); });
     document.getElementById("setup-banner").classList.add("hidden");
     localStorage.setItem(FB_KEY,JSON.stringify({apiKey,dbUrl}));
     return true;
@@ -401,15 +444,14 @@ document.getElementById("skip-setup").addEventListener("click",()=>{
   setSaveStatus("saved","Salvataggio locale attivo");
 });
 
-/* ══ RENDER PRINCIPALE ══ */
 function render(){
+  normalizeAppData();
   renderStats();
   renderLists();
   renderTasks();
   populateListSelects();
 }
 
-/* ══ STATS ══ */
 function renderStats(){
   const el=document.getElementById("stats-grid"); el.innerHTML="";
   const today=todayStr();
@@ -417,7 +459,6 @@ function renderStats(){
   const todayN=appData.tasks.filter(t=>!t.done&&t.date===today).length;
   const flagged=appData.tasks.filter(t=>!t.done&&t.flagged).length;
   const overdue=appData.tasks.filter(t=>!t.done&&t.date&&t.date<today).length;
-  const completed=appData.tasks.filter(t=>t.done).length;
 
   const cards=[
     {num:all,lbl:"Da fare",f:"all",color:"var(--accent)"},
@@ -428,32 +469,43 @@ function renderStats(){
   cards.forEach(c=>{
     const card=document.createElement("div");
     card.className="stat-card"+(activeFilter===c.f?" active":"");
-    card.innerHTML=`<div class="stat-num" style="color:${c.color}">${c.num}</div><div class="stat-lbl">${c.lbl}</div>`;
-    card.addEventListener("click",()=>{ activeFilter=c.f; document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); document.querySelector(`[data-f="${c.f}"]`)?.classList.add("active"); render(); });
+    const num=document.createElement("div"); num.className="stat-num"; num.style.color=c.color; num.textContent=String(c.num);
+    const lbl=document.createElement("div"); lbl.className="stat-lbl"; lbl.textContent=c.lbl;
+    card.appendChild(num); card.appendChild(lbl);
+    card.addEventListener("click",()=>{
+      activeFilter=c.f;
+      document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+      const btn=document.querySelector(`[data-f="${c.f}"]`);
+      if(btn) btn.classList.add("active");
+      render();
+    });
     el.appendChild(card);
   });
 }
 
-/* ══ LISTE ══ */
 function renderLists(){
   const el=document.getElementById("lists-row"); el.innerHTML="";
-  // Chip "Tutte"
   const all=document.createElement("button");
   all.className="list-chip"+(activeList==="all"?" active":"");
-  all.innerHTML=`Tutte <span class="list-chip-count">${appData.tasks.filter(t=>!t.done).length}</span>`;
+  all.appendChild(document.createTextNode("Tutte "));
+  const c1=document.createElement("span"); c1.className="list-chip-count"; c1.textContent=String(appData.tasks.filter(t=>!t.done).length);
+  all.appendChild(c1);
   all.addEventListener("click",()=>{ activeList="all"; render(); });
   el.appendChild(all);
-  // Chip per ogni lista
+
   appData.lists.forEach(list=>{
     const count=appData.tasks.filter(t=>t.listId===list.id&&!t.done).length;
     const chip=document.createElement("button");
     chip.className="list-chip"+(activeList===list.id?" active":"");
-    chip.innerHTML=`<span class="list-chip-dot" style="background:${list.color}"></span>${list.name} <span class="list-chip-count">${count}</span>`;
+    const dot=document.createElement("span"); dot.className="list-chip-dot"; dot.style.background=list.color;
+    chip.appendChild(dot);
+    chip.appendChild(document.createTextNode(list.name+" "));
+    const cn=document.createElement("span"); cn.className="list-chip-count"; cn.textContent=String(count);
+    chip.appendChild(cn);
     chip.addEventListener("click",()=>{ activeList=list.id; render(); });
     chip.addEventListener("contextmenu",(e)=>{ e.preventDefault(); openListOverlay(list.id); });
     el.appendChild(chip);
   });
-  // Bottone nuova lista
   const newBtn=document.createElement("button");
   newBtn.className="btn-new-list"; newBtn.textContent="+ Lista";
   newBtn.addEventListener("click",()=>openListOverlay(null));
@@ -467,27 +519,31 @@ function populateListSelects(){
     sel.innerHTML="";
     appData.lists.forEach(l=>{
       const opt=document.createElement("option"); opt.value=l.id; opt.textContent=l.name;
-      if(l.id===cur) opt.selected=true;
       sel.appendChild(opt);
     });
+    if([...sel.options].some(o=>o.value===cur)) sel.value=cur;
   });
 }
 
-/* ══ FILTRA E ORDINA ══ */
 function getFilteredTasks(){
   const today=todayStr();
   let tasks=[...appData.tasks];
-  // Filtro lista
   if(activeList!=="all") tasks=tasks.filter(t=>t.listId===activeList);
-  // Filtro stato
-  if(activeFilter==="all")     tasks=tasks.filter(t=>!t.done);
-  else if(activeFilter==="today")   tasks=tasks.filter(t=>!t.done&&t.date===today);
+  if(activeFilter==="all") tasks=tasks.filter(t=>!t.done);
+  else if(activeFilter==="today") tasks=tasks.filter(t=>!t.done&&t.date===today);
   else if(activeFilter==="flagged") tasks=tasks.filter(t=>!t.done&&t.flagged);
   else if(activeFilter==="overdue") tasks=tasks.filter(t=>!t.done&&t.date&&t.date<today);
-  else if(activeFilter==="done")    tasks=tasks.filter(t=>t.done);
-  // Ricerca
-  if(searchQ){ const q=searchQ.toLowerCase(); tasks=tasks.filter(t=>t.title.toLowerCase().includes(q)||(t.note||"").toLowerCase().includes(q)); }
-  // Ordinamento
+  else if(activeFilter==="done") tasks=tasks.filter(t=>t.done);
+
+  if(searchQ){
+    const q=searchQ.toLowerCase();
+    tasks=tasks.filter(t=>{
+      const title=(t.title||"").toLowerCase();
+      const note=(t.note||"").toLowerCase();
+      return title.includes(q)||note.includes(q);
+    });
+  }
+
   tasks.sort((a,b)=>{
     if(sortBy==="priority"){
       const pa=PRI_ORDER[a.priority||"none"], pb=PRI_ORDER[b.priority||"none"];
@@ -502,14 +558,13 @@ function getFilteredTasks(){
       return (a.createdAt||0)-(b.createdAt||0);
     }
     if(sortBy==="created") return (b.createdAt||0)-(a.createdAt||0);
-    if(sortBy==="alpha") return a.title.localeCompare(b.title,"it");
+    if(sortBy==="alpha") return (a.title||"").localeCompare(b.title||"","it");
     if(sortBy==="list") return (a.listId||"").localeCompare(b.listId||"");
     return 0;
   });
   return tasks;
 }
 
-/* ══ RENDER TASKS ══ */
 function renderTasks(){
   const container=document.getElementById("tasks-container");
   const tasks=getFilteredTasks();
@@ -517,22 +572,27 @@ function renderTasks(){
 
   if(!tasks.length){
     const msgs={all:"Nessun task da fare 🎉",today:"Nessun task per oggi",flagged:"Nessun task flaggato",overdue:"Nessun task scaduto",done:"Nessun task completato"};
-    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">${activeFilter==="done"?"✅":"📋"}</div><div class="empty-state-text">${msgs[activeFilter]||"Nessun risultato"}</div></div>`;
+    const wrap=document.createElement("div"); wrap.className="empty-state";
+    const ic=document.createElement("div"); ic.className="empty-state-icon"; ic.textContent=activeFilter==="done"?"✅":"📋";
+    const tx=document.createElement("div"); tx.className="empty-state-text"; tx.textContent=msgs[activeFilter]||"Nessun risultato";
+    wrap.appendChild(ic); wrap.appendChild(tx);
+    container.appendChild(wrap);
     return;
   }
 
-  // Raggruppa per priorità se ordinamento=priority, altrimenti flat
   if(sortBy==="priority" && activeFilter!=="done"){
     const groups=[{label:"🔴 Alta priorità",pri:"high"},{label:"🟠 Media priorità",pri:"medium"},{label:"🟢 Bassa priorità",pri:"low"},{label:"— Nessuna priorità",pri:"none"}];
     groups.forEach(g=>{
       const items=tasks.filter(t=>(t.priority||"none")===g.pri);
       if(!items.length) return;
       const header=document.createElement("div"); header.className="group-header";
-      header.innerHTML=`${g.label} <span class="group-header-count">${items.length}</span>`;
+      const sp1=document.createElement("span"); sp1.textContent=g.label;
+      const sp2=document.createElement("span"); sp2.className="group-header-count"; sp2.textContent=String(items.length);
+      header.appendChild(sp1); header.appendChild(sp2);
       container.appendChild(header);
       items.forEach(t=>container.appendChild(buildTaskEl(t)));
     });
-  } else {
+  }else{
     tasks.forEach(t=>container.appendChild(buildTaskEl(t)));
   }
 }
@@ -544,16 +604,14 @@ function buildTaskEl(t){
   li.className="task-item"+(t.done?" done":"");
   li.dataset.id=t.id;
 
-  // Checkbox
   const check=document.createElement("div");
   check.className="task-check"+(t.done?" done":"")+(t.priority&&t.priority!=="none"?" pri-"+t.priority:"");
   check.addEventListener("click",e=>{ e.stopPropagation(); toggleDone(t.id); });
 
-  // Body
   const body=document.createElement("div"); body.className="task-body";
 
   const topRow=document.createElement("div"); topRow.className="task-top";
-  const title=document.createElement("span"); title.className="task-title"; title.textContent=t.title;
+  const title=document.createElement("span"); title.className="task-title"; title.textContent=t.title||"";
   const flagBtn=document.createElement("button");
   flagBtn.className="task-flag-btn"+(t.flagged?" on":""); flagBtn.textContent="⚑"; flagBtn.title="Flagga";
   flagBtn.addEventListener("click",e=>{ e.stopPropagation(); toggleFlag(t.id); });
@@ -577,10 +635,9 @@ function buildTaskEl(t){
   if(t.note){ const note=document.createElement("div"); note.className="task-note"; note.textContent=t.note; body.appendChild(note); }
   body.appendChild(meta);
 
-  // Tasto elimina
   const right=document.createElement("div"); right.className="task-right";
   const del=document.createElement("button"); del.className="task-del-btn"; del.textContent="×"; del.title="Elimina";
-  del.addEventListener("click",e=>{ e.stopPropagation(); if(confirm('Elimina "'+t.title+'"?')){ deleteTask(t.id); } });
+  del.addEventListener("click",e=>{ e.stopPropagation(); if(confirm('Elimina "'+(t.title||"task")+'"?')) deleteTask(t.id); });
   right.appendChild(del);
 
   li.appendChild(check); li.appendChild(body); li.appendChild(right);
@@ -588,7 +645,6 @@ function buildTaskEl(t){
   return li;
 }
 
-/* ══ AZIONI TASK ══ */
 function toggleDone(id){
   const t=appData.tasks.find(x=>x.id===id); if(!t) return;
   t.done=!t.done; t.doneAt=t.done?Date.now():null;
@@ -610,7 +666,6 @@ function updateTask(id,data){
   appData.tasks[idx]={...appData.tasks[idx],...data}; scheduleSave(); render();
 }
 
-/* ══ FORM AGGIUNGI ══ */
 document.getElementById("btn-new-task").addEventListener("click",()=>{
   document.getElementById("add-form").classList.remove("hidden");
   document.getElementById("af-title").focus();
@@ -630,20 +685,17 @@ document.getElementById("af-save").addEventListener("click",()=>{
     listId:document.getElementById("af-list").value,
     flagged:document.getElementById("af-flag").checked
   });
-  // Reset form
-  ["af-title","af-note","af-date","af-time"].forEach(id=>document.getElementById(id).value="");
+  ["af-title","af-note","af-date","af-time"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
   document.getElementById("af-priority").value="none";
   document.getElementById("af-flag").checked=false;
   document.getElementById("add-form").classList.add("hidden");
 });
-// Enter su titolo
 document.getElementById("af-title").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("af-save").click(); } });
 
-/* ══ OVERLAY MODIFICA ══ */
 function openEditOverlay(id){
   const t=appData.tasks.find(x=>x.id===id); if(!t) return;
   editingTaskId=id;
-  document.getElementById("oe-title").value=t.title;
+  document.getElementById("oe-title").value=t.title||"";
   document.getElementById("oe-note").value=t.note||"";
   document.getElementById("oe-date").value=t.date||"";
   document.getElementById("oe-time").value=t.time||"";
@@ -653,8 +705,13 @@ function openEditOverlay(id){
   document.getElementById("oe-list").value=t.listId||appData.lists[0]?.id||"";
   document.getElementById("edit-overlay").classList.add("open");
 }
+
 document.getElementById("oe-cancel").addEventListener("click",()=>{ document.getElementById("edit-overlay").classList.remove("open"); editingTaskId=null; });
-document.getElementById("edit-overlay").addEventListener("click",e=>{ if(e.target===document.getElementById("edit-overlay")){ document.getElementById("edit-overlay").classList.remove("open"); editingTaskId=null; } });
+document.getElementById("edit-overlay").addEventListener("click",e=>{
+  if(e.target===document.getElementById("edit-overlay")){ document.getElementById("edit-overlay").classList.remove("open"); editingTaskId=null; }
+});
+document.getElementById("edit-overlay-card").addEventListener("click",e=>e.stopPropagation());
+
 document.getElementById("oe-save").addEventListener("click",()=>{
   if(!editingTaskId) return;
   const title=document.getElementById("oe-title").value.trim();
@@ -673,10 +730,9 @@ document.getElementById("oe-save").addEventListener("click",()=>{
 document.getElementById("oe-delete").addEventListener("click",()=>{
   if(!editingTaskId) return;
   const t=appData.tasks.find(x=>x.id===editingTaskId);
-  if(confirm('Elimina "'+t?.title+'"?')){ deleteTask(editingTaskId); document.getElementById("edit-overlay").classList.remove("open"); editingTaskId=null; }
+  if(confirm('Elimina "'+(t?.title||"task")+'"?')){ deleteTask(editingTaskId); document.getElementById("edit-overlay").classList.remove("open"); editingTaskId=null; }
 });
 
-/* ══ OVERLAY LISTA ══ */
 const COLORS=["#5DCAA5","#7F77DD","#378ADD","#D4537E","#E2847A","#D85A30","#EF9F27","#E24B4A","#888780","#B0A8D0"];
 
 function buildColorPicker(){
@@ -707,13 +763,17 @@ function openListOverlay(listId){
 }
 document.getElementById("btn-new-list-top").addEventListener("click",()=>openListOverlay(null));
 document.getElementById("ol-cancel").addEventListener("click",()=>{ document.getElementById("list-overlay").classList.remove("open"); editingListId=null; });
-document.getElementById("list-overlay").addEventListener("click",e=>{ if(e.target===document.getElementById("list-overlay")){ document.getElementById("list-overlay").classList.remove("open"); editingListId=null; } });
+document.getElementById("list-overlay").addEventListener("click",e=>{
+  if(e.target===document.getElementById("list-overlay")){ document.getElementById("list-overlay").classList.remove("open"); editingListId=null; }
+});
+document.getElementById("list-overlay-card").addEventListener("click",e=>e.stopPropagation());
+
 document.getElementById("ol-save").addEventListener("click",()=>{
   const name=document.getElementById("ol-name").value.trim();
   if(!name){ alert("Inserisci un nome per la lista"); return; }
   if(editingListId){
     const l=appData.lists.find(x=>x.id===editingListId); if(l){ l.name=name; l.color=selectedListColor; }
-  } else {
+  }else{
     appData.lists.push({id:uid(),name,color:selectedListColor});
   }
   scheduleSave(); render();
@@ -723,15 +783,15 @@ document.getElementById("ol-delete").addEventListener("click",()=>{
   if(!editingListId) return;
   const list=appData.lists.find(l=>l.id===editingListId);
   const count=appData.tasks.filter(t=>t.listId===editingListId).length;
-  if(!confirm(`Elimina la lista "${list?.name}"? ${count} task verranno spostati in "Promemoria".`)) return;
-  appData.tasks.filter(t=>t.listId===editingListId).forEach(t=>t.listId=appData.lists[0]?.id||"promemoria");
+  if(!confirm(`Elimina la lista "${list?.name}"? ${count} task verranno spostati in "${appData.lists[0]?.name||"Promemoria"}".`)) return;
+  const fb=appData.lists[0]?.id||"promemoria";
+  appData.tasks.filter(t=>t.listId===editingListId).forEach(t=>{ t.listId=fb; });
   appData.lists=appData.lists.filter(l=>l.id!==editingListId);
   if(activeList===editingListId) activeList="all";
   scheduleSave(); render();
   document.getElementById("list-overlay").classList.remove("open"); editingListId=null;
 });
 
-/* ══ FILTRI E RICERCA ══ */
 document.querySelectorAll(".filter-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
     activeFilter=btn.dataset.f;
@@ -743,15 +803,22 @@ document.querySelectorAll(".filter-btn").forEach(btn=>{
 document.getElementById("search-input").addEventListener("input",e=>{ searchQ=e.target.value; render(); });
 document.getElementById("sort-select").addEventListener("change",e=>{ sortBy=e.target.value; render(); });
 
-/* ══ AVVIO ══ */
 const fbConfig=loadFbConfig();
 if(!fbConfig){
   try{
     const loc=localStorage.getItem("tasks_local_v1");
-    if(loc){ const p=JSON.parse(loc); if(p&&p.lists) appData=p; }
+    if(loc){
+      const p=JSON.parse(loc);
+      if(p&&typeof p==="object"){
+        mergeRemoteData(p);
+      }
+    }
   }catch(e){}
   setSaveStatus("offline","Non connesso a Firebase · usa il banner per collegarlo");
+}else{
+  setSaveStatus("saved","Config Firebase trovata (Routine o Task)");
 }
+prefillFbInputs();
 render();
 if(fbConfig) connectFirebase(fbConfig.apiKey,fbConfig.dbUrl);
 </script>
