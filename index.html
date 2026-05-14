@@ -46,13 +46,11 @@
     .leg-label:hover{background:var(--surface);}
     .leg-label:focus{background:var(--surface);box-shadow:0 0 0 2px var(--accent);}
 
-    /* Nav principale */
     .main-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:0.5px solid var(--border);}
-    .main-tab{padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);transition:color .15s;}
+    .main-tab{padding:8px 14px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);transition:color .15s;text-decoration:none;display:inline-block;}
     .main-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
     .view{display:none;}.view.active{display:block;}
 
-    /* Tabs giorni */
     .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
     .tab{padding:6px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;color:var(--muted);font-family:var(--font);transition:all .15s;}
     .tab.active{background:var(--surface);color:var(--text);border-color:#aaa;font-weight:500;}
@@ -78,7 +76,6 @@
     .day-sub:hover,.day-sub:focus{background:var(--surface);}
     .day-sub:focus{box-shadow:0 0 0 2px var(--accent);}
 
-    /* Contatori */
     .counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1.25rem;}
     .counter{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px;transition:border-color .2s;}
     .counter.updated{border-color:var(--accent);}
@@ -88,7 +85,6 @@
     .counter-bar{height:3px;border-radius:2px;opacity:.7;transition:width .4s ease;}
     .counter-slash{position:absolute;right:0;top:-14px;font-size:9px;color:var(--hint);white-space:nowrap;}
 
-    /* Blocchi */
     .blocks-list{list-style:none;}
     .block{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;padding:9px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--surface);cursor:grab;user-select:none;position:relative;transition:opacity .2s;}
     .block.dragging{opacity:.4;}
@@ -130,7 +126,7 @@
     .hint-bar{font-size:11px;color:var(--hint);margin-bottom:.9rem;display:flex;gap:12px;flex-wrap:wrap;}
     .hint-bar span::before{content:"· ";}
 
-    /* ── VISTA SETTIMANA ── */
+    /* SETTIMANA */
     .week-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;}
     .week-title{font-size:16px;font-weight:500;}
     .week-nav{display:flex;gap:6px;align-items:center;}
@@ -181,20 +177,17 @@
     .insight-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
     .insight-text{color:var(--text);line-height:1.5;}
 
-    /* ── VISTA JOURNALING ── */
+    /* JOURNAL */
     .journal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px;}
     .journal-date-nav{display:flex;align-items:center;gap:8px;}
     .journal-date-nav button{background:none;border:0.5px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;font-family:var(--font);color:var(--muted);}
     .journal-date-nav button:hover{background:var(--surface);}
     .journal-date-lbl{font-size:14px;font-weight:500;min-width:160px;text-align:center;}
-
-    /* Sezione mattina / sera */
     .journal-section{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
     .journal-section-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
     .journal-section-icon{font-size:18px;}
     .journal-section-title{font-size:15px;font-weight:500;}
     .journal-section-sub{font-size:11px;color:var(--hint);margin-left:auto;}
-
     .journal-q{margin-bottom:1rem;}
     .journal-q:last-child{margin-bottom:0;}
     .journal-q-label{font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text);}
@@ -202,27 +195,18 @@
     .journal-textarea{width:100%;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);resize:vertical;min-height:60px;line-height:1.6;outline:none;transition:box-shadow .15s;}
     .journal-textarea:focus{box-shadow:0 0 0 2px var(--accent);}
     .journal-textarea.tall{min-height:80px;}
-
-    /* mood slider */
     .mood-row{display:flex;align-items:center;gap:12px;}
     .mood-slider{flex:1;accent-color:var(--accent);}
     .mood-val{font-size:18px;font-weight:500;color:var(--accent);min-width:28px;text-align:center;}
     .mood-emoji{font-size:20px;min-width:28px;text-align:center;}
-
-    /* Lista gratitudine / todo */
     .journal-list{display:flex;flex-direction:column;gap:6px;}
     .journal-list-item{display:flex;align-items:flex-start;gap:8px;}
     .journal-list-bullet{font-size:13px;color:var(--hint);padding-top:9px;flex-shrink:0;}
     .journal-list-input{flex:1;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);outline:none;transition:box-shadow .15s;}
     .journal-list-input:focus{box-shadow:0 0 0 2px var(--accent);}
-
-    /* Salva / stato */
     .journal-save-row{display:flex;align-items:center;gap:10px;margin-top:1rem;}
     .journal-save-btn{padding:8px 20px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
-    .journal-save-btn:hover{opacity:.9;}
     .journal-saved-lbl{font-size:12px;color:var(--hint);}
-
-    /* Storico */
     .journal-history{margin-top:1.5rem;}
     .journal-history-title{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:.75rem;}
     .history-list{display:flex;flex-direction:column;gap:6px;}
@@ -239,7 +223,7 @@
       .history-badge.has-s{background:#1A1A3E;color:#A5B4FC;}
     }
 
-    /* Modali */
+    /* MODALI */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100;align-items:center;justify-content:center;padding:1rem;}
     .modal-overlay.open{display:flex;}
     .modal{background:var(--surface);border-radius:var(--radius);padding:1.25rem;max-width:360px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.18);}
@@ -253,33 +237,10 @@
     .btn-confirm{padding:7px 14px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;}
     .btn-confirm:disabled{opacity:.4;cursor:default;}
 
-    /* AI */
-    .ai-box{margin-top:2rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-    .ai-header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500;}
-    .ai-dot{width:8px;height:8px;border-radius:50%;background:#9B8EC4;flex-shrink:0;}
-    .ai-hint{font-size:11px;color:var(--hint);font-weight:400;margin-left:4px;}
-    .ai-setup{padding:12px 14px;}
-    .ai-setup p{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.6;}
-    .ai-setup input{width:100%;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);margin-bottom:8px;}
-    .ai-setup.hidden{display:none;}
-    .ai-messages{padding:12px 14px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
-    .ai-messages.hidden{display:none;}
-    .ai-msg{font-size:13px;line-height:1.6;padding:8px 12px;border-radius:8px;max-width:90%;}
-    .ai-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-radius:8px 8px 2px 8px;}
-    .ai-msg.assistant{background:var(--bg);color:var(--text);align-self:flex-start;border-radius:8px 8px 8px 2px;border:0.5px solid var(--border);}
-    .ai-msg.loading{color:var(--muted);font-style:italic;}
-    .ai-input-row{display:flex;gap:8px;padding:10px 14px;border-top:0.5px solid var(--border);}
-    .ai-input-row.hidden{display:none;}
-    .ai-input{flex:1;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);outline:none;}
-    .ai-input:focus{box-shadow:0 0 0 2px var(--accent);}
-    .ai-send{padding:7px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;flex-shrink:0;}
-    .ai-send:disabled{opacity:.4;cursor:default;}
-
-    /* ── AGENTE AI ── */
+    /* AGENTE AI */
     .agent-panel{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-top:.75rem;overflow:hidden;}
     .agent-panel.hidden{display:none;}
-    .agent-panel-header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500;background:linear-gradient(135deg,#f0fdf9,#e8f4ff);}
-    @media(prefers-color-scheme:dark){.agent-panel-header{background:linear-gradient(135deg,#0a2e24,#0d1f35);}}
+    .agent-panel-header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500;}
     .agent-panel-title{flex:1;}
     .agent-panel-sub{font-size:11px;color:var(--hint);font-weight:400;}
     .agent-changes{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
@@ -297,7 +258,28 @@
     .agent-btn-apply:hover{opacity:.9;}
     .agent-btn-discard{padding:7px 16px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-family:var(--font);}
     .agent-btn-discard:hover{border-color:#E24B4A;color:#E24B4A;}
-    .agent-thinking{padding:12px 14px;font-size:13px;color:var(--muted);font-style:italic;}
+
+    /* AI BOX */
+    .ai-box{margin-top:2rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+    .ai-header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500;}
+    .ai-dot{width:8px;height:8px;border-radius:50%;background:#9B8EC4;flex-shrink:0;}
+    .ai-hint{font-size:11px;color:var(--hint);font-weight:400;margin-left:4px;}
+    .ai-setup{padding:12px 14px;}
+    .ai-setup p{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.6;}
+    .ai-setup input{width:100%;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);margin-bottom:8px;}
+    .ai-setup.hidden{display:none;}
+    .ai-messages{padding:12px 14px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+    .ai-messages.hidden{display:none;}
+    .ai-msg{font-size:13px;line-height:1.6;padding:8px 12px;border-radius:8px;max-width:90%;white-space:pre-wrap;}
+    .ai-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-radius:8px 8px 2px 8px;}
+    .ai-msg.assistant{background:var(--bg);color:var(--text);align-self:flex-start;border-radius:8px 8px 8px 2px;border:0.5px solid var(--border);}
+    .ai-msg.loading{color:var(--muted);font-style:italic;}
+    .ai-input-row{display:flex;gap:8px;padding:10px 14px;border-top:0.5px solid var(--border);}
+    .ai-input-row.hidden{display:none;}
+    .ai-input{flex:1;font-size:13px;font-family:var(--font);background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);outline:none;}
+    .ai-input:focus{box-shadow:0 0 0 2px var(--accent);}
+    .ai-send{padding:7px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;flex-shrink:0;}
+    .ai-send:disabled{opacity:.4;cursor:default;}
 
     footer{margin-top:2rem;font-size:12px;color:var(--hint);text-align:center;line-height:1.8;}
     @media(max-width:540px){
@@ -337,7 +319,7 @@
 <div class="main-tabs">
   <button class="main-tab active" id="tab-routine">Routine</button>
   <button class="main-tab" id="tab-week">Settimana</button>
-<button class="main-tab" id="tab-journal">Journal</button>
+  <button class="main-tab" id="tab-journal">Journal</button>
   <a class="main-tab" href="tasks.html" style="text-decoration:none;">📋 Task</a>
 </div>
 
@@ -372,7 +354,6 @@
 
 <!-- JOURNAL -->
 <div class="view" id="view-journal">
-
   <div class="journal-header">
     <div style="font-size:16px;font-weight:500;">Journal</div>
     <div class="journal-date-nav">
@@ -381,15 +362,12 @@
       <button id="j-next">→</button>
     </div>
   </div>
-
-  <!-- MATTINA -->
-  <div class="journal-section" id="j-morning-section">
+  <div class="journal-section">
     <div class="journal-section-header">
       <span class="journal-section-icon">☀️</span>
       <span class="journal-section-title">Mattina — Intenzione e Gratitudine</span>
       <span class="journal-section-sub">Entro 1h dal risveglio · 5 min</span>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">1. Come mi sento ora?</div>
       <div class="journal-q-hint">Da 1 (molto male) a 10 (benissimo) + qualche parola</div>
@@ -400,43 +378,36 @@
       </div>
       <textarea class="journal-textarea" id="j-feel-m" placeholder="Descrivi in poche parole come ti senti fisicamente e emotivamente..."></textarea>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">2. Cosa voglio che conti davvero oggi?</div>
       <div class="journal-q-hint">Un'intenzione, un valore o un obiettivo guida</div>
       <textarea class="journal-textarea" id="j-intention" placeholder="Es: restare calmo, completare un compito importante, essere presente..."></textarea>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">3. Tre cose per cui sono grato questa mattina</div>
       <div class="journal-q-hint">Anche piccole: una persona, una sensazione, una possibilità</div>
-      <div class="journal-list" id="j-grat-m-list">
+      <div class="journal-list">
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-m-0" placeholder="Prima cosa..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-m-1" placeholder="Seconda cosa..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-m-2" placeholder="Terza cosa..." /></div>
       </div>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">4. Un'azione concreta per prendermi cura di me oggi</div>
       <div class="journal-q-hint">Es: pausa pranzo vera, camminare 10 min, bere acqua a sufficienza</div>
       <textarea class="journal-textarea" id="j-selfcare" placeholder="Scrivi un'azione specifica e realizzabile..."></textarea>
     </div>
-
     <div class="journal-save-row">
       <button class="journal-save-btn" id="j-save-morning">Salva mattina</button>
       <span class="journal-saved-lbl" id="j-morning-saved"></span>
     </div>
   </div>
-
-  <!-- SERA -->
-  <div class="journal-section" id="j-evening-section">
+  <div class="journal-section">
     <div class="journal-section-header">
       <span class="journal-section-icon">🌙</span>
       <span class="journal-section-title">Sera — Riflessione e Chiusura</span>
       <span class="journal-section-sub">1-2h prima di dormire · 7 min</span>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">1. Come mi sento stasera?</div>
       <div class="journal-q-hint">Da 1 a 10 + qualche parola</div>
@@ -447,23 +418,20 @@
       </div>
       <textarea class="journal-textarea" id="j-feel-s" placeholder="Come stai fisicamente e mentalmente dopo la giornata?"></textarea>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">2. Cosa è andato bene oggi?</div>
-      <div class="journal-q-hint">2-3 momenti positivi, anche piccoli — rafforza la memoria di esperienze gratificanti</div>
+      <div class="journal-q-hint">2-3 momenti positivi, anche piccoli</div>
       <textarea class="journal-textarea tall" id="j-good" placeholder="Scrivi 2-3 cose che sono andate bene, anche piccole..."></textarea>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">3. Cosa posso migliorare domani (senza giudicarmi)?</div>
-      <div class="journal-q-hint">Solo 1 cosa, con tono costruttivo — favorisce crescita e autocompassione</div>
+      <div class="journal-q-hint">Solo 1 cosa, con tono costruttivo</div>
       <textarea class="journal-textarea" id="j-improve" placeholder="Una sola cosa, descritta in modo costruttivo..."></textarea>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">4. To-do per domani</div>
-      <div class="journal-q-hint">3-5 punti chiari — scarica la mente e facilita l'addormentamento</div>
-      <div class="journal-list" id="j-todo-list">
+      <div class="journal-q-hint">3-5 punti chiari — scarica la mente</div>
+      <div class="journal-list">
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-todo-0" placeholder="1..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-todo-1" placeholder="2..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-todo-2" placeholder="3..." /></div>
@@ -471,37 +439,32 @@
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-todo-4" placeholder="5 (opzionale)..." /></div>
       </div>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">5. Tre cose per cui sono grato oggi</div>
       <div class="journal-q-hint">Eventi, persone o sensazioni di pace della giornata</div>
-      <div class="journal-list" id="j-grat-s-list">
+      <div class="journal-list">
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-s-0" placeholder="Prima cosa..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-s-1" placeholder="Seconda cosa..." /></div>
         <div class="journal-list-item"><span class="journal-list-bullet">·</span><input class="journal-list-input" data-jkey="j-grat-s-2" placeholder="Terza cosa..." /></div>
       </div>
     </div>
-
     <div class="journal-q">
       <div class="journal-q-label">6. Frase di chiusura (opzionale)</div>
       <div class="journal-q-hint">Auto-riconoscimento o intenzione positiva per domani</div>
-      <textarea class="journal-textarea" id="j-closing" placeholder='Es: "Mi riconosco l\'impegno di oggi." / "Domani è una nuova opportunità."'></textarea>
+      <textarea class="journal-textarea" id="j-closing" placeholder='Es: "Mi riconosco l&apos;impegno di oggi."'></textarea>
     </div>
-
     <div class="journal-save-row">
       <button class="journal-save-btn" id="j-save-evening">Salva sera</button>
       <span class="journal-saved-lbl" id="j-evening-saved"></span>
     </div>
   </div>
-
-  <!-- STORICO -->
-  <div class="journal-history" id="j-history">
+  <div class="journal-history">
     <div class="journal-history-title">Storico journal</div>
     <div class="history-list" id="j-history-list"></div>
   </div>
 </div>
 
-<!-- Modali -->
+<!-- Modali copia -->
 <div class="modal-overlay" id="copy-block-modal">
   <div class="modal">
     <h3>Copia blocco in altri giorni</h3>
@@ -525,20 +488,19 @@
   </div>
 </div>
 
-<!-- AI -->
+<!-- AI BOX -->
 <div class="ai-box">
   <div class="ai-header">
     <div class="ai-dot"></div>
     <span>Chiedi all'AI</span>
-    <span class="ai-hint">· suggerimenti sulla routine, recupero task, consigli</span>
+    <span class="ai-hint">· consigli, recupero task, riorganizza la giornata</span>
   </div>
   <div class="ai-setup" id="ai-setup">
-    <p>Inserisci la tua API key di Anthropic.<br>La trovi su <strong>console.anthropic.com → API Keys</strong>. Salvata solo sul tuo dispositivo.</p>
-    <input id="ai-apikey-input" type="password" placeholder="sk-ant-..." />
+    <p>Inserisci la tua API key di <strong>OpenAI</strong>.<br>La trovi su <strong>platform.openai.com → API Keys</strong>. Salvata solo sul tuo dispositivo.</p>
+    <input id="ai-apikey-input" type="password" placeholder="sk-..." />
     <button class="btn-green" id="ai-connect-btn">Connetti AI</button>
   </div>
   <div class="ai-messages hidden" id="ai-messages"></div>
-  <!-- Pannello anteprima modifiche agente -->
   <div class="agent-panel hidden" id="agent-panel">
     <div class="agent-panel-header">
       <span style="font-size:16px;">🤖</span>
@@ -552,12 +514,12 @@
     </div>
   </div>
   <div class="ai-input-row hidden" id="ai-input-row">
-    <input class="ai-input" id="ai-input" placeholder="Es: oggi alle 16 ho una riunione imprevista, riorganizza la giornata" />
+    <input class="ai-input" id="ai-input" placeholder="Es: oggi alle 16 ho una riunione, riorganizza la giornata" />
     <button class="ai-send" id="ai-send">Invia</button>
   </div>
 </div>
 
-<footer>Sincronizzato via Firebase · Routine · Settimana · Journal con storico · AI<br>Tracker: ✓ fatto · ~ modificato · ✕ saltato</footer>
+<footer>Sincronizzato via Firebase · Routine · Settimana · Journal · Task<br>Tracker: ✓ fatto · ~ modificato · ✕ saltato · AI powered by OpenAI</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -593,111 +555,111 @@ const COUNTERS=[
   {key:"libero",   label:"Tempo lib.",  color:"#888780", cats:["libero","buffer","nsdr"]}
 ];
 
-/* ══ DATI DEFAULT (routine aggiornata) ══ */
+/* ══ DATI DEFAULT ══ */
 const DEFAULT_DAYS=[
   {name:"Lun",title:"Lunedì — giornata piena",sub:"Sveglia 8:30 · 5h30 studio · coaching batch · gym 19:30",
    tip:"Cambia materia tra mattina e pomeriggio. Coaching batch: guarda tutti i video → analizza → registra. Buffer 30 min prima del gym per recuperare task saltati.",
    blocks:[
-    {time:"1:00 – 8:30",   label:"Sonno",                                                    note:"7h45",                                                    cat:"sonno"},
+    {time:"1:00 – 8:30",   label:"Sonno",                                                    note:"7h45",cat:"sonno"},
     {time:"8:30 – 9:00",   label:"Sveglia + routine",                                        note:"Colazione · luce naturale · niente telefono per i primi 20 min",cat:"routine"},
-    {time:"9:00 – 12:00",  label:"Studio — mattina",                                         note:"",                                                        cat:"studio"},
-    {time:"12:00 – 13:00", label:"Buffer / recupero o prolungo task precedenti / anticipo task successivi",note:"",                                           cat:"buffer"},
-    {time:"13:00 – 14:00", label:"Pranzo",                                                   note:"",                                                        cat:"routine"},
-    {time:"14:00 – 14:30", label:"Buffer / recupero task precedenti",                        note:"Task saltati oggi · se tutto ok → tempo libero bonus",    cat:"buffer"},
+    {time:"9:00 – 12:00",  label:"Studio — mattina",                                         note:"",cat:"studio"},
+    {time:"12:00 – 13:00", label:"Buffer / recupero o prolungo task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"13:00 – 14:00", label:"Pranzo",                                                   note:"",cat:"routine"},
+    {time:"14:00 – 14:30", label:"Buffer / recupero task precedenti",                        note:"Task saltati oggi · se tutto ok → tempo libero bonus",cat:"buffer"},
     {time:"14:30 – 17:00", label:"Studio — pomeriggio",                                     note:"2h25 · cambia materia rispetto alla mattina · totale 5h40",cat:"studio"},
-    {time:"17:00 – 17:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",                                                    cat:"buffer"},
-    {time:"17:30 – 19:00", label:"Coaching — batch check",                                  note:"o ALLENAMENTO o RIUNIONI",                                cat:"coaching"},
-    {time:"19:00 – 19:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",                                                    cat:"buffer"},
-    {time:"19:30 – 21:00", label:"Allenamento",                                             note:"o COACHING o RIUNIONI",                                   cat:"sport"},
-    {time:"21:00 – 22:00", label:"Cena",                                                    note:"",                                                        cat:"routine"},
-    {time:"22:00 – 00:30", label:"Tempo libero",                                            note:"RELAX",                                                   cat:"libero"}
+    {time:"17:00 – 17:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"17:30 – 19:00", label:"Coaching — batch check",                                  note:"o ALLENAMENTO o RIUNIONI",cat:"coaching"},
+    {time:"19:00 – 19:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"19:30 – 21:00", label:"Allenamento",                                             note:"o COACHING o RIUNIONI",cat:"sport"},
+    {time:"21:00 – 22:00", label:"Cena",                                                    note:"",cat:"routine"},
+    {time:"22:00 – 00:30", label:"Tempo libero",                                            note:"RELAX",cat:"libero"}
   ]},
   {name:"Mar",title:"Martedì — università",sub:"Sveglia 7:45 · lezione + studio in uni · coaching batch · gym 19:30",
-   tip:"Letto entro le 23:30 per ~8h di sonno. Studio in uni subito dopo la lezione.",
+   tip:"Letto entro le 23:30 per ~8h di sonno. Studio in uni subito dopo la lezione — sei già concentrato.",
    blocks:[
-    {time:"23:30 – 7:45",  label:"Sonno",                      note:"~8h15 · letto lunedì sera entro le 23:30",      cat:"sonno"},
+    {time:"23:30 – 7:45",  label:"Sonno",                      note:"~8h15 · letto lunedì sera entro le 23:30",cat:"sonno"},
     {time:"7:45 – 8:30",   label:"Sveglia + partenza",         note:"Colazione veloce · 40 min viaggio: podcast o ripasso audio",cat:"routine"},
-    {time:"9:00 – 11:00",  label:"Università",                 note:"Lezione mattina (slot 9-11)",                   cat:"univ"},
-    {time:"11:00 – 13:00", label:"Studio — in università",     note:"2h in aula subito dopo la lezione",             cat:"studio"},
-    {time:"13:00 – 13:30", label:"Pranzo",                     note:"Pranzo al rientro · circa 13:00",               cat:"routine"},
+    {time:"9:00 – 11:00",  label:"Università",                 note:"Lezione mattina (slot 9-11)",cat:"univ"},
+    {time:"11:00 – 13:00", label:"Studio — in università",     note:"2h in aula subito dopo la lezione",cat:"studio"},
+    {time:"13:00 – 13:30", label:"Pranzo",                     note:"Pranzo al rientro · circa 13:00",cat:"routine"},
     {time:"13:30 – 13:50", label:"NSDR (opzionale)",           note:"20 min · utile dopo viaggio e lezione mattutina",cat:"nsdr"},
-    {time:"13:50 – 17:00", label:"Studio — pomeriggio",        note:"3h10 · cambia materia · totale ~5h10",          cat:"studio"},
+    {time:"13:50 – 17:00", label:"Studio — pomeriggio",        note:"3h10 · cambia materia · totale ~5h10",cat:"studio"},
     {time:"17:00 – 18:30", label:"Coaching — batch check",     note:"Fase 1: guarda video · Fase 2: analisi · Fase 3: registra",cat:"coaching"},
-    {time:"18:30 – 19:30", label:"Cena + buffer",              note:"Cena leggera · recupera eventuali task saltati", cat:"routine"},
-    {time:"19:30 – 21:00", label:"Allenamento",                note:"1h30 in palestra",                              cat:"sport"},
-    {time:"21:00+",        label:"Tempo libero",               note:"Serata leggera · letto entro le 23:30",          cat:"libero"}
+    {time:"18:30 – 19:30", label:"Cena + buffer",              note:"Cena leggera · recupera eventuali task saltati",cat:"routine"},
+    {time:"19:30 – 21:00", label:"Allenamento",                note:"1h30 in palestra",cat:"sport"},
+    {time:"21:00+",        label:"Tempo libero",               note:"Serata leggera · letto entro le 23:30",cat:"libero"}
   ]},
   {name:"Mer",title:"Mercoledì — università + cardio",sub:"Sveglia 7:45 · studio in uni · coaching · cardio 30' · riunioni feste",
    tip:"Giorno senza gym pesante. Cardio 30 min opzionale. Riunioni feste qui o domenica.",
    blocks:[
-    {time:"23:30 – 7:45",  label:"Sonno",                       note:"~8h15 · letto martedì sera entro le 23:30",    cat:"sonno"},
-    {time:"7:45 – 8:30",   label:"Sveglia + partenza",          note:"Colazione veloce · viaggio: ripasso audio",    cat:"routine"},
-    {time:"9:00 – 11:00",  label:"Università",                  note:"Lezione mattina",                              cat:"univ"},
-    {time:"11:00 – 13:00", label:"Studio — in università",      note:"2h in aula · consolida le lezioni",            cat:"studio"},
-    {time:"13:00 – 13:30", label:"Pranzo",                      note:"Pranzo al rientro",                            cat:"routine"},
-    {time:"13:30 – 13:50", label:"NSDR (opzionale)",            note:"20 min se sei stanco dal viaggio",             cat:"nsdr"},
-    {time:"13:50 – 17:00", label:"Studio — pomeriggio",         note:"3h10 · seconda materia · totale ~5h10",        cat:"studio"},
-    {time:"17:00 – 18:00", label:"Coaching — batch check",      note:"1h batch · giorno più leggero",                cat:"coaching"},
+    {time:"23:30 – 7:45",  label:"Sonno",                       note:"~8h15 · letto martedì sera entro le 23:30",cat:"sonno"},
+    {time:"7:45 – 8:30",   label:"Sveglia + partenza",          note:"Colazione veloce · viaggio: ripasso audio",cat:"routine"},
+    {time:"9:00 – 11:00",  label:"Università",                  note:"Lezione mattina",cat:"univ"},
+    {time:"11:00 – 13:00", label:"Studio — in università",      note:"2h in aula · consolida le lezioni",cat:"studio"},
+    {time:"13:00 – 13:30", label:"Pranzo",                      note:"Pranzo al rientro",cat:"routine"},
+    {time:"13:30 – 13:50", label:"NSDR (opzionale)",            note:"20 min se sei stanco dal viaggio",cat:"nsdr"},
+    {time:"13:50 – 17:00", label:"Studio — pomeriggio",         note:"3h10 · seconda materia · totale ~5h10",cat:"studio"},
+    {time:"17:00 – 18:00", label:"Coaching — batch check",      note:"1h batch · giorno più leggero",cat:"coaching"},
     {time:"18:00 – 18:30", label:"Cardio 30 min (opzionale)",   note:"Corsa, bici o corda · salta se c'è riunione feste",cat:"cardio"},
     {time:"18:30 – 19:30", label:"Riunioni feste (se ci sono)", note:"Slot mercoledì · alternativa: domenica pomeriggio",cat:"fest"},
-    {time:"19:30 – 20:00", label:"Cena",                        note:"",                                             cat:"routine"},
+    {time:"19:30 – 20:00", label:"Cena",                        note:"",cat:"routine"},
     {time:"20:00+",        label:"Tempo libero",                note:"Nutrizione · software · serie · ragazza · letto entro le 23:30",cat:"libero"}
   ]},
   {name:"Gio",title:"Giovedì — giornata piena",sub:"Sveglia 8:30 · 5h30 studio · coaching batch · gym 19:30",
    tip:"Specchio del lunedì. Schede subito dopo il batch coaching — sei già in modalità operativa.",
    blocks:[
-    {time:"1:00 – 8:30",   label:"Sonno",                      note:"7h45",                                          cat:"sonno"},
+    {time:"1:00 – 8:30",   label:"Sonno",                      note:"7h45",cat:"sonno"},
     {time:"8:30 – 9:00",   label:"Sveglia + routine",          note:"Stesso rituale ogni giorno = meno fatica decisionale",cat:"routine"},
-    {time:"9:00 – 12:00",  label:"Studio — mattina",           note:"3h · sessione profonda",                        cat:"studio"},
-    {time:"12:00 – 13:00", label:"Buffer / recupero o prolungo task precedenti / anticipo task successivi",note:"",  cat:"buffer"},
-    {time:"13:00 – 14:00", label:"Pranzo",                     note:"",                                              cat:"routine"},
-    {time:"14:00 – 14:30", label:"Buffer / recupero task precedenti",note:"",                                        cat:"buffer"},
-    {time:"14:30 – 17:00", label:"Studio — pomeriggio",        note:"2h25 · seconda materia · totale 5h40",          cat:"studio"},
-    {time:"17:00 – 17:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",             cat:"buffer"},
-    {time:"17:30 – 19:00", label:"Coaching — batch check",     note:"o ALLENAMENTO o RIUNIONI",                      cat:"coaching"},
-    {time:"19:00 – 19:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",             cat:"buffer"},
-    {time:"19:30 – 21:00", label:"Allenamento",                note:"o COACHING o RIUNIONI",                         cat:"sport"},
-    {time:"21:00 – 22:00", label:"Cena",                       note:"",                                              cat:"routine"},
-    {time:"22:00 – 00:30", label:"Tempo libero",               note:"RELAX",                                         cat:"libero"}
+    {time:"9:00 – 12:00",  label:"Studio — mattina",           note:"3h · sessione profonda",cat:"studio"},
+    {time:"12:00 – 13:00", label:"Buffer / recupero o prolungo task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"13:00 – 14:00", label:"Pranzo",                     note:"",cat:"routine"},
+    {time:"14:00 – 14:30", label:"Buffer / recupero task precedenti",note:"",cat:"buffer"},
+    {time:"14:30 – 17:00", label:"Studio — pomeriggio",        note:"2h25 · seconda materia · totale 5h40",cat:"studio"},
+    {time:"17:00 – 17:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"17:30 – 19:00", label:"Coaching — batch check",     note:"o ALLENAMENTO o RIUNIONI",cat:"coaching"},
+    {time:"19:00 – 19:30", label:"Buffer / recupero task precedenti / anticipo task successivi",note:"",cat:"buffer"},
+    {time:"19:30 – 21:00", label:"Allenamento",                note:"o COACHING o RIUNIONI",cat:"sport"},
+    {time:"21:00 – 22:00", label:"Cena",                       note:"",cat:"routine"},
+    {time:"22:00 – 00:30", label:"Tempo libero",               note:"RELAX",cat:"libero"}
   ]},
   {name:"Ven",title:"Venerdì — università + uscita",sub:"Sveglia 7:45 · studio in uni · coaching · gym 19:30 · uscita 1:30-3:00",
    tip:"Esci tra 1:30 e 3:00 — sabato recupera sonno.",
    blocks:[
-    {time:"23:30 – 7:45",  label:"Sonno",                       note:"~8h15 · letto giovedì sera entro le 23:30",    cat:"sonno"},
-    {time:"7:45 – 8:30",   label:"Sveglia + partenza",          note:"Colazione veloce · viaggio: ripasso audio",    cat:"routine"},
-    {time:"9:00 – 11:00",  label:"Università",                  note:"Ultima lezione della settimana",               cat:"univ"},
-    {time:"11:00 – 13:00", label:"Studio — in università",      note:"2h in aula · chiudi la settimana forte",       cat:"studio"},
-    {time:"13:00 – 13:30", label:"Pranzo",                      note:"",                                             cat:"routine"},
-    {time:"13:30 – 16:30", label:"Studio — pomeriggio",         note:"3h · totale ~5h · cambia materia",            cat:"studio"},
-    {time:"16:30 – 18:00", label:"Coaching — batch check",      note:"Chiudi il giro settimanale coaching",          cat:"coaching"},
-    {time:"18:00 – 18:30", label:"Buffer / chiusura settimana", note:"Chiudi arretrati · poi stacca davvero",        cat:"buffer"},
-    {time:"18:30 – 19:30", label:"Cena",                        note:"Mangia bene prima del gym",                   cat:"routine"},
-    {time:"19:30 – 21:00", label:"Allenamento",                 note:"1h30 in palestra",                            cat:"sport"},
-    {time:"21:00 – 2:00",  label:"Uscita / feste",              note:"Rientro variabile 1:30-3:00",                 cat:"fest"}
+    {time:"23:30 – 7:45",  label:"Sonno",                       note:"~8h15 · letto giovedì sera entro le 23:30",cat:"sonno"},
+    {time:"7:45 – 8:30",   label:"Sveglia + partenza",          note:"Colazione veloce · viaggio: ripasso audio",cat:"routine"},
+    {time:"9:00 – 11:00",  label:"Università",                  note:"Ultima lezione della settimana",cat:"univ"},
+    {time:"11:00 – 13:00", label:"Studio — in università",      note:"2h in aula · chiudi la settimana forte",cat:"studio"},
+    {time:"13:00 – 13:30", label:"Pranzo",                      note:"",cat:"routine"},
+    {time:"13:30 – 16:30", label:"Studio — pomeriggio",         note:"3h · totale ~5h · cambia materia",cat:"studio"},
+    {time:"16:30 – 18:00", label:"Coaching — batch check",      note:"Chiudi il giro settimanale coaching",cat:"coaching"},
+    {time:"18:00 – 18:30", label:"Buffer / chiusura settimana", note:"Chiudi arretrati · poi stacca davvero",cat:"buffer"},
+    {time:"18:30 – 19:30", label:"Cena",                        note:"Mangia bene prima del gym",cat:"routine"},
+    {time:"19:30 – 21:00", label:"Allenamento",                 note:"1h30 in palestra",cat:"sport"},
+    {time:"21:00 – 2:00",  label:"Uscita / feste",              note:"Rientro variabile 1:30-3:00",cat:"fest"}
   ]},
   {name:"Sab",title:"Sabato — recupero",sub:"Sveglia libera · studio leggero · niente gym pesante",
    tip:"Recupera sonno — non forzare. Studio leggero solo se ti senti ok.",
    blocks:[
     {time:"03:00 – 10:30", label:"Sonno",                       note:"~7h30 · aggiusta in base a quando sei rientrato",cat:"sonno"},
-    {time:"10:30 – 11:00", label:"Alzata lenta + routine",      note:"Niente sensi di colpa",                        cat:"routine"},
-    {time:"11:00 – 13:00", label:"Studio leggero",              note:"Ripasso · lettura · flashcard",               cat:"studio"},
-    {time:"13:00 – 14:00", label:"Pranzo",                      note:"Pranzo alle 13",                              cat:"routine"},
-    {time:"14:00 – 14:20", label:"NSDR (opzionale)",            note:"Se sei stanco dalla notte",                   cat:"nsdr"},
+    {time:"10:30 – 11:00", label:"Alzata lenta + routine",      note:"Niente sensi di colpa",cat:"routine"},
+    {time:"11:00 – 13:00", label:"Studio leggero",              note:"Ripasso · lettura · flashcard",cat:"studio"},
+    {time:"13:00 – 14:00", label:"Pranzo",                      note:"Pranzo alle 13",cat:"routine"},
+    {time:"14:00 – 14:20", label:"NSDR (opzionale)",            note:"Se sei stanco dalla notte",cat:"nsdr"},
     {time:"14:20 – 16:00", label:"Coaching arretrati",          note:"Solo se hai check · altrimenti giornata libera",cat:"coaching"},
-    {time:"16:00 – 19:30", label:"Tempo libero",                note:"Ragazza · uscita · interessi personali",      cat:"libero"},
-    {time:"19:30 – 21:00", label:"Allenamento (se saltato ven)",note:"Solo se venerdì non hai fatto gym",           cat:"sport"},
-    {time:"21:00+",        label:"Cena + feste",                note:"Sabato notte = feste o relax totale",         cat:"fest"}
+    {time:"16:00 – 19:30", label:"Tempo libero",                note:"Ragazza · uscita · interessi personali",cat:"libero"},
+    {time:"19:30 – 21:00", label:"Allenamento (se saltato ven)",note:"Solo se venerdì non hai fatto gym",cat:"sport"},
+    {time:"21:00+",        label:"Cena + feste",                note:"Sabato notte = feste o relax totale",cat:"fest"}
   ]},
   {name:"Dom",title:"Domenica — reset",sub:"Alzata con calma · pianificazione · studio leggero · riunioni feste",
    tip:"Niente gym. 15 min di pianificazione eliminano metà del caos settimanale.",
    blocks:[
-    {time:"04:00 – 11:00", label:"Sonno",                       note:"~7h · nessuna sveglia forzata",               cat:"sonno"},
-    {time:"11:00 – 11:30", label:"Alzata + routine",            note:"Con calma — è domenica",                      cat:"routine"},
+    {time:"04:00 – 11:00", label:"Sonno",                       note:"~7h · nessuna sveglia forzata",cat:"sonno"},
+    {time:"11:00 – 11:30", label:"Alzata + routine",            note:"Con calma — è domenica",cat:"routine"},
     {time:"11:30 – 12:00", label:"Pianificazione settimana",    note:"15-20 min: obiettivi studio · check · note feste",cat:"routine"},
-    {time:"12:00 – 13:00", label:"Studio leggero o interessi",  note:"Nutrizione · software · lettura",             cat:"studio"},
-    {time:"13:00 – 14:00", label:"Pranzo",                      note:"Pranzo tranquillo",                           cat:"routine"},
-    {time:"14:00 – 14:20", label:"NSDR (opzionale)",            note:"20 min se hai bisogno di recuperare",         cat:"nsdr"},
-    {time:"14:20 – 16:00", label:"Riunioni feste (se ci sono)", note:"Slot alternativo al mercoledì",               cat:"fest"},
+    {time:"12:00 – 13:00", label:"Studio leggero o interessi",  note:"Nutrizione · software · lettura",cat:"studio"},
+    {time:"13:00 – 14:00", label:"Pranzo",                      note:"Pranzo tranquillo",cat:"routine"},
+    {time:"14:00 – 14:20", label:"NSDR (opzionale)",            note:"20 min se hai bisogno di recuperare",cat:"nsdr"},
+    {time:"14:20 – 16:00", label:"Riunioni feste (se ci sono)", note:"Slot alternativo al mercoledì",cat:"fest"},
     {time:"16:00+",        label:"Tempo libero",                note:"Ragazza · uscita · serie · niente gym pesante",cat:"libero"}
   ]}
 ];
@@ -705,45 +667,39 @@ const DEFAULT_DAYS=[
 /* ══ STATO ══ */
 let appData={
   pageTitle:"La mia routine",pageSubtitle:"Studio esami + coaching + allenamento",
-  catLabels:{},days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),
-  tracker:{},journal:{}
+  catLabels:{},days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),tracker:{},journal:{}
 };
 let db=null,dbRef=null,_ignoreRemote=false,_saveTimer=null;
 let aiKey=null,aiHistory=[];
-let currentWeekOffset=0;
-let journalDate=todayStr();
+let currentWeekOffset=0,journalDate=todayStr(),selectedWeekDay=-1;
+let pendingChanges=[];
 
-/* ══ DATE UTILS ══ */
+/* ══ UTILS ══ */
 function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function dateLabel(s){const d=new Date(s+"T12:00:00");return d.toLocaleDateString("it",{weekday:"long",day:"numeric",month:"long",year:"numeric"});}
 function addDays(s,n){const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function hhMM(){const n=new Date();return n.getHours()+":"+String(n.getMinutes()).padStart(2,"0");}
+function setSaveStatus(t,x){const d=document.getElementById("save-dot"),l=document.getElementById("save-label");if(d)d.className="save-dot "+t;if(l)l.textContent=x;}
 
 /* ══ FIREBASE ══ */
 const FB_CONFIG_KEY="routine_fb_v5";
 function loadFbConfig(){try{return JSON.parse(localStorage.getItem(FB_CONFIG_KEY));}catch(e){return null;}}
-function saveFbConfig(k,u){localStorage.setItem(FB_CONFIG_KEY,JSON.stringify({apiKey:k,dbUrl:u}));}
-function hhMM(){const n=new Date();return n.getHours()+":"+String(n.getMinutes()).padStart(2,"0");}
-function setSaveStatus(t,x){const d=document.getElementById("save-dot"),l=document.getElementById("save-label");if(d)d.className="save-dot "+t;if(l)l.textContent=x;}
-function pushToFirebase(){if(!dbRef)return;_ignoreRemote=true;set(dbRef,appData).then(()=>{setSaveStatus("saved","Salvato · "+hhMM());setTimeout(()=>{_ignoreRemote=false;},2500);}).catch(()=>{setSaveStatus("offline","Errore salvataggio");_ignoreRemote=false;});}
-function scheduleSave(){
-  setSaveStatus("saving","Salvataggio...");clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>{if(db)pushToFirebase();else{try{localStorage.setItem("routine_local_v6",JSON.stringify(appData));setSaveStatus("saved","Salvato locale · "+hhMM());}catch(e){setSaveStatus("offline","Errore");}}},800);
-}
+function pushToFirebase(){if(!dbRef)return;_ignoreRemote=true;set(dbRef,appData).then(()=>{setSaveStatus("saved","Salvato · "+hhMM());setTimeout(()=>{_ignoreRemote=false;},1000);}).catch(()=>{setSaveStatus("offline","Errore");_ignoreRemote=false;});}
+function scheduleSave(){setSaveStatus("saving","Salvataggio...");clearTimeout(_saveTimer);_saveTimer=setTimeout(()=>{if(db)pushToFirebase();else{try{localStorage.setItem("routine_local_v6",JSON.stringify(appData));setSaveStatus("saved","Salvato locale · "+hhMM());}catch(e){setSaveStatus("offline","Errore");}}},800);}
 function connectFirebase(apiKey,dbUrl){
   try{
     const app=initializeApp({apiKey,databaseURL:dbUrl},"routine-app-"+Date.now());
     db=getDatabase(app);dbRef=ref(db,"routine/v6");setSaveStatus("saving","Connessione...");
-    onValue(dbRef,(snap)=>{if(_ignoreRemote)return;const data=snap.val();if(data&&data.days){appData=data;if(!appData.catLabels)appData.catLabels={};if(!appData.tracker)appData.tracker={};if(!appData.journal)appData.journal={};applyAppData();setSaveStatus("saved","Sincronizzato · "+hhMM());}else{pushToFirebase();}},e=>{setSaveStatus("offline","Errore Firebase: "+e.message);});
-    document.getElementById("setup-banner").classList.add("hidden");saveFbConfig(apiKey,dbUrl);return true;
-  }catch(e){alert("Errore connessione Firebase: "+e.message);return false;}
+    onValue(dbRef,(snap)=>{if(_ignoreRemote)return;const data=snap.val();if(data&&data.days){appData=data;if(!appData.catLabels)appData.catLabels={};if(!appData.tracker)appData.tracker={};if(!appData.journal)appData.journal={};applyAppData();setSaveStatus("saved","Sincronizzato · "+hhMM());}else pushToFirebase();},e=>{setSaveStatus("offline","Errore Firebase");});
+    document.getElementById("setup-banner").classList.add("hidden");localStorage.setItem(FB_CONFIG_KEY,JSON.stringify({apiKey,dbUrl}));return true;
+  }catch(e){alert("Errore: "+e.message);return false;}
 }
 document.getElementById("btn-connect").addEventListener("click",()=>{const k=document.getElementById("fb-apikey").value.trim(),u=document.getElementById("fb-dburl").value.trim();if(!k||!u){alert("Inserisci entrambi i valori");return;}connectFirebase(k,u);});
 document.getElementById("skip-setup").addEventListener("click",()=>{document.getElementById("setup-banner").classList.add("hidden");setSaveStatus("saved","Salvataggio locale attivo");});
-document.getElementById("btn-reset").addEventListener("click",()=>{if(!confirm("Vuoi ripristinare tutti i dati originali? Routine, tracker e journal andranno persi."))return;appData={pageTitle:"La mia routine",pageSubtitle:"Studio esami + coaching + allenamento",catLabels:{},days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),tracker:{},journal:{}};scheduleSave();applyAppData();});
+document.getElementById("btn-reset").addEventListener("click",()=>{if(!confirm("Vuoi ripristinare tutti i dati originali?"))return;appData={pageTitle:"La mia routine",pageSubtitle:"Studio esami + coaching + allenamento",catLabels:{},days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),tracker:{},journal:{}};scheduleSave();applyAppData();});
 
 /* ══ TRACKER ══ */
-function weekKey(offset){const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);return d.getFullYear()+"W"+String(getWeekNum(d)).padStart(2,"0");}
-function getWeekNum(d){const jan4=new Date(d.getFullYear(),0,4);return Math.ceil(((d-jan4)/86400000+jan4.getDay()+1)/7);}
+function weekKey(offset){const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);const jan4=new Date(d.getFullYear(),0,4);const wn=Math.ceil(((d-jan4)/86400000+jan4.getDay()+1)/7);return d.getFullYear()+"W"+String(wn).padStart(2,"0");}
 function currentWeekKey(){return weekKey(currentWeekOffset);}
 function getTracker(wk,dayIdx,bIdx){if(!appData.tracker)appData.tracker={};return((appData.tracker[wk]||{})[dayIdx+"-"+bIdx])||null;}
 function setTracker(wk,dayIdx,bIdx,val){if(!appData.tracker)appData.tracker={};if(!appData.tracker[wk])appData.tracker[wk]={};const key=dayIdx+"-"+bIdx;if(appData.tracker[wk][key]===val)appData.tracker[wk][key]=null;else appData.tracker[wk][key]=val;scheduleSave();}
@@ -785,19 +741,17 @@ function renderBlock(b,dayIdx,list){
   if(!b.cat)b.cat="routine";const CATS=getCats();
   const li=document.createElement("li");li.className="block";li.draggable=true;li._bRef=b;
   const hd=document.createElement("div");hd.className="drag-handle";hd.innerHTML="<span></span><span></span><span></span>";li.appendChild(hd);
-  const catBtn=document.createElement("button");catBtn.className="cat-btn";catBtn.style.background=CATS[b.cat]?.color||"#888";catBtn.title="Cambia categoria";
+  const catBtn=document.createElement("button");catBtn.className="cat-btn";catBtn.style.background=CATS[b.cat]?.color||"#888";
   const catMenu=buildCatMenu(b,catBtn,dayIdx);catBtn.addEventListener("click",e=>{e.stopPropagation();closeCatMenus();catMenu.classList.toggle("open");});li.appendChild(catBtn);li.appendChild(catMenu);
   const te=document.createElement("div");te.className="block-time";const ts=document.createElement("span");ts.className="editable";ts.contentEditable="true";ts.textContent=b.time;ts.addEventListener("input",()=>{b.time=ts.textContent;updateCounters(dayIdx);scheduleSave();});ts.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ts.blur();}});te.appendChild(ts);li.appendChild(te);
   const ct=document.createElement("div");ct.className="block-content";
   const le=document.createElement("span");le.className="block-label editable";le.contentEditable="true";le.textContent=b.label;le.addEventListener("input",()=>{b.label=le.textContent;scheduleSave();});le.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();le.blur();}});
   const ne=document.createElement("span");ne.className="block-note editable";ne.contentEditable="true";ne.textContent=b.note||"Aggiungi nota...";ne.style.color=b.note?"":"var(--hint)";ne.addEventListener("focus",()=>{if(!b.note){ne.textContent="";ne.style.color="";}});ne.addEventListener("blur",()=>{if(!ne.textContent.trim()){ne.textContent="Aggiungi nota...";ne.style.color="var(--hint)";b.note="";}else b.note=ne.textContent;scheduleSave();});ne.addEventListener("input",()=>{b.note=ne.textContent;});ne.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ne.blur();}});
   ct.appendChild(le);ct.appendChild(ne);li.appendChild(ct);
-  // Tracker
   const wk=currentWeekKey();const bIdxFn=()=>Array.from(list.children).indexOf(li);
   const trk=document.createElement("div");trk.className="tracker-btns";
-  function makeBtn(icon,val,title){const btn=document.createElement("button");btn.className="trk-btn";btn.textContent=icon;btn.title=title;const cur=getTracker(wk,dayIdx,bIdxFn());if(cur===val)btn.classList.add("active");btn.addEventListener("click",e=>{e.stopPropagation();const bi=bIdxFn();setTracker(wk,dayIdx,bi,val);li.classList.remove("status-done","status-skip","status-mod");const nv=getTracker(wk,dayIdx,bi);if(nv==="done")li.classList.add("status-done");else if(nv==="skip")li.classList.add("status-skip");else if(nv==="mod")li.classList.add("status-mod");trk.querySelectorAll(".trk-btn").forEach(b=>b.classList.remove("active"));if(nv)btn.classList.add("active");updateDayScore(dayIdx);});return btn;}
-  trk.appendChild(makeBtn("✓","done","Fatto"));trk.appendChild(makeBtn("~","mod","Modificato"));trk.appendChild(makeBtn("✕","skip","Saltato"));li.appendChild(trk);
-  const initS=getTracker(wk,dayIdx,()=>appData.days[dayIdx].blocks.indexOf(b));if(initS==="done")li.classList.add("status-done");else if(initS==="skip")li.classList.add("status-skip");else if(initS==="mod")li.classList.add("status-mod");
+  function makeBtn(icon,val){const btn=document.createElement("button");btn.className="trk-btn";btn.textContent=icon;const cur=getTracker(wk,dayIdx,bIdxFn());if(cur===val)btn.classList.add("active");btn.addEventListener("click",e=>{e.stopPropagation();const bi=bIdxFn();setTracker(wk,dayIdx,bi,val);li.classList.remove("status-done","status-skip","status-mod");const nv=getTracker(wk,dayIdx,bi);if(nv==="done")li.classList.add("status-done");else if(nv==="skip")li.classList.add("status-skip");else if(nv==="mod")li.classList.add("status-mod");trk.querySelectorAll(".trk-btn").forEach(b=>b.classList.remove("active"));if(nv)btn.classList.add("active");updateDayScore(dayIdx);});return btn;}
+  trk.appendChild(makeBtn("✓","done"));trk.appendChild(makeBtn("~","mod"));trk.appendChild(makeBtn("✕","skip"));li.appendChild(trk);
   const ac=document.createElement("div");ac.className="block-actions";
   const cpBtn=document.createElement("button");cpBtn.className="act-btn";cpBtn.textContent="⧉";cpBtn.addEventListener("click",e=>{e.stopPropagation();openCopyBlockModal(b,dayIdx);});
   const delBtn=document.createElement("button");delBtn.className="act-btn del";delBtn.textContent="×";delBtn.addEventListener("click",e=>{e.stopPropagation();const idx=Array.from(list.children).indexOf(li);appData.days[dayIdx].blocks.splice(idx,1);li.remove();updateCounters(dayIdx);scheduleSave();});
@@ -817,30 +771,20 @@ function applyAppData(){
   if(!appData.catLabels)appData.catLabels={};if(!appData.tracker)appData.tracker={};if(!appData.journal)appData.journal={};
   document.getElementById("page-title").textContent=appData.pageTitle||"La mia routine";
   document.getElementById("page-subtitle").textContent=appData.pageSubtitle||"";
-  let prevIdx=0;
-  const prevTab=document.querySelector("#tabs .tab.active");
-  if(prevTab){
-    const tabs=Array.from(document.querySelectorAll("#tabs .tab"));
-    const ix=tabs.indexOf(prevTab);
-    if(ix>=0)prevIdx=ix;
-  }
-  buildLegend();document.getElementById("tabs").innerHTML="";document.getElementById("days").innerHTML="";
-  const maxI=Math.max(0,appData.days.length-1);
-  buildAllDays(Math.min(prevIdx,maxI));
+  buildLegend();document.getElementById("tabs").innerHTML="";document.getElementById("days").innerHTML="";buildAllDays();
   if(document.getElementById("view-week").classList.contains("active"))renderWeekView();
   if(document.getElementById("view-journal").classList.contains("active"))renderJournalView();
 }
 
-function buildAllDays(activeDayIdx){
+function buildAllDays(){
   const tabsEl=document.getElementById("tabs"),daysEl=document.getElementById("days");
-  const start=typeof activeDayIdx==="number"&&!isNaN(activeDayIdx)?Math.max(0,Math.min(activeDayIdx,appData.days.length-1)):0;
   appData.days.forEach((d,i)=>{
-    const tab=document.createElement("button");tab.className="tab"+(i===start?" active":"");tab.textContent=d.name;tab.onclick=(idx=>()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".day").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".tab")[idx].classList.add("active");document.getElementById("day-"+idx).classList.add("active");})(i);tabsEl.appendChild(tab);
-    const div=document.createElement("div");div.className="day"+(i===start?" active":"");div.id="day-"+i;
+    const tab=document.createElement("button");tab.className="tab"+(i===0?" active":"");tab.textContent=d.name;tab.onclick=(idx=>()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".day").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".tab")[idx].classList.add("active");document.getElementById("day-"+idx).classList.add("active");})(i);tabsEl.appendChild(tab);
+    const div=document.createElement("div");div.className="day"+(i===0?" active":"");div.id="day-"+i;
     const tit=document.createElement("div");tit.className="day-title";tit.contentEditable="true";tit.textContent=d.title;tit.addEventListener("input",()=>{d.title=tit.textContent;scheduleSave();});tit.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();tit.blur();}});div.appendChild(tit);
     const sub=document.createElement("div");sub.className="day-sub";sub.contentEditable="true";sub.textContent=d.sub;sub.addEventListener("input",()=>{d.sub=sub.textContent;scheduleSave();});sub.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sub.blur();}});div.appendChild(sub);
     div.appendChild(buildCounters(i));
-    const dayActs=document.createElement("div");dayActs.className="day-actions";const copyDayBtn=document.createElement("button");copyDayBtn.className="day-act-btn";copyDayBtn.textContent="Copia intera giornata →";copyDayBtn.addEventListener("click",()=>openCopyDayModal(i));dayActs.appendChild(copyDayBtn);const scoreEl=document.createElement("span");scoreEl.id="day-score-"+i;scoreEl.className="day-score";dayActs.appendChild(scoreEl);div.appendChild(dayActs);updateDayScore(i);
+    const dayActs=document.createElement("div");dayActs.className="day-actions";const cdb=document.createElement("button");cdb.className="day-act-btn";cdb.textContent="Copia intera giornata →";cdb.addEventListener("click",()=>openCopyDayModal(i));dayActs.appendChild(cdb);const scoreEl=document.createElement("span");scoreEl.id="day-score-"+i;scoreEl.className="day-score";dayActs.appendChild(scoreEl);div.appendChild(dayActs);updateDayScore(i);
     const hint=document.createElement("div");hint.className="hint-bar";hint.innerHTML="<span>Trascina per riordinare</span><span>Clicca testo per modificare</span><span>Pallino = categoria</span><span>✓ ~ ✕ = tracker</span><span>⧉ copia</span><span>× elimina</span>";div.appendChild(hint);
     const list=document.createElement("ul");list.className="blocks-list";d.blocks.forEach(b=>list.appendChild(renderBlock(b,i,list)));div.appendChild(list);
     const addBtn=document.createElement("button");addBtn.className="add-block";addBtn.textContent="+ Aggiungi blocco";addBtn.addEventListener("click",()=>{const nb={time:"00:00 – 00:00",label:"Nuovo blocco",note:"",cat:"routine"};d.blocks.push(nb);const li=renderBlock(nb,i,list);list.appendChild(li);updateCounters(i);scheduleSave();setTimeout(()=>li.querySelector(".block-label").focus(),50);});div.appendChild(addBtn);
@@ -849,106 +793,47 @@ function buildAllDays(activeDayIdx){
   });
 }
 
-/* ══ VISTA SETTIMANA ══ */
-let selectedWeekDay=-1;
+/* ══ SETTIMANA ══ */
 function renderWeekView(){
-  const wk=currentWeekKey();
-  const now=new Date(),mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7)+currentWeekOffset*7);
+  const wk=currentWeekKey(),now=new Date(),mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7)+currentWeekOffset*7);
   const sun=new Date(mon);sun.setDate(mon.getDate()+6);
   document.getElementById("week-lbl").textContent=mon.toLocaleDateString("it",{day:"numeric",month:"short"})+" – "+sun.toLocaleDateString("it",{day:"numeric",month:"short"});
-  let totalDone=0,totalSkip=0,totalMod=0,totalBlocks=0,trackedDays=0;
-  appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(!s)return;trackedDays++;totalDone+=s.done;totalSkip+=s.skip;totalMod+=s.mod;totalBlocks+=s.tot;});
-  const gp=totalBlocks?Math.round((totalDone+totalMod*0.7)/totalBlocks*100):null;
-  const pctEl=document.getElementById("ws-pct");pctEl.textContent=gp!==null?gp+"%":"—";pctEl.style.color=gp===null?"var(--hint)":gp>=80?"#5DCAA5":gp>=50?"#EF9F27":"#E24B4A";
-  document.getElementById("ws-sub").textContent=trackedDays?`${totalDone} fatti · ${totalMod} modificati · ${totalSkip} saltati su ${totalBlocks} blocchi`:"Inizia a spuntare i blocchi nella tab Routine";
+  let td=0,ts=0,tm=0,tb=0,trd=0;appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(!s)return;trd++;td+=s.done;ts+=s.skip;tm+=s.mod;tb+=s.tot;});
+  const gp=tb?Math.round((td+tm*0.7)/tb*100):null;const pctEl=document.getElementById("ws-pct");pctEl.textContent=gp!==null?gp+"%":"—";pctEl.style.color=gp===null?"var(--hint)":gp>=80?"#5DCAA5":gp>=50?"#EF9F27":"#E24B4A";
+  document.getElementById("ws-sub").textContent=trd?`${td} fatti · ${tm} modificati · ${ts} saltati su ${tb} blocchi`:"Inizia a spuntare i blocchi nella tab Routine";
   const grid=document.getElementById("week-grid");grid.innerHTML="";const todayDow=(now.getDay()+6)%7;
   appData.days.forEach((d,i)=>{const s=dayScore(wk,i);const card=document.createElement("div");card.className="week-day-card"+(currentWeekOffset===0&&i===todayDow?" today":"");const pct=s?s.pct:null;card.innerHTML=`<div class="wdc-name">${d.name}</div><div class="wdc-score" style="color:${pct===null?"var(--hint)":pct>=80?"#5DCAA5":pct>=50?"#EF9F27":"#E24B4A"}">${pct!==null?pct+"%":"·"}</div><div class="wdc-bar"><div class="wdc-bar-fill" style="width:${pct||0}%"></div></div><div class="wdc-counts">${s?s.done+"✓ "+s.mod+"~ "+s.skip+"✕":""}</div>`;card.addEventListener("click",()=>{selectedWeekDay=selectedWeekDay===i?-1:i;document.getElementById("week-day-detail").style.display=selectedWeekDay===-1?"none":"block";if(selectedWeekDay!==-1)renderDayDetail(wk,i);grid.querySelectorAll(".week-day-card").forEach(c=>c.classList.remove("selected"));if(selectedWeekDay===i)card.classList.add("selected");});grid.appendChild(card);});
   const chartEl=document.getElementById("week-chart");chartEl.innerHTML="<h3>Ore pianificate per categoria (settimana)</h3><div id='chart-rows'></div>";const rows=document.getElementById("chart-rows");const totCat={};COUNTERS.forEach(c=>totCat[c.key]=0);appData.days.forEach(d=>d.blocks.forEach(b=>{const dur=parseDur(b.time);if(!dur)return;COUNTERS.forEach(c=>{if(c.cats.includes(b.cat))totCat[c.key]+=dur;});}));const maxVal=Math.max(...Object.values(totCat),1);COUNTERS.forEach(c=>{const row=document.createElement("div");row.className="chart-row";row.innerHTML=`<div class="chart-row-label">${c.label}</div><div class="chart-bar-wrap"><div class="chart-bar-fill" style="background:${c.color};width:${Math.round(totCat[c.key]/maxVal*100)}%"></div></div><div class="chart-bar-val">${formatH(totCat[c.key])}</div>`;rows.appendChild(row);});
   renderInsights(wk);
 }
-function renderDayDetail(wk,dayIdx){const detEl=document.getElementById("week-day-detail");detEl.style.display="block";const d=appData.days[dayIdx];detEl.innerHTML=`<h3>${d.name} — ${d.title}</h3>`;const CATS=getCats();d.blocks.forEach((b,bi)=>{const s=getTracker(wk,dayIdx,bi);const row=document.createElement("div");row.className="detail-block";const dot=document.createElement("div");dot.className="detail-dot";dot.style.background=CATS[b.cat]?.color||"#888";const time=document.createElement("div");time.className="detail-time";time.textContent=b.time;const lbl=document.createElement("div");lbl.className="detail-label";lbl.textContent=b.label;const st=document.createElement("div");st.className="detail-status "+(s==="done"?"ds-done":s==="skip"?"ds-skip":s==="mod"?"ds-mod":"ds-none");st.textContent=s==="done"?"✓ Fatto":s==="skip"?"✕ Saltato":s==="mod"?"~ Modificato":"–";row.appendChild(dot);row.appendChild(time);row.appendChild(lbl);row.appendChild(st);detEl.appendChild(row);});}
-function renderInsights(wk){const insEl=document.getElementById("week-insights");insEl.innerHTML="<h3>Pattern rilevati</h3>";const insights=[];const skipCount={};appData.days.forEach((d,i)=>{d.blocks.forEach((b,bi)=>{if(getTracker(wk,i,bi)==="skip"){const k=b.label;skipCount[k]=(skipCount[k]||0)+1;}});});Object.entries(skipCount).forEach(([label,count])=>{if(count>=2)insights.push({icon:"⚠",text:`Hai saltato "${label}" ${count} volte questa settimana.`});});let daysAbove80=0;appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(s&&s.pct>=80)daysAbove80++;});if(daysAbove80>=5)insights.push({icon:"🏆",text:"Ottima settimana! Hai rispettato la routine per almeno 5 giorni su 7."});else if(daysAbove80>=3)insights.push({icon:"👍",text:`${daysAbove80} giorni con aderenza sopra 80%.`});let studyTotal=0;appData.days.forEach(d=>d.blocks.forEach(b=>{if(["studio","univ"].includes(b.cat)){const dur=parseDur(b.time);if(dur)studyTotal+=dur;}}));if(studyTotal>0)insights.push({icon:"📚",text:`Studio pianificato: ${formatH(studyTotal)} totali (${formatH(studyTotal/7)} media/giorno).`});if(!insights.length)insights.push({icon:"💡",text:"Inizia a spuntare i blocchi nella tab Routine per vedere i pattern."});insights.forEach(ins=>{const div=document.createElement("div");div.className="insight";const ic=document.createElement("span");ic.className="insight-icon";ic.textContent=ins.icon||"";const tx=document.createElement("span");tx.className="insight-text";tx.textContent=ins.text||"";div.appendChild(ic);div.appendChild(tx);insEl.appendChild(div);});}
+function renderDayDetail(wk,dayIdx){const detEl=document.getElementById("week-day-detail");detEl.style.display="block";const d=appData.days[dayIdx];detEl.innerHTML=`<h3>${d.name} — ${d.title}</h3>`;const CATS=getCats();d.blocks.forEach((b,bi)=>{const s=getTracker(wk,dayIdx,bi);const row=document.createElement("div");row.className="detail-block";row.innerHTML=`<div class="detail-dot" style="background:${CATS[b.cat]?.color||'#888'}"></div><div class="detail-time">${b.time}</div><div class="detail-label">${b.label}</div><div class="detail-status ${s==="done"?"ds-done":s==="skip"?"ds-skip":s==="mod"?"ds-mod":"ds-none"}">${s==="done"?"✓ Fatto":s==="skip"?"✕ Saltato":s==="mod"?"~ Modificato":"–"}</div>`;detEl.appendChild(row);});}
+function renderInsights(wk){const insEl=document.getElementById("week-insights");insEl.innerHTML="<h3>Pattern rilevati</h3>";const insights=[];const skipCount={};appData.days.forEach((d,i)=>{d.blocks.forEach((b,bi)=>{if(getTracker(wk,i,bi)==="skip"){skipCount[b.label]=(skipCount[b.label]||0)+1;}});});Object.entries(skipCount).forEach(([label,count])=>{if(count>=2)insights.push({icon:"⚠",text:`Hai saltato "${label}" ${count} volte questa settimana.`});});let daysAbove80=0;appData.days.forEach((_,i)=>{const s=dayScore(wk,i);if(s&&s.pct>=80)daysAbove80++;});if(daysAbove80>=5)insights.push({icon:"🏆",text:"Ottima settimana! Hai rispettato la routine per almeno 5 giorni su 7."});else if(daysAbove80>=3)insights.push({icon:"👍",text:`${daysAbove80} giorni con aderenza sopra 80%.`});let studyTotal=0;appData.days.forEach(d=>d.blocks.forEach(b=>{if(["studio","univ"].includes(b.cat)){const dur=parseDur(b.time);if(dur)studyTotal+=dur;}}));if(studyTotal>0)insights.push({icon:"📚",text:`Studio pianificato: ${formatH(studyTotal)} totali (${formatH(studyTotal/7)} media/giorno).`});if(!insights.length)insights.push({icon:"💡",text:"Inizia a spuntare i blocchi nella tab Routine per vedere i pattern."});insights.forEach(ins=>{const div=document.createElement("div");div.className="insight";div.innerHTML=`<span class="insight-icon">${ins.icon}</span><span class="insight-text">${ins.text}</span>`;insEl.appendChild(div);});}
 
 /* ══ JOURNAL ══ */
 const MOOD_EMOJIS=["","😫","😟","😕","😔","😐","🙂","😊","😁","😄","🤩"];
-
 function moodEmoji(v){return MOOD_EMOJIS[parseInt(v)]||"😐";}
-
-function initMoodSlider(sliderId,valId,emojiId){
-  const sl=document.getElementById(sliderId),vl=document.getElementById(valId),em=document.getElementById(emojiId);
-  sl.addEventListener("input",()=>{vl.textContent=sl.value;em.textContent=moodEmoji(sl.value);});
-}
+function initMoodSlider(sid,vid,eid){const sl=document.getElementById(sid),vl=document.getElementById(vid),em=document.getElementById(eid);sl.addEventListener("input",()=>{vl.textContent=sl.value;em.textContent=moodEmoji(sl.value);});}
 initMoodSlider("j-mood-m","j-mood-m-val","j-mood-m-emoji");
 initMoodSlider("j-mood-s","j-mood-s-val","j-mood-s-emoji");
-
-function getJournal(dateStr){return appData.journal[dateStr]||{};}
-function setJournal(dateStr,data){if(!appData.journal)appData.journal={};appData.journal[dateStr]=data;scheduleSave();}
-
+function getJournal(d){return appData.journal[d]||{};}
+function setJournal(d,data){if(!appData.journal)appData.journal={};appData.journal[d]=data;scheduleSave();}
 function renderJournalView(){
   document.getElementById("j-date-lbl").textContent=dateLabel(journalDate);
   const j=getJournal(journalDate);
-  // Mattina
   document.getElementById("j-mood-m").value=j.moodM||5;document.getElementById("j-mood-m-val").textContent=j.moodM||5;document.getElementById("j-mood-m-emoji").textContent=moodEmoji(j.moodM||5);
-  document.getElementById("j-feel-m").value=j.feelM||"";
-  document.getElementById("j-intention").value=j.intention||"";
+  document.getElementById("j-feel-m").value=j.feelM||"";document.getElementById("j-intention").value=j.intention||"";
   ["j-grat-m-0","j-grat-m-1","j-grat-m-2"].forEach((k,i)=>{const el=document.querySelector(`[data-jkey="${k}"]`);if(el)el.value=(j.gratM||[])[i]||"";});
-  document.getElementById("j-selfcare").value=j.selfcare||"";
-  document.getElementById("j-morning-saved").textContent=j.morningAt?"Salvato alle "+j.morningAt:"";
-  // Sera
+  document.getElementById("j-selfcare").value=j.selfcare||"";document.getElementById("j-morning-saved").textContent=j.morningAt?"Salvato alle "+j.morningAt:"";
   document.getElementById("j-mood-s").value=j.moodS||5;document.getElementById("j-mood-s-val").textContent=j.moodS||5;document.getElementById("j-mood-s-emoji").textContent=moodEmoji(j.moodS||5);
-  document.getElementById("j-feel-s").value=j.feelS||"";
-  document.getElementById("j-good").value=j.good||"";
-  document.getElementById("j-improve").value=j.improve||"";
+  document.getElementById("j-feel-s").value=j.feelS||"";document.getElementById("j-good").value=j.good||"";document.getElementById("j-improve").value=j.improve||"";
   ["j-todo-0","j-todo-1","j-todo-2","j-todo-3","j-todo-4"].forEach((k,i)=>{const el=document.querySelector(`[data-jkey="${k}"]`);if(el)el.value=(j.todo||[])[i]||"";});
   ["j-grat-s-0","j-grat-s-1","j-grat-s-2"].forEach((k,i)=>{const el=document.querySelector(`[data-jkey="${k}"]`);if(el)el.value=(j.gratS||[])[i]||"";});
-  document.getElementById("j-closing").value=j.closing||"";
-  document.getElementById("j-evening-saved").textContent=j.eveningAt?"Salvato alle "+j.eveningAt:"";
+  document.getElementById("j-closing").value=j.closing||"";document.getElementById("j-evening-saved").textContent=j.eveningAt?"Salvato alle "+j.eveningAt:"";
   renderJournalHistory();
 }
-
-document.getElementById("j-save-morning").addEventListener("click",()=>{
-  const j={...getJournal(journalDate)};
-  j.moodM=document.getElementById("j-mood-m").value;
-  j.feelM=document.getElementById("j-feel-m").value;
-  j.intention=document.getElementById("j-intention").value;
-  j.gratM=["j-grat-m-0","j-grat-m-1","j-grat-m-2"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});
-  j.selfcare=document.getElementById("j-selfcare").value;
-  j.morningAt=hhMM();
-  setJournal(journalDate,j);
-  document.getElementById("j-morning-saved").textContent="Salvato alle "+j.morningAt;
-  renderJournalHistory();
-});
-
-document.getElementById("j-save-evening").addEventListener("click",()=>{
-  const j={...getJournal(journalDate)};
-  j.moodS=document.getElementById("j-mood-s").value;
-  j.feelS=document.getElementById("j-feel-s").value;
-  j.good=document.getElementById("j-good").value;
-  j.improve=document.getElementById("j-improve").value;
-  j.todo=["j-todo-0","j-todo-1","j-todo-2","j-todo-3","j-todo-4"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});
-  j.gratS=["j-grat-s-0","j-grat-s-1","j-grat-s-2"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});
-  j.closing=document.getElementById("j-closing").value;
-  j.eveningAt=hhMM();
-  setJournal(journalDate,j);
-  document.getElementById("j-evening-saved").textContent="Salvato alle "+j.eveningAt;
-  renderJournalHistory();
-});
-
-function renderJournalHistory(){
-  const listEl=document.getElementById("j-history-list");listEl.innerHTML="";
-  const entries=Object.entries(appData.journal||{}).sort((a,b)=>b[0].localeCompare(a[0]));
-  if(!entries.length){listEl.innerHTML='<div style="font-size:13px;color:var(--hint);padding:.5rem 0;">Nessuna voce ancora — inizia a scrivere oggi.</div>';return;}
-  entries.forEach(([dateStr,j])=>{
-    const item=document.createElement("div");item.className="history-item";
-    const hasM=j.morningAt||j.feelM||j.intention;const hasS=j.eveningAt||j.good||j.improve;
-    const d=new Date(dateStr+"T12:00:00");const lbl=d.toLocaleDateString("it",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
-    item.innerHTML=`<div><div class="history-item-date">${lbl}</div><div class="history-item-meta">${hasM&&hasS?"Mattina + Sera":hasM?"Solo mattina":hasS?"Solo sera":""}</div></div><div class="history-item-badges">${hasM?'<span class="history-badge has-m">☀️ Mattina</span>':''}${hasS?'<span class="history-badge has-s">🌙 Sera</span>':''}</div>`;
-    item.addEventListener("click",()=>{journalDate=dateStr;renderJournalView();window.scrollTo({top:0,behavior:"smooth"});});
-    listEl.appendChild(item);
-  });
-}
-
-// Nav journal
+document.getElementById("j-save-morning").addEventListener("click",()=>{const j={...getJournal(journalDate)};j.moodM=document.getElementById("j-mood-m").value;j.feelM=document.getElementById("j-feel-m").value;j.intention=document.getElementById("j-intention").value;j.gratM=["j-grat-m-0","j-grat-m-1","j-grat-m-2"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});j.selfcare=document.getElementById("j-selfcare").value;j.morningAt=hhMM();setJournal(journalDate,j);document.getElementById("j-morning-saved").textContent="Salvato alle "+j.morningAt;renderJournalHistory();});
+document.getElementById("j-save-evening").addEventListener("click",()=>{const j={...getJournal(journalDate)};j.moodS=document.getElementById("j-mood-s").value;j.feelS=document.getElementById("j-feel-s").value;j.good=document.getElementById("j-good").value;j.improve=document.getElementById("j-improve").value;j.todo=["j-todo-0","j-todo-1","j-todo-2","j-todo-3","j-todo-4"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});j.gratS=["j-grat-s-0","j-grat-s-1","j-grat-s-2"].map(k=>{const el=document.querySelector(`[data-jkey="${k}"]`);return el?el.value:"";});j.closing=document.getElementById("j-closing").value;j.eveningAt=hhMM();setJournal(journalDate,j);document.getElementById("j-evening-saved").textContent="Salvato alle "+j.eveningAt;renderJournalHistory();});
+function renderJournalHistory(){const listEl=document.getElementById("j-history-list");listEl.innerHTML="";const entries=Object.entries(appData.journal||{}).sort((a,b)=>b[0].localeCompare(a[0]));if(!entries.length){listEl.innerHTML='<div style="font-size:13px;color:var(--hint);padding:.5rem 0;">Nessuna voce ancora.</div>';return;}entries.forEach(([dateStr,j])=>{const item=document.createElement("div");item.className="history-item";const hasM=j.morningAt||j.feelM||j.intention;const hasS=j.eveningAt||j.good||j.improve;const d=new Date(dateStr+"T12:00:00");const lbl=d.toLocaleDateString("it",{weekday:"short",day:"numeric",month:"short",year:"numeric"});item.innerHTML=`<div><div class="history-item-date">${lbl}</div><div class="history-item-meta">${hasM&&hasS?"Mattina + Sera":hasM?"Solo mattina":hasS?"Solo sera":""}</div></div><div class="history-item-badges">${hasM?'<span class="history-badge has-m">☀️ Mattina</span>':''}${hasS?'<span class="history-badge has-s">🌙 Sera</span>':''}</div>`;item.addEventListener("click",()=>{journalDate=dateStr;renderJournalView();window.scrollTo({top:0,behavior:"smooth"});});listEl.appendChild(item);});}
 document.getElementById("j-prev").addEventListener("click",()=>{journalDate=addDays(journalDate,-1);renderJournalView();});
 document.getElementById("j-next").addEventListener("click",()=>{journalDate=addDays(journalDate,1);renderJournalView();});
 
@@ -972,254 +857,103 @@ const ptEl=document.getElementById("page-title"),psEl=document.getElementById("p
 ptEl.addEventListener("input",()=>{appData.pageTitle=ptEl.textContent;scheduleSave();});ptEl.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ptEl.blur();}});
 psEl.addEventListener("input",()=>{appData.pageSubtitle=psEl.textContent;scheduleSave();});psEl.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();psEl.blur();}});
 
-/* ══ AI + AGENTE ══ */
-const AI_KEY_STORE="routine_ai_key_v2";
+/* ══ AI + AGENTE (OpenAI) ══ */
+const AI_KEY_STORE="routine_ai_key_openai_v1";
 const aiSetupEl=document.getElementById("ai-setup"),aiMessagesEl=document.getElementById("ai-messages"),aiInputRowEl=document.getElementById("ai-input-row"),aiInputEl=document.getElementById("ai-input"),aiSendEl=document.getElementById("ai-send");
 const agentPanel=document.getElementById("agent-panel"),agentChangesList=document.getElementById("agent-changes-list");
 
 function initAI(key){
   aiKey=key;localStorage.setItem(AI_KEY_STORE,key);
   aiSetupEl.classList.add("hidden");aiMessagesEl.classList.remove("hidden");aiInputRowEl.classList.remove("hidden");
-  addAiMsg("assistant","Ciao! Sono il tuo assistente intelligente.\n\n💬 Chiedimi consigli sulla routine, recupero task, studio.\n\n🤖 Oppure chiedi modifiche dirette: \"oggi alle 16 ho una riunione, riorganizza la giornata\" e ti propongo un piano che puoi approvare o scartare.");
+  addAiMsg("assistant","Ciao! Sono il tuo assistente AI (OpenAI).\n\n💬 Chiedimi consigli sulla routine o recupero task.\n\n🤖 Oppure: \"oggi alle 16 ho una riunione, riorganizza la giornata\" e ti propongo un piano modificabile.");
 }
 document.getElementById("ai-connect-btn").addEventListener("click",()=>{
   const k=document.getElementById("ai-apikey-input").value.trim();
-  if(!k.startsWith("sk-ant-")){alert("Inserisci una chiave Anthropic valida (deve iniziare con sk-ant-)");return;}
+  if(!k.startsWith("sk-")){alert("Inserisci una chiave OpenAI valida (inizia con sk-)");return;}
   initAI(k);
 });
 
-function addAiMsg(role,text){
-  const msg=document.createElement("div");msg.className="ai-msg "+role;msg.textContent=text;
-  aiMessagesEl.classList.remove("hidden");aiMessagesEl.appendChild(msg);aiMessagesEl.scrollTop=aiMessagesEl.scrollHeight;return msg;
-}
+function addAiMsg(role,text){const msg=document.createElement("div");msg.className="ai-msg "+role;msg.textContent=text;aiMessagesEl.classList.remove("hidden");aiMessagesEl.appendChild(msg);aiMessagesEl.scrollTop=aiMessagesEl.scrollHeight;return msg;}
 
-/* Costruisce il contesto della giornata attiva */
-function buildDayCtx(dayIdx){
-  const d=appData.days[dayIdx];
-  return d.blocks.map((b,i)=>`[${i}] ${b.time} — ${b.label}${b.note?" ("+b.note+")":""} [cat:${b.cat}]`).join("\n");
-}
+function buildDayCtx(dayIdx){const d=appData.days[dayIdx];return d.blocks.map((b,i)=>`[${i}] ${b.time} — ${b.label}${b.note?" ("+b.note+")":""} [cat:${b.cat}]`).join("\n");}
+function getActiveDayIdx(){const tabs=Array.from(document.querySelectorAll(".tab"));const active=document.querySelector(".tab.active");return active?tabs.indexOf(active):0;}
 
-/* Capisce quale giorno è attivo nella tab routine */
-function getActiveDayIdx(){
-  const active=document.querySelector(".tab.active");
-  if(!active)return 0;
-  const tabs=Array.from(document.querySelectorAll(".tab"));
-  return tabs.indexOf(active);
-}
-
-/* Pending changes da applicare */
-let pendingChanges=[];
-
-/* Mostra pannello anteprima */
 function showAgentPanel(changes,summary){
-  pendingChanges=changes;
-  agentChangesList.innerHTML="";
-
-  const sumDiv=document.createElement("div");
-  sumDiv.style.cssText="padding:10px 14px 0;font-size:13px;color:var(--muted);line-height:1.6;";
-  sumDiv.textContent=summary||"";
-  agentChangesList.appendChild(sumDiv);
-
+  pendingChanges=changes;agentChangesList.innerHTML="";
+  const sumDiv=document.createElement("div");sumDiv.style.cssText="padding:10px 14px 0;font-size:13px;color:var(--muted);line-height:1.6;";sumDiv.textContent=summary;agentChangesList.appendChild(sumDiv);
   const listDiv=document.createElement("div");listDiv.className="agent-changes";
   const typeLabel={add:"➕ Aggiunta",edit:"✏️ Modifica",remove:"🗑 Rimozione",move:"↕ Spostamento"};
-  const typeClass={add:"add",edit:"edit",remove:"remove",move:"move"};
-  changes.forEach((c)=>{
-    const card=document.createElement("div");
-    card.className="agent-change "+(c.op==="add"?"add":c.op==="remove"?"remove":c.op==="move"?"move":"edit");
-    const typeDiv=document.createElement("div");
-    typeDiv.className="agent-change-type "+(typeClass[c.op]||"edit");
-    typeDiv.textContent=typeLabel[c.op]||String(c.op||"");
-    const descDiv=document.createElement("div");
-    descDiv.className="agent-change-desc";
-    descDiv.textContent=c.desc||"";
-    card.appendChild(typeDiv);
-    card.appendChild(descDiv);
-    if(c.detail){
-      const det=document.createElement("div");
-      det.className="agent-change-detail";
-      det.textContent=c.detail;
-      card.appendChild(det);
-    }
-    listDiv.appendChild(card);
-  });
-  agentChangesList.appendChild(listDiv);
-  agentPanel.classList.remove("hidden");
-  agentPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  changes.forEach(c=>{const card=document.createElement("div");card.className="agent-change "+(c.op||"edit");card.innerHTML=`<div class="agent-change-type ${c.op||"edit"}">${typeLabel[c.op]||c.op}</div><div class="agent-change-desc">${c.desc}</div>${c.detail?`<div class="agent-change-detail">${c.detail}</div>`:""}`;listDiv.appendChild(card);});
+  agentChangesList.appendChild(listDiv);agentPanel.classList.remove("hidden");agentPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
-/* Applica le modifiche al giorno */
 function applyAgentChanges(dayIdx){
   const d=appData.days[dayIdx];
-  const ops=Array.isArray(pendingChanges)?pendingChanges:[];
-  for(const c of ops){
-    if(!c||!c.op)continue;
-    if(c.op==="remove"){
-      const idx=typeof c.blockIdx==="number"?c.blockIdx:-1;
-      if(idx>=0&&idx<d.blocks.length)d.blocks.splice(idx,1);
-    }else if(c.op==="edit"){
-      const idx=typeof c.blockIdx==="number"?c.blockIdx:-1;
-      if(idx>=0&&idx<d.blocks.length){
-        if(c.newTime!==undefined)d.blocks[idx].time=c.newTime;
-        if(c.newLabel!==undefined)d.blocks[idx].label=c.newLabel;
-        if(c.newNote!==undefined)d.blocks[idx].note=c.newNote;
-        if(c.newCat!==undefined)d.blocks[idx].cat=c.newCat;
-      }
-    }else if(c.op==="add"){
-      const nb={time:c.time||"00:00 – 00:00",label:c.label||"Nuovo blocco",note:c.note||"",cat:c.cat||"routine"};
-      let insertAt=d.blocks.length;
-      if(c.insertAfter!==undefined&&typeof c.insertAfter==="number"){
-        insertAt=Math.min(c.insertAfter+1,d.blocks.length);
-        if(insertAt<0)insertAt=0;
-      }
-      d.blocks.splice(insertAt,0,nb);
-    }else if(c.op==="move"){
-      const from=typeof c.fromIdx==="number"?c.fromIdx:-1,to=typeof c.toIdx==="number"?c.toIdx:-1;
-      if(from<0||from>=d.blocks.length||to<0)continue;
-      if(from===to)continue;
-      const [blk]=d.blocks.splice(from,1);
-      let ins=to;
-      if(from<ins)ins-=1;
-      ins=Math.max(0,Math.min(ins,d.blocks.length));
-      d.blocks.splice(ins,0,blk);
-    }
-  }
-  const list=document.querySelector(`#day-${dayIdx} .blocks-list`);
-  if(list){list.innerHTML="";d.blocks.forEach(b=>list.appendChild(renderBlock(b,dayIdx,list)));}
-  updateCounters(dayIdx);
-  scheduleSave();
-  agentPanel.classList.add("hidden");
-  pendingChanges=[];
-  addAiMsg("assistant","✅ Modifiche applicate! Controlla la tab Routine per vedere il risultato.");
+  pendingChanges.filter(c=>c.op==="remove").map(c=>c.blockIdx).sort((a,b)=>b-a).forEach(idx=>{if(idx>=0&&idx<d.blocks.length)d.blocks.splice(idx,1);});
+  pendingChanges.filter(c=>c.op==="edit").forEach(c=>{if(c.blockIdx>=0&&c.blockIdx<d.blocks.length){if(c.newTime!==undefined)d.blocks[c.blockIdx].time=c.newTime;if(c.newLabel!==undefined)d.blocks[c.blockIdx].label=c.newLabel;if(c.newNote!==undefined)d.blocks[c.blockIdx].note=c.newNote;if(c.newCat!==undefined)d.blocks[c.blockIdx].cat=c.newCat;}});
+  pendingChanges.filter(c=>c.op==="add").forEach(c=>{const nb={time:c.time||"00:00 – 00:00",label:c.label||"Nuovo",note:c.note||"",cat:c.cat||"routine"};const at=c.insertAfter!==undefined?c.insertAfter+1:d.blocks.length;d.blocks.splice(Math.min(at,d.blocks.length),0,nb);});
+  pendingChanges.filter(c=>c.op==="move").forEach(c=>{if(c.fromIdx>=0&&c.fromIdx<d.blocks.length){const b=d.blocks.splice(c.fromIdx,1)[0];d.blocks.splice(Math.min(c.toIdx,d.blocks.length),0,b);}});
+  const list=document.querySelector(`#day-${dayIdx} .blocks-list`);if(list){list.innerHTML="";d.blocks.forEach(b=>list.appendChild(renderBlock(b,dayIdx,list)));}updateCounters(dayIdx);scheduleSave();agentPanel.classList.add("hidden");pendingChanges=[];addAiMsg("assistant","✅ Modifiche applicate! Controlla la tab Routine.");
 }
 
-document.getElementById("agent-apply").addEventListener("click",()=>{
-  const dayIdx=getActiveDayIdx();
-  applyAgentChanges(dayIdx);
-});
-document.getElementById("agent-discard").addEventListener("click",()=>{
-  agentPanel.classList.add("hidden");pendingChanges=[];
-  addAiMsg("assistant","Modifiche scartate. Dimmi pure se vuoi un piano diverso.");
-});
+document.getElementById("agent-apply").addEventListener("click",()=>applyAgentChanges(getActiveDayIdx()));
+document.getElementById("agent-discard").addEventListener("click",()=>{agentPanel.classList.add("hidden");pendingChanges=[];addAiMsg("assistant","Modifiche scartate. Dimmi se vuoi un piano diverso.");});
 
-/* Rileva se il messaggio è una richiesta di modifica */
 function isModificationRequest(text){
-  const keywords=["sposta","aggiungi","rimuovi","elimina","cancella","riorganizza","rischedula","cambia","modifica","sistema","aggiusta","metti","toglie","togli","anticipa","posticipa","liberami","ho una riunione","imprevisto","saltare","salta","non riesco","impossibile"];
-  const t=text.toLowerCase();
-  return keywords.some(k=>t.includes(k));
+  const keywords=["sposta","aggiungi","rimuovi","elimina","riorganizza","rischedula","cambia","modifica","sistema","aggiusta","metti","togli","anticipa","posticipa","ho una riunione","imprevisto","saltare","salta","non riesco"];
+  return keywords.some(k=>text.toLowerCase().includes(k));
 }
 
 async function sendToAI(userText){
-  aiSendEl.disabled=true;aiInputEl.value="";
-  addAiMsg("user",userText);
-  agentPanel.classList.add("hidden");
-
-  const days_abbr=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
-  const today=days_abbr[new Date().getDay()];
-  const wk=currentWeekKey();
-  const activeDayIdx=getActiveDayIdx();
-  const activeDay=appData.days[activeDayIdx];
+  aiSendEl.disabled=true;aiInputEl.value="";addAiMsg("user",userText);agentPanel.classList.add("hidden");
+  const days_abbr=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];const today=days_abbr[new Date().getDay()];
+  const wk=currentWeekKey();const activeDayIdx=getActiveDayIdx();const activeDay=appData.days[activeDayIdx];
   const dayCtx=buildDayCtx(activeDayIdx);
-  const routineCtx=appData.days.map((d,i)=>{const s=dayScore(wk,i);const sc=s?` [${s.pct}%]`:"";return d.name+sc+": "+d.blocks.map(b=>b.time+" "+b.label).join(", ");}).join("\n");
-  const todayJ=getJournal(todayStr());
-  const jCtx=[todayJ.intention?`Intenzione oggi: ${todayJ.intention}`:"",todayJ.moodM?`Umore mattina: ${todayJ.moodM}/10`:""].filter(Boolean).join(". ");
-
+  const routineCtx=appData.days.map((d,i)=>{const s=dayScore(wk,i);return d.name+(s?` [${s.pct}%]`:"")+": "+d.blocks.map(b=>b.time+" "+b.label).join(", ");}).join("\n");
+  const todayJ=getJournal(todayStr());const jCtx=todayJ.intention?`Intenzione oggi: ${todayJ.intention}.`:"";
   const isModReq=isModificationRequest(userText);
-
-  aiHistory.push({role:"user",content:userText});
-  if(aiHistory.length>10)aiHistory=aiHistory.slice(-10);
-
+  aiHistory.push({role:"user",content:userText});if(aiHistory.length>10)aiHistory=aiHistory.slice(-10);
   const loadingMsg=addAiMsg("assistant","...");loadingMsg.classList.add("loading");
 
   const systemPrompt=isModReq?
-    // MODALITÀ AGENTE — risponde con JSON
-    `Sei un agente intelligente che gestisce la routine di Andrea, studente universitario con coaching online e feste.
+    `Sei un agente che gestisce la routine di Andrea, studente universitario con coaching online e feste.
 GIORNO ATTIVO: ${activeDay.name} (${activeDay.title})
-BLOCCHI ATTUALI (con indice [N]):
+BLOCCHI ATTUALI (indice [N]):
 ${dayCtx}
 ROUTINE SETTIMANA:
 ${routineCtx}
-${jCtx?jCtx+"\n":""}Oggi è ${today}.
-
-L'utente vuole modificare la giornata. Rispondi SOLO con un oggetto JSON valido, nessun testo prima o dopo.
-Formato JSON:
-{
-  "summary": "Spiegazione breve di cosa hai fatto e perché (1-2 frasi, italiano)",
-  "changes": [
-    {
-      "op": "edit",
-      "blockIdx": 3,
-      "newTime": "15:00 – 16:00",
-      "newLabel": "Studio — mattina",
-      "newNote": "nota opzionale",
-      "newCat": "studio",
-      "desc": "Descrizione leggibile del cambiamento",
-      "detail": "Da: 14:30-17:00 → A: 15:00-16:00"
-    },
-    {
-      "op": "add",
-      "time": "16:00 – 17:00",
-      "label": "Riunione feste",
-      "note": "Imprevisto",
-      "cat": "fest",
-      "insertAfter": 5,
-      "desc": "Aggiungo la riunione alle 16:00",
-      "detail": "Nuovo blocco"
-    },
-    {
-      "op": "remove",
-      "blockIdx": 7,
-      "desc": "Rimuovo il buffer ridondante",
-      "detail": "17:00-17:30 Buffer"
-    },
-    {
-      "op": "move",
-      "fromIdx": 8,
-      "toIdx": 6,
-      "desc": "Sposto l'allenamento prima del coaching",
-      "detail": "Allenamento: posizione 8 → 6"
-    }
-  ]
-}
-Usa SOLO gli op: edit, add, remove, move. Includi solo i campi necessari. Il JSON deve essere valido.\nIMPORTANTE: nell'array changes elenca le operazioni nell'ordine in cui vanno eseguite. Ogni blockIdx, insertAfter, fromIdx e toIdx si riferisce allo stato dell'array blocchi DOPO tutte le operazioni precedenti nella lista (non agli indici iniziali).`
+${jCtx}
+Oggi è ${today}.
+Rispondi SOLO con JSON valido, nessun testo prima o dopo:
+{"summary":"spiegazione breve (italiano)","changes":[{"op":"edit","blockIdx":3,"newTime":"15:00 – 16:00","desc":"descrizione","detail":"Da→A"},{"op":"add","time":"16:00 – 17:00","label":"Riunione","note":"","cat":"fest","insertAfter":5,"desc":"...","detail":"..."},{"op":"remove","blockIdx":7,"desc":"...","detail":"..."},{"op":"move","fromIdx":8,"toIdx":6,"desc":"...","detail":"..."}]}`
     :
-    // MODALITÀ CONSIGLIO — risponde in testo
     `Sei un assistente per la routine di Andrea, studente universitario con coaching online e feste.
-Routine attuale:\n${routineCtx}\n${jCtx}
+Routine: ${routineCtx}
+${jCtx}
 Oggi è ${today}. Rispondi in italiano, conciso e pratico (max 3-4 frasi).`;
 
   try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{
+    const res=await fetch("https://api.openai.com/v1/chat/completions",{
       method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":aiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:systemPrompt,messages:aiHistory})
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+aiKey},
+      body:JSON.stringify({
+        model:"gpt-4o-mini",
+        max_tokens:800,
+        messages:[{role:"system",content:systemPrompt},...aiHistory]
+      })
     });
     if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err?.error?.message||`HTTP ${res.status}`);}
-    const data=await res.json();
-    const reply=data?.content?.[0]?.text;
+    const data=await res.json();const reply=data?.choices?.[0]?.message?.content;
     if(!reply)throw new Error("Risposta vuota");
-
     if(isModReq){
-      // Tenta di parsare il JSON
       try{
-        const clean=reply.replace(/```json|```/g,"").trim();
-        const parsed=JSON.parse(clean);
-        loadingMsg.remove();
-        aiHistory.push({role:"assistant",content:`[Piano di modifica proposto: ${parsed.changes?.length||0} modifiche]`});
-        addAiMsg("assistant",`🤖 Ho analizzato la tua giornata. Ecco il piano (${parsed.changes?.length||0} modifiche):`);
+        const clean=reply.replace(/```json|```/g,"").trim();const parsed=JSON.parse(clean);
+        loadingMsg.remove();aiHistory.push({role:"assistant",content:`[Piano: ${parsed.changes?.length||0} modifiche]`});
+        addAiMsg("assistant",`🤖 Piano proposto (${parsed.changes?.length||0} modifiche):`);
         showAgentPanel(parsed.changes||[],parsed.summary||"");
-      }catch(jsonErr){
-        // Fallback: risponde come testo normale
-        loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");
-        aiHistory.push({role:"assistant",content:reply});
-      }
-    }else{
-      loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");
-      aiHistory.push({role:"assistant",content:reply});
-    }
-  }catch(e){
-    loadingMsg.textContent="Errore: "+(e.message||"controlla la tua API key.");
-    loadingMsg.classList.remove("loading");
-  }
+      }catch{loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");aiHistory.push({role:"assistant",content:reply});}
+    }else{loadingMsg.textContent=reply;loadingMsg.classList.remove("loading");aiHistory.push({role:"assistant",content:reply});}
+  }catch(e){loadingMsg.textContent="Errore: "+(e.message||"controlla la tua API key OpenAI.");loadingMsg.classList.remove("loading");}
   aiSendEl.disabled=false;
 }
 
@@ -1235,4 +969,3 @@ const savedAiKey=localStorage.getItem(AI_KEY_STORE);if(savedAiKey)initAI(savedAi
 </script>
 </body>
 </html>
-</user_query>
